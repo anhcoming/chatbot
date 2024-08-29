@@ -1,16 +1,4 @@
 {
-  "name": "digipro-web-cms",
-  "version": "15.0.0",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve --o",
-    "build": "ng build",
-    "build-prod": "ng build --configuration production",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "lint": "ng lint"
-  },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^15.1.0",
     "@angular/cdk": "^15.2.9",
@@ -19,7 +7,7 @@
     "@angular/core": "^15.1.0",
     "@angular/fire": "^7.6.1",
     "@angular/forms": "^15.1.0",
-    "@angular/material": "^16.0.2",
+    "@angular/material": "^15.2.9",
     "@angular/platform-browser": "^15.1.0",
     "@angular/platform-browser-dynamic": "^15.1.0",
     "@angular/router": "^15.1.0",
@@ -50,7 +38,7 @@
     "primeicons": "6.0.1",
     "primeng": "15.1.1",
     "quill": "^1.3.7",
-    "rxjs": "~7.5.0",
+    "rxjs": "^7.6.0",
     "ts-md5": "^1.3.1",
     "tslib": "^2.3.0",
     "validator": "^13.9.0",
