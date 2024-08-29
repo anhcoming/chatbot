@@ -1,0 +1,38 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="grid formgrid">
+            <div class="col-12 bg-table">
+                <p-table [value]="lstResidentCard" [tableStyle]="{ 'min-width': '50rem' }"
+                    [loading]="isLoadingTable">
+                    <ng-template pTemplate="header">
+                        <tr class="th-table">
+                            <th >STT</th>
+                            <th >Mã thẻ</th>
+                            <th >Loại thẻ</th>
+                            <th >Căn hộ</th>
+                            <th >Trạng thái thẻ</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                        <tr class="td-table">
+                            <td>
+                                {{ rowIndex + 1 }}
+                            </td>
+                            <td>{{ item.CardNumber }}</td>
+                            <td>{{ item.TypeCardName }}</td>
+                            <td>{{ item.ApartmentName }}</td>
+                            <td>{{ item.CardStatusName }}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr class="td-table">
+                            <td colspan="5" class="text-center text-danger">
+                                Không có dữ liệu.
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,201 @@
+.tag-info {
+    box-shadow: 0px 4px 18.8px 0px #4A8FCE40;
+    border-radius: 29px;
+    background-color: var(--bg-user-info);
+    padding: 10px 10px 34px 20px;
+}
+
+.info-text {
+    color: #405189;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-color-blue-black);
+    font-family: 'Roboto';
+}
+
+.label-info {
+    color: #555555;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: left;
+    justify-content: space-evenly;
+}
+
+.value-info {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    color: #555555;
+    justify-content: space-evenly;
+
+}
+
+.label-value {
+    gap: 10rem
+}
+
+.label-value-personal {
+    gap: 5rem
+}
+
+.edit {
+    text-align: end;
+    color: #405189;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.readonly {
+    border: none !important;
+    background: transparent !important;
+    color: var(--text-input-user) !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    opacity: 1 !important;
+}
+
+.btn-save {
+    background: linear-gradient(90deg, #8F61FF 0%, #4756FF 52.9%, #03C6FF 100%);
+    padding: 10px 15px;
+    border-radius: 29px;
+    color: #fff;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.user-info {
+    height: 89vh;
+
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+
+.text-edit {
+    text-align: right;
+    font-family: 'Roboto';
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 18.75px;
+    color: var(--icon-edit);
+}
+
+.input-info {
+    border: 1px solid var(--border-input-info);
+    padding: 12px 14px;
+    border-radius: 28px;
+    font-family: 'Roboto';
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18.75px;
+    text-align: left;
+    background: var(--bg-input-info);
+    color: var(--text-input-user);
+}
+
+input[disabled],
+input[disabled]:hover {
+    color: var(--color-disable-input);
+}
+
+.tag-info-mobile {
+    box-shadow: 0px 4px 18.8px 0px #4A8FCE40;
+    border-radius: 15px;
+    padding: 18px 10px;
+    background-color: var(--bg-user-info);
+}
+
+.info-detail {
+    display: flex;
+    flex-direction: column;
+}
+
+.text-lable {
+    font-family: 'Roboto';
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 18.75px;
+    color: var(--text-label-user);
+}
+
+.text-value {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18.75px;
+    color: var(--text-input-user);
+}
+
+.line {
+    height: 1px;
+    background: var(--bg-input-info);
+    margin: 12px 0;
+}
+
+
+.svg-icon {
+    position: absolute;
+    right: 30px;
+    top: 15px;
+    width: 17px;
+    height: 17px;
+    background-color: var(--bg-calendar);
+    /* The color you want the SVG to be */
+    -webkit-mask: url('/assets/imgs-chatbot/svg/ic-calendar.svg') no-repeat center;
+    mask: url('/assets/imgs-chatbot/svg/ic-calendar.svg') no-repeat center;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.text-radio {
+    font-family: 'Roboto';
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18.75px;
+    text-align: left;
+    color: var(--text-input-user);
+}
+
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+ 
+.blog-header {
+    position: relative;
+}
+ 
+.blog-author-image {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+}
+
+.cancel{
+    border-radius:49px;
+    background-color:#DDE0EA;
+    color:#878A99;
+}

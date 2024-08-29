@@ -1,0 +1,66 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h4>Thu thập dữ liệu</h4>
+            </div>
+            <div class="card flex justify-content-center">
+                <div class="flex flex-wrap gap-3">
+                    <div *ngFor="let item of sites" class="flex align-items-center">
+                        <p-radioButton 
+                            [value]="item.value" 
+                            [(ngModel)]="selectedSite" 
+                            inputId="ingredient1" />
+                        <label for="ingredient1" class="ml-2">
+                            {{item.name}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="textFilterProj">
+                <p-fileUpload #fileUpload name="file" [multiple]="true" [customUpload]="true" (uploadHandler)="customeUpload($event)"
+                    accept=".docx, .pdf" >
+
+                    <ng-template let-file let-index="index" pTemplate="file">
+                        <div class="file-item">
+                            <div class="file-left">
+                                <i *ngIf="checkFileExtension(file?.type) === 1" [ngStyle]="{color: 'var(--red-500)'}"
+                                    class="pi pi-file-pdf" style="font-size: 1.5rem"></i>
+                                <i *ngIf="checkFileExtension(file?.type) === 0" [ngStyle]="{color: 'var(--blue-500)'}"
+                                    class="pi pi-file-word" style="font-size: 1.5rem"></i>
+                                <span>{{ file.name }}</span>
+                            </div>
+                            <div class="file-middle">
+                                <span>{{ caculateFileSize(file?.size) }}</span>
+                            </div>
+                            <div class="file-right">
+                                <p-button icon="pi pi-times"  (click)="removeFile(index)" styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
+                            </div>
+                        </div>
+                    </ng-template>
+            
+                    <ng-template pTemplate="content">
+                        <div class="file-item" *ngFor="let file of uploadedFiles">
+                            <div class="file-left">
+                                <i *ngIf="checkFileExtension(file?.type) === 1" [ngStyle]="{color: 'var(--red-500)'}"
+                                    class="pi pi-file-pdf" style="font-size: 1.5rem"></i>
+                                <i *ngIf="checkFileExtension(file?.type) === 0" [ngStyle]="{color: 'var(--blue-500)'}"
+                                    class="pi pi-file-word" style="font-size: 1.5rem"></i>
+                                <span>{{ file.name }}</span>
+                            </div>
+                            <div class="file-middle">
+                                <span>{{ caculateFileSize(file?.size) }}</span>
+                            </div>
+                            <div class="file-right">
+                                <p-button icon="pi pi-check" styleClass="p-button-rounded p-button-success p-button-text"></p-button>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-fileUpload>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-toast />

@@ -1,0 +1,140 @@
+<div class="container-manage">
+    <div class="col-12">
+        <div [formGroup]="fFunction">
+            <span class="title"><img src="assets/imgs/svg/ic-title-screen.svg" class="mr-3" />{{ !(funcId > 0) ? 'Thêm mới nhân viên' : 'Cập nhật nhân viên' }}</span>
+            <div class="grid formgrid mt-3">
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode" class="text-label">Mã nhân viên
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtCode" type="text" pInputText formControlName="Code" class="form-input">
+                        <small *ngIf="fFunction?.controls['Code'].hasError('minlength')"
+                            class="p-invalid text-danger">Mã nhân viên phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fFunction?.controls['Code'].hasError('maxlength')"
+                            class="p-invalid text-danger">Mã nhân viên chỉ được tối đa 25 kí tự.</small>
+                        <small
+                            *ngIf="fFunction?.controls['Code'].hasError('required') && fFunction?.controls['Code'].dirty"
+                            class="p-invalid text-danger">Vui lòng nhập mã nhân viên.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName" class="text-label">Tên nhân viên
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name" class="form-input">
+                        <small *ngIf="fFunction?.controls['Name'].hasError('minlength')"
+                            class="p-invalid text-danger">Tên nhân viên phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fFunction?.controls['Name'].hasError('maxlength')"
+                            class="p-invalid text-danger">Tên nhân viên chỉ được tối đa 150 kí tự.</small>
+                        <small
+                            *ngIf="fFunction?.controls['Name'].hasError('required') && fFunction?.controls['Name'].dirty"
+                            class="p-invalid text-danger">Vui lòng nhập tên nhân viên.</small>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName" class="text-label">Ngày sinh
+                            <!-- <span class="text-danger"> *</span> -->
+                        </label>
+
+                        <p-calendar formControlName="DateOfBirth" [showIcon]="true" hourFormat="24"/>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName" class="text-label">Giời tính
+                        </label>
+                        <div class="flex flex-wrap gap-8 mt-2">
+                            <div *ngFor="let gender of genders" class="flex align-items-center">
+                                <p-radioButton [value]="gender.Id" formControlName="Gender" inputId="ingredient1" />
+                                <span for="ingredient1" class="ml-2">
+                                    {{gender.Name}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName" class="text-label">Số điện thoại
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="PhoneNumber" class="form-input">
+                        <small *ngIf="fFunction?.controls['PhoneNumber'].hasError('minlength')"
+                            class="p-invalid text-danger">Số điện thoại nhân viên phải tối thiểu 10 kí tự.</small>
+                        <small *ngIf="fFunction?.controls['PhoneNumber'].hasError('maxlength')"
+                            class="p-invalid text-danger">Số điện thoại nhân viên chỉ được tối đa 11 số.</small>
+                        <small
+                            *ngIf="fFunction?.controls['PhoneNumber'].hasError('required') && fFunction?.controls['Name'].dirty"
+                            class="p-invalid text-danger">Vui lòng nhập số điện thoại.</small>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName" class="text-label">Email
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Email" class="form-input">
+                        <small
+                            *ngIf="fFunction?.controls['Email'].hasError('required') && fFunction?.controls['Name'].dirty"
+                            class="p-invalid text-danger">Vui lòng nhập Email.</small>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName" class="text-label">Phòng ban
+                            <span class="text-danger"> *</span>
+                        </label>
+
+                        <p-dropdown [options]="dropdownDepartment" placeholder="Phòng ban trực thuộc"
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="DepartmentId"
+                            optionLabel="name" optionValue="id">
+                        </p-dropdown>
+                        <small
+                            *ngIf="fFunction?.controls['DepartmentId'].hasError('required') && fFunction?.controls['DepartmentId'].dirty"
+                            class="p-invalid text-danger">Vui lòng chọn phòng ban.</small>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName" class="text-label">Số CCCD/Hộ chiếu
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="CitizenId" class="form-input">
+
+                    </div>
+                </div>
+
+
+
+                <div class="col-12 mt-2">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAddress" class="text-label">Mô tả</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100 form-input" rows="5" pInputTextarea
+                            formControlName="Note"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-12 p_float_right">
+                    <p-toast></p-toast>
+                    <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="onBack($event)">
+                        <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+                    </button>
+                    <button class="btn btn-digi" (click)="onSubmit()"><img src="assets/imgs/svg/ic-check.svg"
+                            class="mr-3" />Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

@@ -1,0 +1,65 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fServicePricing">
+            <div class="grid formgrid" >
+                <form name="form" class="form-custom col-12" (ngSubmit)="f.form.valid" #f="ngForm" novalidate >
+                    <div >
+                        <div class="infoPackage">
+                            <div class="inDetailPackage">
+                                <div class="Detail_Packed AddForm_Package">
+                                    <div class="ColForm_AddPackage">
+                                        <div class="table-pri">
+                                            <nav ngbNav #altnav="ngbNav" class="nav-tabs">
+                                                <ng-container ngbNavItem>
+                                                    <a ngbNavLink>{{NamePricing}}</a>
+                                                    <ng-template ngbNavContent>
+                                                        <table class="table table-striped tableListProj tbl-in-dialog">
+                                                            <thead class="category-plan-thead">
+                                                                <tr>
+                                                                    <th scope="col" class="stt-role">
+                                                                        Stt
+                                                                    </th>
+                                                                    <th scope="col" class="text-left">
+                                                                        <span>Tên chức năng</span>
+                                                                    </th>
+                                                                    <th scope="col" class="func-role">
+                                                                        <span>View</span>
+                                                                        <input type="checkbox" value="None" class="checkbox1" id="View" name="View" value="" [(ngModel)]="Action.View" (change)="changeAction(1)" [disabled]="isView">
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let item of listFunctions; let i = index" role="row">
+                                                                    <td style=" text-align: center; font-weight: bold;" class="stt-role">{{ i + 1 }}</td>
+                                                                    <td class="pl-5">
+                                                                        <span *ngFor="let number of [].constructor(item.Level); let i = index">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                                        <span>{{item.Name}}</span>
+                                                                    </td>
+                                                                    <td class="func-role">
+                                                                      <input type="checkbox" value="None" class="checkbox1" [(ngModel)]="item.View" [ngModelOptions]="{standalone: true}" (change)="changeCell()" [disabled]="isView">
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </ng-template>
+                                                </ng-container>
+                                            </nav>
+                
+                                            <div  style="height: 250px; overflow-y: scroll;padding-top: 0px;" [ngbNavOutlet]="altnav" class="mt-3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-12 p_float_right mt-2">
+                    <p-toast></p-toast>
+                    <button pButton pRipple type="button" label="Đóng" class="p-button-outlined p-button-secondary mr-2" (click)="onSubmit()">
+                        <span class="pi pi-angle-left"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

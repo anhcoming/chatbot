@@ -1,0 +1,31 @@
+.text-label {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+    color: #555555;
+}
+
+.form-input {
+    border-radius: 6px;
+    background: #FFFFFF;
+    border: 1px solid #E6E7E8
+}
+
+.p-dropdown {
+    border-radius: 6px;
+    background: #FFFFFF;
+    border: 1px solid #E6E7E8
+}
+
+.p-multiselect {
+    border-radius: 6px;
+    background: #FFFFFF;
+    border: 1px solid #E6E7E8
+}
+
+#selectedRole .p-dropdown {
+    border: 1px solid rgba(56, 85, 179, 0.42);
+    border-radius: 25px;
+    padding: 2px 0;
+}

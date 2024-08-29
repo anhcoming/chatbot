@@ -1,0 +1,160 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>
+                {{ itemConfigCard.IdIndex ? 'Xem chi tiết kiểu thẻ' : 'Thêm mới kiểu thẻ' }}
+            </h5>
+
+            <form class="grid formgrid" [formGroup]="fConfCard">
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtGroupCard">
+                            Khu đô thị
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <p-dropdown 
+                            [options]="lstProject"
+                            placeholder="Chọn khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            optionLabel="Name" 
+                            optionValue="Id" 
+                            formControlName="ProjectId" 
+                            id="txtProjectId"
+                            class="p-invalid"
+                            (onChange)="onChangeProjectId($event)">
+                        </p-dropdown>
+                        <small *ngIf="fConfCard.controls['ProjectId'].hasError('required') && fConfCard.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn khu đô thị.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtIsActive">
+                            Trạng thái
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <p-dropdown 
+                            [options]="lstStatus" 
+                            placeholder="Chọn trạng thái" 
+                            emptyMessage="Không có dữ liệu."
+                            optionLabel="name" 
+                            optionValue="id" 
+                            id="txtIsActive"
+                            formControlName="IsActive" 
+                            class="p-invalid">
+                        </p-dropdown>
+                        <small *ngIf="fConfCard.controls['IsActive'].hasError('required') && fConfCard.controls['IsActive'].dirty" class="p-invalid text-danger">Vui lòng chọn trạng thái loại thẻ.</small>
+                    </div>
+                </div>
+                <div class="col-12 mt-3" *ngIf="fConfCard.controls['ProjectId'].value">
+                    <h5>Chọn tòa nhà
+                        <p-checkbox name="txtTowerIdAll" [value]="true" label="Tất cả" class="mf-3" (onChange)="selectAll($event)"></p-checkbox>
+                    </h5>
+                    <div class="grid" formArrayName="ListTower">
+                        <div class="col-3 mt-3" *ngFor="let tower of lstTower; let i = index" >
+                            <div class="flex align-items-center">
+                                <p-checkbox name="txtTowerId" [value]="tower.Id" label="{{tower.Name}}" [formControlName]="i" [checked]="tower.Id === i[0]"></p-checkbox>
+                            </div>
+                        </div>
+                        <div *ngIf="fConfCard.controls['ListTower'].errors && fConfCard.controls['ListTower'].touched">
+                            Vui lòng chọn ít nhất 1 tòa nhà.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mt-3">
+                    <h5>
+                        Thêm cấu hình loại kiểu thẻ
+                        <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-info mr-2" type="button" (click)="onAddDetail()"></button>
+                    </h5>
+                    <app-config-card-detail [(lstConfigCardDetail)]="lstConfigCardDetail" [(lstTypeCard)]="lstTypeCard" (eventEmitter)="onReceiverData($event)"></app-config-card-detail>
+                    <!-- <ng-container>
+                        <p-table 
+                        [value]="lstConfigCardDetail"
+                        [paginator]="false"
+                        responsiveLayout="stack"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        [loading]="isLoadingTable">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 3%" class="border-right-1">
+                                    Stt
+                                </th>
+                                <th class="border-right-1  diagonal-header-table">
+                                    <div>
+                                        <span class="bottom">Tên kiểu thẻ</span>
+                                        <span class="top">Loại thẻ</span>
+                                        <div class="line"></div>
+                                    </div>
+                                </th>
+                                <th class="text-center" *ngFor="let type_card of lstTypeCard"> {{type_card.Name}}</th>
+                                <th class="border-left-1" style="width: 8%">Tích hợp 1 - N</th>
+                                <th class="border-left-1" style="width: 30%">Mô tả chi tiết</th>
+                                <th class="border-left-1" style="width: 8%">Thao tác</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-cfCardDetail let-rowIndex="rowIndex">
+                            <tr [formGroupName]="rowIndex">
+                                <td class="border-right-1">{{ rowIndex + 1 }}</td>
+                                <td class="border-right-1">
+                                    <input type="text" placeholder="Tên kiểu thẻ" pInputText class="p-invalid w-100" formControlName="Name">
+                                </td>
+                                <ng-container>
+                                    <td class="text-center" *ngFor="let type_card of getTypeCardIds(0); let j = index" formArrayName="TypeCardIds">
+                                        <p-checkbox [name]="'txtCheckBoxTypeCard' + j" [value]="type_card" label="" formControlName="j"></p-checkbox>
+                                    </td>
+                                </ng-container>
+                                
+                                
+                                <td class="border-left-1 text-center">
+                                    <p-checkbox [name]="'txtCheckBoxIntegrated' + rowIndex" [value]="true" label="" formControlName="IsIntegratedAll"></p-checkbox>
+                                </td>
+                                <td class="border-left-1">
+                                    <input type="text" placeholder="Ghi chú" pInputText class="p-invalid w-100" formControlName="Description">
+                                </td>
+                                <td class="border-left-1  text-center">
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(itemConfigCard)"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-cfCardDetail let-rowIndex="rowIndex">
+                            <tr>
+                                <td class="border-right-1">{{ rowIndex + 1 }}</td>
+                                <td class="border-right-1">
+                                    <input type="text" placeholder="Tên kiểu thẻ" pInputText class="p-invalid w-100" [(ngModel)]="cfCardDetail.Name">
+                                </td>
+                                <ng-container>
+                                    <td class="text-center" *ngFor="let type_card of cfCardDetail.TypeCardIds; let j = index">
+                                        <p-checkbox [name]="'txtCheckBoxTypeCard' + j" [value]="type_card.Id" label="" [(ngModel)]="type_card.Id"></p-checkbox>
+                                    </td>
+                                </ng-container>
+                                
+                                <td class="border-left-1 text-center">
+                                    <p-checkbox [name]="'txtCheckBoxIntegrated' + rowIndex" [value]="true" label="" [(ngModel)]="cfCardDetail.IsIntegratedAll"></p-checkbox>
+                                </td>
+                                <td class="border-left-1">
+                                    <input type="text" placeholder="Ghi chú" pInputText class="p-invalid w-100" [(ngModel)]="cfCardDetail.Description">
+                                </td>
+                                <td class="border-left-1  text-center">
+                                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(itemConfigCard)"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+
+                    </p-table>
+                    </ng-container> -->
+                    
+                </div>
+                <div class="col-12 p_float_right mt-4 card-footer p-5">
+                    <button pButton pRipple type="button" label="Quay lại" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                        <span class="pi pi-angle-left"></span>
+                    </button>
+                    <p-button [label]="itemConfigCard.IdIndex ? 'Cập nhật' : 'Thêm mới'" icon="pi pi-plus" type="submit" [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </form>
+ 
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog> 

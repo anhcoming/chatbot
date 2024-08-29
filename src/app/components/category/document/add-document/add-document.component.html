@@ -1,0 +1,166 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fDocument">
+            <h3 class="mg-0">
+                {{ !(id > 0) ? 'Thêm mới tài liệu' : 'Cập nhật tài liệu' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên tài liệu
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name" minlength="6" maxlength="150" required>
+                        <small *ngIf="fDocument.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên tài liệu phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fDocument.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên tài liệu chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fDocument.controls['Name'].hasError('required') && fDocument.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên tài liệu.</small>
+                    </div>
+                </div>   
+     
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Loại tài liệu</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstDocument" 
+                            placeholder="Chọn loại tài liệu" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="Type" 
+                            optionLabel="Name" 
+                            optionValue="Id">
+                        </p-dropdown>
+                    </div>
+                    <small *ngIf="fDocument.controls['Type'].hasError('required') && fDocument.controls['Type'].dirty" class="p-invalid text-danger">Vui lòng chọn loại tài liệu.</small>
+                </div>
+                <!-- <div class="col-6">
+                    <label for="txtattactments" class="form-label">Tài liệu đính kèm</label>
+                    <span class="text-danger"> *</span>
+                    <input  formControlName="listAttactments"  class="form-control no-bor" type="file" multiple (change)="onFileSelected($event)">
+                    <a *ngFor="let file of listAttactments;  let i = index"
+                        class="list-group-item list-group-item-success a-att"
+
+                        href="http://i-category.cnttvietnam.com.vn/uploads/files/{{file.Name}}" target="_blank">{{file.Name}}<span
+                          (click)="RemoveAttactment(file)"
+                          class="span-attactment">x</span><br></a>
+                    <small *ngIf="fDocument.controls['listAttactments'].hasError('required') && fDocument.controls['listAttactments'].dirty" class="p-invalid text-danger">Vui lòng chọn Tài liệu đính kèm.</small>
+               </div> -->
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Ngày tạo</label>
+                        <span class=""></span>
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input formControlName="DateCreated" type='datetime-local' class="form-control"/>
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Ngày hiệu chỉnh</label>
+                        <span class=""></span>
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input formControlName="DateUpdated" type='datetime-local' class="form-control"/>
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-6">
+                    <label for="txtattactments" class="form-label">Tài liệu đính kèm</label><span class="text-danger">*</span>
+                    <input  formControlName="listAttactments"  class="form-control no-bor" type="file" multiple (change)="onFileSelected($event)">
+                    <a *ngFor="let file of listAttactments;  let i = index"
+                        class="list-group-item list-group-item-success a-att"
+
+                        href="http://i-category.cnttvietnam.com.vn/uploads/files/{{file.Name}}" target="_blank">{{file.Name}}<span
+                          (click)="RemoveAttactment(file)"
+                          class="span-attactment">x</span><br></a>
+                    <small *ngIf="fDocument.controls['listAttactments'].hasError('required') && fDocument.controls['listAttactments'].dirty" class="p-invalid text-danger">Vui lòng upload tài liệu.</small>
+               </div>
+               
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị</label>
+                        <span class=""></span>
+                        <p-dropdown
+                            [options]="lstProject" 
+                            placeholder="Khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ProjectId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            [filter]="true"
+                            (onChange)="onSelectTower($event)">
+                        </p-dropdown>
+                        <small *ngIf="fDocument.controls['ProjectId'].hasError('minlength')" class="p-invalid text-danger">Vui lòng chọn Khu đô thị</small>
+                        <small *ngIf="fDocument.controls['ProjectId'].hasError('maxlength')" class="p-invalid text-danger">Vui lòng chọn Khu đô thị</small>
+                        <small *ngIf="fDocument.controls['ProjectId'].hasError('required') && fDocument.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn Khu đô thị</small>
+                    </div>
+                    </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Tòa nhà</label>
+                         <span class="text-danger"></span>
+                        <p-dropdown
+                            [options]="lstTower" 
+                            placeholder="Tòa nhà" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="TowerId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            [filter]="true"
+                            (onChange)="onSelectApartment($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Căn hộ</label>
+                        <span class=""></span>
+                        <p-dropdown
+                            [options]="lstApartment" 
+                            placeholder="Chọn căn hộ" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ApartmentId"
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            [filter]="true"
+                            (onChange)="onFilter($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAddress">Tóm tắt nội dung</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Description"></textarea>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAddress">Ghi chú</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                    </div>
+                </div>
+            
+                <div class="col-12 p_float_right">
+                    <p-confirmDialog class="custom-toast"></p-confirmDialog>
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check' 
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<!-- <p-confirmDialog class="custom-toast"></p-confirmDialog> -->
+
+
+
+

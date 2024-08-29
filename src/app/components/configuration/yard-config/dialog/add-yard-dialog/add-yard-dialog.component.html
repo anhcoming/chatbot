@@ -1,0 +1,517 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fBooking">
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Loại sân</label>
+                         <span class="text-danger"> *</span>
+                        <input type="text" pInputText formControlName="Name" placeholder="Nhập tên loại sân">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Trạng thái  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="isStatus" 
+                            placeholder="Chọn trạng thái" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="Status" 
+                            optionLabel="label" 
+                            optionValue="value">
+                        </p-dropdown>
+                        <small *ngIf="fBooking.controls['Status'].hasError('required') && fBooking.controls['Status'].dirty" class="p-invalid text-danger">Vui lòng chọn Trạng thái.</small>                   
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="txtImage" class="form-label">Ảnh mô tả sân</label>
+                    <span class="text-danger"> *</span> 
+                    <div class="displayflex">
+                        <div class="col-6">
+                            <input  formControlName="Image"  class="form-control no-bor" type="file" (change)="onImageSelected($event)">
+                        </div>
+                        <div class="col-6" *ngIf="fBooking.get('Image').value">
+                            <img [src]="uploadedImageUrl" class="img-thumbnail">
+                            <i class="fa fa-times-circle del-img" aria-hidden="true" (click)="Imagenull()"></i> 
+                        </div>
+                    </div>
+                    <small *ngIf="fBooking.controls['Image'].hasError('required') && fBooking.controls['Image'].dirty" class="p-invalid text-danger">Vui lòng thêm ảnh mô tả sân.</small>       
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Vị trí</label>
+                         <span class="text-danger"> *</span>
+                        <input type="text" pInputText formControlName="Address" placeholder="Nhập Vị trí">
+                        <small *ngIf="fBooking.controls['Address'].hasError('required') && fBooking.controls['Address'].dirty" class="p-invalid text-danger">Vui lòng nhập vị trí.</small>       
+                </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Đặt cọc</label>
+                        <span class="text-danger"> *</span>
+                        <small *ngIf="fBooking.controls['IsDeposit'].dirty" class="p-invalid text-danger">Vui lòng chọn trạng thái cọc tiền</small>
+                        <div class="w-100">
+                            <div class="form-check form-check-inline mr-6">
+                                <p-radioButton [(ngModel)]="isDeposit" [ngModelOptions]="{standalone: true}" class="form-check-input form-check-radio"
+                                    type="radio" name="true" id="true" [value]="true" (onClick)="onDeposit()"></p-radioButton>
+                                <label class="form-check-label" for="true">Đặt cọc</label>
+                            </div>
+                            <div class="form-check form-check-inline ">
+                                <p-radioButton [(ngModel)]="isDeposit" [ngModelOptions]="{standalone: true}" class="form-check-input form-check-radio"
+                                    type="radio" name="false" id="false" [value]="false" (onClick)="onDeposit()"></p-radioButton>
+                                <label class="form-check-label" for="false">Không đặt cọc</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtPriceDeposit">Số tiền đặt cọc
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <div class="p-inputgroup input-pay mb-3">
+                            <input type="text" pInputText formControlName="PriceDeposit" placeholder="Nhập Số tiền đặt cọc" aria-label="Amount (to the nearest dollar)"  
+                                currencyMask [options]="{ prefix: '', thousands: '.', precision: 0 }"/>
+                            <span class="input-group-text">VNĐ</span>
+                        </div>
+                        <small *ngIf="fBooking.controls['PriceDeposit'].hasError('required') && fBooking.controls['PriceDeposit'].dirty" class="p-invalid text-danger">Vui lòng nhập Số tiền đặt cọc.</small>                   
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtNoteDeposit">Ghi chú</label>
+                        <input type="text" pInputText formControlName="NoteDeposit" placeholder="Nhập Ghi chú">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtContentDeposit">Mô tả chi tiết</label>
+                        <input type="text" pInputText formControlName="ContentDeposit" placeholder="Nhập Mô tả chi tiết">
+                    </div>
+                </div>
+                <div class="col-3 pdright-0">
+                    <div class="field p-fluid">
+                        <label for="txtIsFee">Phụ phí</label>
+                         <span class="text-danger"> *</span>
+                        <div class="" >
+                            <div class="form-check form-check-inline mr-4">
+                                <p-radioButton [(ngModel)]="isFee" [ngModelOptions]="{standalone: true}" class="form-check-input form-check-radio" type="radio" 
+                                    name="true" id="true" [value]="true" (onClick)="onFee()"></p-radioButton>
+                                <label class="form-check-label" for="true">Có phụ phí</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <p-radioButton [(ngModel)]="isFee" [ngModelOptions]="{standalone: true}" class="form-check-input form-check-radio" type="radio" 
+                                    name="false" id="false" [value]="false" (onClick)="onFee()"></p-radioButton>
+                                <label class="form-check-label" for="false">Không có phụ phí</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtPriceFee">Số tiền phụ phí 
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <div class="p-inputgroup input-pay mb-3">
+                            <input type="text" pInputText  formControlName="PriceFee" placeholder="Nhập Số tiền phụ phí" aria-label="Amount (to the nearest dollar)"  
+                                currencyMask [options]="{ prefix: '', thousands: '.', precision: 0 }"/>
+                            <span class="input-group-text">VNĐ</span>
+                        </div>
+                        <small *ngIf="fBooking.controls['PriceFee'].hasError('required') && fBooking.controls['PriceFee'].dirty" class="p-invalid text-danger">Vui lòng nhập Số tiền phụ phí.</small>                   
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtNoteFee">Ghi chú</label>
+                        <input type="text" pInputText formControlName="NoteFee" placeholder="Nhập Ghi chú">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtContentFee">Mô tả chi tiết</label>
+                        <input type="text" pInputText formControlName="ContentFee" placeholder="Nhập Mô tả chi tiết">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Loại dịch vụ</label>
+                        <span class="text-danger"> *</span>
+                        <small *ngIf="fBooking.controls['Type'].dirty" class="p-invalid text-danger">Vui lòng thêm Loại dịch vụ.</small>                 
+                        <div class="form-check check-inv">
+                            <div class="form-check form-check-inline col-4">
+                                <p-radioButton [(ngModel)]="itemCheck" class="form-check-input form-check-radio" type="radio" name="Name" id="male" value="1"
+                                [ngModelOptions]="{standalone: true}" (onClick)="onTime()"></p-radioButton>
+                                <label class="form-check-label" for="male">Thuê theo giờ</label>
+                            </div>
+                            <div class="form-check form-check-inline col-4">
+                                <p-radioButton [(ngModel)]="itemCheck" class="form-check-input form-check-radio" type="radio" name="Name" id="female" value="2" 
+                                [ngModelOptions]="{standalone: true}" (onClick)="onTime()"></p-radioButton>
+                                <label class="form-check-label" for="female">Thuê sân theo khung giờ</label>
+                            </div>
+                            <div class="form-check form-check-inline col-4">
+                                <p-radioButton [(ngModel)]="itemCheck" class="form-check-input form-check-radio" type="radio" name="Name" id="female" value="3" 
+                                [ngModelOptions]="{standalone: true}" (onClick)="onTime()"></p-radioButton>
+                                <label class="form-check-label" for="female">Thuê sân theo lũy tiền</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12" *ngIf="itemCheck == 1" >
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Thuê sân theo giờ
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <div class="displayflex" *ngFor="let item of Time">
+                            <div class="w-50 pd-t1 displayflex text-mask">
+                                <span>Từ</span>
+                                <div class="col-4">
+                                    <div class="p-inputgroup input-pay mb-3">
+                                        <p-inputMask inputId="inputmask" mask="99:90" [(ngModel)]="item.TimeStart" [ngModelOptions]="{standalone: true}" min="00:00" max="23:59" 
+                                            (ngModelChange)="onTimeStartChange($event)"></p-inputMask>
+                                        <span class="input-group-text">Giờ</span>
+                                    </div>
+                                </div>
+                                <span>Đến</span>
+                                <div class="col-4">
+                                    <div class="p-inputgroup input-pay mb-3">
+                                        <p-inputMask inputId="inputmask" mask="99:90" [(ngModel)]="item.TimeEnd" [ngModelOptions]="{standalone: true}" min="00:00" max="23:59" 
+                                            (ngModelChange)="onTimeEndChange($event)"></p-inputMask>
+                                        <span class="input-group-text">Giờ</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field p-fluid col-6 inv-input">
+                                <label for="">Giá tiện ích/thời gian</label>
+                                <input type="text" pInputText pInputText [(ngModel)]="item.Price" [ngModelOptions]="{standalone: true}" class="w-100" placeholder="Nhập số tiền">
+                            </div>
+                        </div>
+                        <div class="p-time">
+                            <label>(Chọn cố định theo từng giờ chẵn)</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12" *ngIf="itemCheck == 2" >
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Thuê sân theo khung giờ
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <p-table [value]="timeSlot">
+                            <ng-template pTemplate="body" let-item >
+                                <tr>
+                                    <td class="w-55">
+                                        <span>Khung giờ {{item.index}}</span>
+                                        <div class="w-100 displayflex text-mask">
+                                            <span>Từ</span>
+                                            <div class="col-4">
+                                                <div class="p-inputgroup input-pay mb-3">
+                                                    <p-inputMask inputId="inputmask" mask="99:90" [(ngModel)]="item.TimeStart" [ngModelOptions]="{standalone: true}"
+                                                        (ngModelChange)="onTimeStartChangeSlot(item.index, $event)"></p-inputMask>
+                                                    <span class="input-group-text">Giờ</span>
+                                                </div>
+                                            </div>
+                                            <span>Đến</span>
+                                            <div class="col-4">
+                                                <div class="p-inputgroup input-pay mb-3">
+                                                    <p-inputMask inputId="inputmask" mask="99:90" [(ngModel)]="item.TimeEnd" [ngModelOptions]="{standalone: true}"
+                                                        (ngModelChange)="onTimeEndChangeSlot(item.index, $event)"></p-inputMask>
+                                                    <span class="input-group-text">Giờ</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-mask">
+                                            <span for="">Giá tiện ích/thời gian</span>
+                                            <input type="text" pInputText [(ngModel)]="item.Price" [ngModelOptions]="{standalone: true}" placeholder="Nhập số tiền">
+                                        </div>
+                                    </td>
+                                    <td class="btn-time">
+                                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning "  (click)="onDeleteTimeSlot(item.index)"></button>
+                                    </td>
+                                </tr>
+                                <div class="p-time">
+                                    <label>(Chọn cố định theo từng giờ chẵn)</label>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr class="text-center">
+                                    <td colspan="6" class="text-center color-i">Không có khung giờ nào.</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <section class="FilterProject mt-2">
+                            <div class="textFilterProj">
+                                <div class="p-time">
+                                    <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới khung giờ" (click)="onTimeSlot()"></button>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-12" *ngIf="itemCheck == 3">
+                    <div class="field p-fluid">
+                        <div class="field p-fluid">
+                            <label for="txtDistrict">Thuê sân theo lũy tiến
+                                <span class="text-danger"> *</span>
+                            </label>
+                            <div class="w-50 time-progressive">
+                                <span>Từ</span>
+                                <div class="col-4">
+                                    <div class="p-inputgroup input-pay mb-3">
+                                        <p-inputMask inputId="inputmask" mask="99:90" [(ngModel)]="DateStart" [ngModelOptions]="{standalone: true}" 
+                                            (ngModelChange)="onDateStart($event)"></p-inputMask>
+                                        <span class="input-group-text">Giờ</span>
+                                    </div>
+                                </div>
+                                <span>Đến</span>
+                                <div class="col-4">
+                                    <div class="p-inputgroup input-pay mb-3">
+                                        <p-inputMask inputId="inputmask" mask="99:90" [(ngModel)]="DateEnd" [ngModelOptions]="{standalone: true}" 
+                                            (ngModelChange)="onDateEnd($event)"></p-inputMask>
+                                        <span class="input-group-text">Giờ</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p-table [value]="progressive">
+                            <ng-template pTemplate="body" let-item >
+                                <tr>
+                                    <td class="w-55">
+                                        <span>Mức lũy tiến {{item.index}}</span>
+                                        <div class="w-100 displayflex text-mask">
+                                            <span>Từ</span>
+                                            <div class="col-4">
+                                                <div class="p-inputgroup input-pay mb-3">
+                                                    <input type="text" pInputText [(ngModel)]="item.TimeStart" [ngModelOptions]="{standalone: true}" 
+                                                        (ngModelChange)="onTimeStartChangeProgressive(item.index, $event)"/>
+                                                    <span class="input-group-text">Giờ</span>
+                                                </div>
+                                            </div>
+                                            <span>Đến</span>
+                                            <div class="col-4">
+                                                <div class="p-inputgroup input-pay mb-3">
+                                                    <input type="text" pInputText [(ngModel)]="item.TimeEnd" [ngModelOptions]="{standalone: true}" 
+                                                        (ngModelChange)="onTimeEndChangeProgressive(item.index, $event)">
+                                                    <span class="input-group-text">Giờ</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-mask">
+                                            <span for="">Giá tiện ích/thời gian</span>
+                                            <input type="text" pInputText [(ngModel)]="item.Price" [ngModelOptions]="{standalone: true}" placeholder="Nhập số tiền">
+                                        </div>
+                                    </td>
+                                    <td class="btn-time">
+                                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDeleteProgressive(item.index)"></button>
+                                    </td>
+                                </tr>
+                                <div class="p-time">
+                                    <label>(Chọn cố định theo từng giờ chẵn)</label>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr class="text-center">
+                                    <td colspan="6" class="text-center color-i">Không có lũy tiền nào.</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <section class="FilterProject mt-2">
+                            <div class="textFilterProj">
+                                <div class="p-time">
+                                    <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới lũy tiền" (click)="onProgressive()"></button>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="">Các loại phí cần thanh toán để đặt sân
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <div class="w-100">
+                            <div class="form-check form-check-inline mr-2 w-30">
+                                <div class="checkbox">
+                                    <input type="checkbox" [(ngModel)]="isPayDeposit" [ngModelOptions]="{standalone: true}" (change)="onPay()">
+                                </div>
+                                <label class="form-check-label" for="male">Tiền cọc</label>
+                            </div>
+                            <div class="form-check form-check-inline mr-2 w-30">
+                                <div class="checkbox">
+                                    <input type="checkbox" [(ngModel)]="isPayYard" [ngModelOptions]="{standalone: true}" (change)="onPay()">
+                                </div>
+                                <label class="form-check-label" for="male">Tiền sân</label>
+                            </div>
+                            <div class="form-check form-check-inline mr-2 w-30">
+                                <div class="checkbox">
+                                    <input type="checkbox" [(ngModel)]="isPayFee" [ngModelOptions]="{standalone: true}" (change)="onPay()">
+                                </div>
+                                <label class="form-check-label" for="male">Tiền phụ phí</label>
+                            </div>              
+                        </div>
+                        <small *ngIf="isPay" class="p-invalid text-danger">Vui lòng chọn phí cần thanh toán khi đặt sân.</small>     
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtRegulations">Thông tin (Quy định khi đặt sân)  <span class="text-danger"> *</span></label>
+                        <small *ngIf="fBooking.controls['Regulations'].hasError('required') && fBooking.controls['Regulations'].dirty" class="p-invalid text-danger">Vui lòng thêm quy định đặt sân.</small>                   
+                        <ckeditor  class="ck-edit-text" [config]="{placeholder: 'Nhập nội dung bài viết'}" [editor]="Editor" formControlName="Regulations" [ngStyle]="{'height': '120px'}"></ckeditor>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtBookEditing">Chính sách hoàn hủy <span class="text-danger"> *</span></label>
+                        <small *ngIf="fBooking.controls['BookEditing'].hasError('required') && fBooking.controls['BookEditing'].dirty" class="p-invalid text-danger">Vui lòng thêm chính sách hoàn hủy.</small>                   
+                        <ckeditor  class="ck-edit-text" [config]="{placeholder: 'Nhập nội dung bài viết'}" [editor]="Editor" formControlName="BookEditing" [ngStyle]="{'height': '120px'}"></ckeditor>
+                    </div>
+                </div>
+                <div class="col-12"  >
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Hủy sân khi khách hàng không thanh toán trước 
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <p-table [value]="CancelNotPay">
+                            <ng-template pTemplate="body" let-item >
+                                <tr>
+                                    <td class="w-50">
+                                        <div class="w-100">
+                                            <label for="">Ngày đăng ký cách ngày sử dụng sân 
+                                                <span class="text-danger"> *</span>
+                                            </label>
+                                            <div class="displayflex day-mask">
+                                                <span>Từ</span>
+                                                <div class="col-4">
+                                                    <div class="p-inputgroup input-pay mb-3">
+                                                        <input type="text" pInputText [(ngModel)]="item.DayStart" [ngModelOptions]="{standalone: true}" 
+                                                            aria-label="Amount (to the nearest dollar)" />
+                                                        <span class="input-group-text">Ngày</span>
+                                                    </div>
+                                                </div>
+                                                <span>Đến</span>
+                                                <div class="col-4">
+                                                    <div class="p-inputgroup input-pay mb-3">
+                                                        <input type="text" pInputText [(ngModel)]="item.DayEnd" [ngModelOptions]="{standalone: true}" 
+                                                            aria-label="Amount (to the nearest dollar)" />
+                                                        <span class="input-group-text">Ngày</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="field p-fluid w-100 inv-input">
+                                            <label for="">Thời hạn thanh toán tối thiểu sau khi đăng ký
+                                                <span class="text-danger"> *</span>
+                                            </label>
+                                            <div class="input-money mb-3">
+                                                <input type="text" pInputText [(ngModel)]="item.DayPay" [ngModelOptions]="{standalone: true}" placeholder="Nhập thời hạn thanh toán tối đa sau khi đăng ký"
+                                                    aria-label="Amount (to the nearest dollar)" />
+                                                <div class="input-group-append w-15">
+                                                    <span class="input-group-text">Ngày</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="time-btn">
+                                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr class="text-center">
+                                    <td colspan="6" class="text-center color-i">Không có cấu hình hủy sân nào!</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <section class="FilterProject mt-2">
+                            <div class="textFilterProj">
+                                <div class="p-time">
+                                    <button type="button" pButton icon="fa fa-plus-circle" label="Thêm cấu hình hủy sân" (click)="onCancelNotPay()"></button>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-12"  >
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Hủy sân khi khách hàng đã thanh toán trước 
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <p-table [value]="CancelPay">
+                            <ng-template pTemplate="body" let-item >
+                                <tr>
+                                    <td class="w-50">
+                                        <div class="w-100">
+                                            <label for="">Ngày hủy sân cách ngày sử dụng sân 
+                                                <span class="text-danger"> *</span>
+                                            </label>
+                                            <div class="displayflex day-mask">
+                                                <span>Từ</span>
+                                                <div class="col-4">
+                                                    <div class="p-inputgroup input-pay mb-3">
+                                                        <input type="text" pInputText [(ngModel)]="item.DayStart" [ngModelOptions]="{standalone: true}" 
+                                                            aria-label="Amount (to the nearest dollar)" />
+                                                        <span class="input-group-text">Ngày</span>
+                                                    </div>
+                                                </div>
+                                                <span>Đến</span>
+                                                <div class="col-4">
+                                                    <div class="p-inputgroup input-pay mb-3">
+                                                        <input type="text" pInputText [(ngModel)]="item.DayEnd" [ngModelOptions]="{standalone: true}" 
+                                                            aria-label="Amount (to the nearest dollar)" />
+                                                        <span class="input-group-text">Ngày</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="field p-fluid w-100 inv-input">
+                                            <label for="">Số % hoàn cọc ( Tiền hoàn = Tiền đã đóng*Phần trăm hoàn cọc)
+                                                <span class="text-danger"> *</span>
+                                            </label>
+                                            <div class="input-money mb-3">
+                                                <input type="text" pInputText [(ngModel)]="item.DayPay" [ngModelOptions]="{standalone: true}" placeholder="Nhập số % hoàn cọc"
+                                                    aria-label="Amount (to the nearest dollar)" />
+                                                <div class="input-group-append w-15">
+                                                    <span class="input-group-text">%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="time-btn">
+                                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr class="text-center">
+                                    <td colspan="6" class="text-center color-i">Không có cấu hình hủy sân nào!</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <section class="FilterProject mt-2">
+                            <div class="textFilterProj">
+                                <div class="p-time">
+                                    <button type="button" pButton icon="fa fa-plus-circle" label="Thêm cấu hình hủy sân" (click)="onCancelPay()"></button>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="col-12 p_float_right">
+            <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack()">
+            </button>
+            <p-button label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+        </div>
+    </div>
+</div>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+
+

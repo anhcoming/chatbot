@@ -1,0 +1,161 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Danh sách đơn đăng ký đặt sân</h4>
+            <div class="displayflex">
+                <div class="textFilterProj w-30">
+                    <span>Tìm kiếm</span>
+                    <div class="formSearchText">
+                        <input type="text" placeholder="Tìm kiếm theo mã, tên tòa nhà... " name="searchProject" [(ngModel)]="search" 
+                        (keyup.Enter)="onSearch($event)" (keyup)="isInputEmpty = search === ''" value="" class="StextSingle_Project">
+                        <button class="iconbtnSearch"  *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10" style="font-size: 1rem" (click)="onClearInput()"></span></button>
+                    </div>   
+                </div>  
+                <div class="displayflex formgrid w-70 mt-2 " [formGroup]="fSearch">
+                    <div class="field p-fluid center-text-input w-25">
+                        <p-dropdown
+                            [options]="ConfigYarn"
+                            placeholder="Loại sân"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="bookingid"
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="onSelect($event)">
+                        </p-dropdown>
+                    </div>
+                    <div class="field p-fluid center-text-input w-25 search-time">
+                        <p-calendar type="text" id="txtDateStart" [showIcon]="true" inputId="icon"  formControlName="DateStart" placeholder="Ngày đăng ký"></p-calendar>
+                    </div>
+                    <div class="field p-fluid center-text-input w-25 search-time">
+                        <p-calendar type="text" id="txtDateEnd" [showIcon]="true" inputId="icon"  formControlName="DateEnd" placeholder="Ngày kết thúc"></p-calendar>
+                    </div>
+                    <div class="field p-fluid center-text-input w-15 search-time">
+                        <button type="button" pButton icon="pi pi-filter" label="Lọc" (click)="onSelectFilter()"></button>
+                    </div>
+                </div>
+            </div>
+            <section class="FilterProject mt-4">
+                <div class="textFilterProj">
+                    <p-toggleButton [(ngModel)]="idFrozen" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open" [onLabel]="'Thao tác'" 
+                    offLabel="Thao tác" [style]="{'width': '8rem'}"></p-toggleButton>
+                    <div class="addProjectList btn-options">
+                        <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/utilities/yard-booking/create"></button>
+                    </div>
+                    <div class="addProjectList mr-2 btn-orange absolute-btn">
+                        <button #btn type="button" pButton icon="pi pi-chevron-down" label="Hành động" (click)="menu.toggle($event)" style="width:auto"></button>
+                        <p-tieredMenu #menu [model]="menuItems" [popup]="true"></p-tieredMenu>
+                    </div>
+                    <div class="addProjectList mr-2 btn-options btn-green">
+                        <button type="button" pButton icon="pi ft-download" label="Tải xuống" ></button>
+                    </div>
+                    <div class="addProjectList mr-2 btn-options btn-yellow">
+                        <button type="button" pButton icon="ft-upload" label="Tải lên" routerLink="/utilities/yard-booking/list"></button>
+                    </div>
+                    <div class="addProjectList btn-options mr-2">
+                        <button type="button" pButton icon="pi pi-refresh" label="Làm mới" (click)="btnReset()"></button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <ul ngbNav #nav="ngbNav" class="nav-tabs justify-content-center nav-justified w-80 bgModalTop"
+                orientation="horizontal" >
+                <li [ngbNavItem] = "1" class="bgModalTop">
+                    <a ngbNavLink (click)="onNew(0)">Tất cả</a>
+                </li>
+                <li [ngbNavItem] = "2" class="bgModalTop">
+                    <a ngbNavLink (click)="onNew(1)">Đăng kí mới</a>
+                </li>
+                <li [ngbNavItem] = "3" class="bgModalTop">
+                    <a ngbNavLink (click)="onNew(2)">Chờ hủy</a>
+                </li>
+                <li [ngbNavItem] = "4" class="bgModalTop">
+                    <a ngbNavLink (click)="onNew(3)">Duyệt đơn</a>
+                </li>
+                <li [ngbNavItem] = "5" class="bgModalTop">
+                    <a ngbNavLink (click)="onNew(4)">Chờ kết thúc</a>
+                </li>
+                <li [ngbNavItem] = "6" class="bgModalTop">
+                    <a ngbNavLink (click)="onNew(5)">Kết thúc</a>
+                </li>
+                <li [ngbNavItem] = "7" class="bgModalTop">
+                    <a ngbNavLink (click)="onNew(6)">Đã hủy</a>
+                </li>
+            </ul>
+            <p-table 
+                [value]="lstYardBooking"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable"
+                [scrollable]="true"
+                scrollDirection="horizontal"
+                [(selection)]="selectedItems">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>Stt</th>
+                        <th class="min-w-150">Mã đơn đăng ký</th>
+                        <th class="min-w-150">Loại sân</th>
+                        <th class="min-w-200">Căn hộ</th>
+                        <th class="min-w-180">Người đăng ký</th>
+                        <th class="min-w-100">Điện thoại</th>
+                        <th class="min-w-150">Trạng thái</th>
+                        <th class="min-w-125">Ngày sử dụng</th>
+                        <th class="min-w-150">Thời gian sử dụng</th>
+                        <th class="min-w-150">Loại dịch vụ</th>
+                        <th class="min-w-100">Tổng thu</th>
+                        <th class="min-w-200">Ngày đăng ký đơn</th>
+                        <th class="min-w-90 text-center"  alignFrozen="right" pFrozenColumn [frozen]="idFrozen" [ngClass]="{'color-bg': idFrozen}">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                        </td>
+                        <td>{{ rowIndex + 1}}</td>
+                        <td>{{ item.Code }}</td>
+                        <td>{{ item.YardSettingName }}</td>
+                        <td>{{ item.ApartmentName }}</td>
+                        <td>{{ item.RegisterName }}</td>
+                        <td>{{ item.RegisterPhone }}</td>
+                        <td>
+                            <ul class="p-activate">
+                                <li *ngIf="item.Status == 1" class="p-activated"><span>{{ item.isStatus }}</span></li>
+                                <li *ngIf="item.Status == 10" class="p-notactivated"><span>{{ item.isStatus }}</span></li>
+                            </ul>
+                        </td>
+                        <td>{{ item.DateStart | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ item.HourStartStr }} - {{ item.HourEndStr }}</td>
+                        <td>{{ item.YardTypeName }}</td>
+                        <td>{{ item.TotalPrice }}</td>
+                        <td>{{ item.CreatedAt | date:'dd/MM/yyyy' }}</td>
+                        <td pFrozenColumn alignFrozen="right" [frozen]="idFrozen" [ngClass]="{'color-bg': idFrozen}"> 
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" pTooltip="Cập nhật thông tin cấu hình đặt sân" 
+                                routerLink="/utilities/yard-booking/update/{{item.Id }}" ></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" pTooltip="Xóa cấu hình đặt sân" (click)="onDelete(item.Id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                                <td colspan="9" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

@@ -1,0 +1,273 @@
+.main-chat {
+    display: flex;
+    font-size: 16px;
+    flex-direction: column;
+    font-family: Roboto;
+
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+}
+
+.chatContainer {
+    flex-grow: 1;
+    overflow-y: auto;
+    //display: flex;
+    //flex-direction: column;
+}
+
+.message-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.message-agent {
+    background-color: var(--agent-chat);
+    max-width: 70%;
+    word-wrap: break-word;
+    border-radius: 25px;
+    border: 1px solid var(--border-agent);
+
+    .options {
+        background: var(--mess-action);
+        width: 110px;
+        justify-content: center;
+        border-radius: 10px 10px 0 0;
+        box-shadow: 0px -3px 8.9px 0px rgba(60, 97, 193, 0.15), 0px 3px 8.9px 0px transparent;
+        .agent-options{
+            fill: var(--agent-options);
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .message-agent, .message-user {
+        width: 100% !important;
+        max-width: none !important;
+        font-size: 1rem;
+    }
+    .options-bot {
+        ::ng-deep.dropdown-menu {
+            display: none;
+
+            button {
+                font-size: 14px
+            }
+        }
+
+        #mini-new-chat {
+            display: block;
+        }
+    }
+    .bot-option {
+        width: 13rem !important;
+        font-size: 1rem !important;
+        padding: 0.5rem !important;
+    }
+    #mobile-options {
+        ::ng-deep.p-dialog {
+            border-radius: 19px;
+
+            .p-dialog-header {
+                justify-content: start !important;
+                color: #405189;
+                border-radius: 19px 19px 0 0;
+
+                span {
+                    margin: 0px 1rem;
+                }
+
+            }
+
+            .p-dialog-content {
+                justify-content: start !important;
+                border-radius: 0 0 19px 19px;
+
+                .dropdown-item:hover, .dropdown-item:focus {
+                    text-decoration: none;
+                    background-color: #F4F4F4;
+                    color: black;
+                    border-radius: 8px
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 767px) {
+    #mobile-options {
+        display: none !important;
+    }
+}
+
+
+.message-user {
+    background-color: var(--user-chat);
+    border-radius: 25px;
+    word-wrap: break-word;
+}
+
+.message-container.user .message {
+    background-color: #e0f7fa;
+    align-self: flex-end;
+}
+
+.message-container.agent .message {
+    background-color: #ffffff;
+    align-self: flex-start;
+
+
+}
+
+.max-width-70 {
+    max-width: 70%;
+}
+
+.width-70 {
+    width: 70%;
+}
+
+.height-80 {
+    height: 80vh;
+}
+
+.height-15 {
+    height: 15%;
+}
+
+.bg-white {
+    background-color: #ffffff;
+}
+
+.sticky {
+    position: sticky;
+    bottom: 0;
+    background: var(--background-color);
+    height: 15%
+
+}
+
+.hover-effect-action {
+    transition: color 0.3s;
+}
+
+.hover-effect-action:hover {
+    color: #007bff;
+}
+
+.font-size-18 {
+    font-size: 18px;
+}
+
+.line-height-2 {
+    line-height: 2;
+}
+
+.border-radius-1rem {
+    border-radius: 1rem;
+}
+
+.shadow-2 {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.text-input {
+    box-shadow: 0px 4px 33.5px 0px rgba(38, 95, 180, 0.25);
+    border-radius: 25px
+}
+
+.send-message {
+    box-shadow: 0px 4px 33.5px 0px rgba(38, 95, 180, 0.25);
+    border-radius: 20px;
+    background-color: var(--input-color);
+}
+
+input.w-full:focus,
+input.w-full:active {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.bot-option {
+    font-family: Roboto;
+    background-color: #4285F4;
+    border-radius: 0px 29px 29px 29px;
+    width: 18rem;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 23.44px;
+    text-align: left;
+
+}
+
+.options-bot {
+    ::ng-deep.dropdown-menu {
+        position: absolute;
+        inset: -54px auto auto 258px !important;
+        margin: 0px;
+        transform: translate(0px, 57px);
+        border-radius: 8px;
+        border-color: var(--user-chat);
+        box-shadow: 0px 4px 14.2px 0px rgba(65, 84, 154, 0.25);
+
+        .dropdown-item:hover {
+            background-color: #EBEBEB;
+            color: black
+        }
+
+        button {
+            padding: 10px 10px 10px 20px;
+        }
+    }
+
+    #mini-new-chat {
+        display: none;
+    }
+}
+
+.bg-gray {
+    background-color: #F4F4F4
+}
+
+.bg-message {
+    background-color: var(--background-color);
+
+    .text-input {
+        background-color: var(--input-color);
+    }
+}
+
+.input-message {
+    background-color: var(--input-color);
+    color: var(--text-color);
+}
+
+.input-message::placeholder {
+    color: var(--text-placeholder)
+}
+
+.icon-edit{
+    fill:var(--icon-edit);
+}
+
+
+.svg-icon-ghim {
+    width: 35px;
+    height: 35px;
+    background-color: var(--bg-calendar);
+    /* The color you want the SVG to be */
+    -webkit-mask: url('/assets/imgs-chatbot/svg/ghim.svg') no-repeat center;
+    mask: url('/assets/imgs-chatbot/svg/ghim.svg') no-repeat center;
+}

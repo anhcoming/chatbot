@@ -1,0 +1,483 @@
+<div class="grid">
+    <div class="col-12">
+        <h3>
+            {{ !(id > 0) ? "Thêm mới đăng ký đặt sân" : "Chi tiết đăng ký đặt sân" }}
+        </h3>
+        <div class="card" [formGroup]="fBooking">
+            <div class="grid formgrid mg-l-9">
+                <div class="grid gr-re">
+                    <div class="grid gr-re">
+                        <div class="col-12">
+                            <h3 ><p class="pi pi-briefcase"></p> Thông tin khách hàng</h3>
+                        </div>  
+                        <div class="col-6">
+                            <div class="field p-fluid">
+                                <label for="txtDistrict">Khu đô thị</label>
+                                <span class="text-danger"> *</span>
+                                <ng-select 
+                                    [items]="Project"
+                                    [virtualScroll]="true" 
+                                    [loading]="false" 
+                                    formControlName="ProjectId"
+                                    placeholder="Khu đô thị"
+                                    bindLabel="Name" 
+                                    bindValue="Id"
+                                    #selectTower
+                                    pDropdown
+                                    (change)="onSelectTower($event)">
+                                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                        <span [ngOptionHighlight]="search">{{item.Name}}</span>
+                                    </ng-template>
+                                </ng-select>
+                                <small *ngIf="fBooking.controls['ProjectId'].hasError('required') && fBooking.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn Khu đô thị</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="field p-fluid">
+                                <label for="txtProject">Tòa nhà</label>
+                                <span class="text-danger"> *</span>
+                                <ng-select 
+                                    [items]="lstTower"
+                                    [virtualScroll]="true" 
+                                    [loading]="false" 
+                                    formControlName="TownId"
+                                    placeholder="Tòa nhà"
+                                    bindLabel="Name" 
+                                    bindValue="Id"
+                                    (scrollToEnd)="fetchMoreTower()"
+                                    #selectTower
+                                    pDropdown
+                                    (change)="onSelectFloor($event)">
+                                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                        <span [ngOptionHighlight]="search">{{item.Name}}</span>
+                                    </ng-template>
+                                </ng-select>
+                                <small *ngIf="fBooking.controls['TownId'].hasError('required') && fBooking.controls['TownId'].dirty" class="p-invalid text-danger">Vui lòng chọn Tòa nhà</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="field p-fluid">
+                                <label for="txtProject">Tầng</label>
+                                <span class="text-danger"> *</span>
+                                <ng-select 
+                                    [items]="lstFloor"
+                                    [virtualScroll]="true" 
+                                    [loading]="false" 
+                                    formControlName="FloorId"
+                                    placeholder="Tầng"
+                                    bindLabel="Name" 
+                                    bindValue="Id"
+                                    (scrollToEnd)="fetchMoreFloor()"
+                                    #selectFloor
+                                    pDropdown
+                                    (change)="onSelectApartment($event)">
+                                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                        <span [ngOptionHighlight]="search">{{item.Name}}</span>
+                                    </ng-template>
+                                </ng-select>
+                                <small *ngIf="fBooking.controls['FloorId'].hasError('required') && fBooking.controls['FloorId'].dirty" class="p-invalid text-danger">Vui lòng chọn Tầng</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="field p-fluid">
+                                <label for="txtProject">Căn hộ</label>
+                                <span class="text-danger"> *</span>
+                                <ng-select 
+                                    [items]="lstApartment"
+                                    [virtualScroll]="true" 
+                                    [loading]="false" 
+                                    formControlName="ApartmentId"
+                                    placeholder="Căn hộ"
+                                    bindLabel="Name" 
+                                    bindValue="Id"
+                                    (scrollToEnd)="fetchMore()"
+                                    #selectApartment
+                                    (change)="onSelect($event)"
+                                    pDropdown>
+                                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                        <span [ngOptionHighlight]="search">{{item.Name}}</span>
+                                    </ng-template>
+                                </ng-select>
+                                <small *ngIf="fBooking.controls['ApartmentId'].hasError('required') && fBooking.controls['ApartmentId'].dirty" class="p-invalid text-danger">Vui lòng chọn Căn hộ</small>
+                            </div>
+                        </div>
+                        <div class="col-6" >
+                            <div class="field p-fluid">
+                                <label for="txtAddress">Tên chủ hộ
+                                    <span class="text-danger"> *</span>
+                                </label>
+                                <input id="txtAddress" type="text" pInputText formControlName="ResidentName" >
+                                <small *ngIf="fBooking.controls['ResidentName'].hasError('required') && fBooking.controls['ResidentName'].dirty" class="p-invalid text-danger">Tên chủ hộ không được để chống</small>
+                            </div>
+                        </div>
+                        <div class="col-6" >
+                            <div class="field p-fluid">
+                                <label for="txtPhone">Số điện thoại </label>
+                                <span class="text-danger"> *</span>
+                                <input id="txtPhone" placeholder="VD:0321642644" type="text" pInputText
+                                    formControlName="Phone">
+                                    <small *ngIf="fBooking.controls['Phone'].hasError('required') && fBooking.controls['Phone'].dirty" class="p-invalid text-danger">Số điện thoại chủ hộ không được để chống</small>
+                                </div>
+                        </div>
+                        <div class="col-6" >
+                            <div class="field p-fluid">
+                                <label for="txtAddress">Người đăng ký 
+                                    <span class="text-danger"> *</span>
+                                </label>
+                                <input id="txtAddress" type="text" pInputText formControlName="RegisterName" placeholder="Người đăng ký">
+                                <small *ngIf="fBooking.controls['RegisterName'].hasError('required') && fBooking.controls['RegisterName'].dirty" class="p-invalid text-danger">Vui lòng chọn Người đăng ký</small>
+                            </div>
+                        </div>
+                        <div class="col-6" >
+                            <div class="field p-fluid">
+                                <label for="txtPhone">Số điện thoại người đăng ký</label>
+                                <span class="text-danger"> *</span>
+                                <input id="txtPhone" type="text" pInputText formControlName="RegisterPhone"  placeholder="Số điện thoại người đăng ký"/>
+                                <small *ngIf="fBooking.controls['RegisterPhone'].hasError('required') && fBooking.controls['RegisterPhone'].dirty" class="p-invalid text-danger">Vui lòng nhập Số điện thoại người đăng ký</small>
+                                <small *ngIf="fBooking.controls['RegisterPhone'].errors?.pattern" class="p-invalid text-danger">Số điện thoại không hợp lệ.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid gr-re">
+                        <div class="col-12">
+                            <h3 ><p class="pi pi-briefcase"></p> Đặt sân</h3>
+                        </div>  
+                        <div class="col-6">
+                            <div class="field p-fluid">
+                                <label for="">Loại sân 
+                                    <span class="text-danger"> *</span>
+                                </label>
+                                <p-dropdown 
+                                    [options]="listConfigYard" 
+                                    placeholder="Loại sân" 
+                                    emptyMessage="Vui lòng chọn khu đô thị." 
+                                    [showClear]="true"
+                                    formControlName="YardSettingId" 
+                                    optionLabel="Name" 
+                                    optionValue="ConfigYardId"
+                                    (onChange)="onYardConfig($event)" >
+                                </p-dropdown>
+                                <small *ngIf="fBooking.controls['YardSettingId'].hasError('required') && fBooking.controls['YardSettingId'].dirty" class="p-invalid text-danger">Vui lòng chọn loại sân.</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="field p-fluid">
+                                <label for="Code">Mã đơn đăng ký </label>
+                                <input type="text" placeholder="Mã đơn đăng ký" pInputText formControlName="Code">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="field p-fluid">
+                                <h5 for="txtOrderStatus">Giá đặt sân</h5>
+                                <span class=""></span>
+                                <div class="grid-booking">
+                                    <div class="displayflex gr-re mt-1 mb-1" *ngFor="let item of listYardTypeSettings">
+                                        <div class="col-10">
+                                            <span *ngIf="typeYard !== 1">Từ: </span>
+                                            <span> {{item.Name}} giờ </span>
+                                        </div>
+                                        <div class="col-2 price-booking">
+                                            <span> {{item.Price | currency:'VND':'symbol':'1.0-0' | slice: 1}}đ/giờ</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="col-12">
+                            <div class="field p-fluid">
+                                <h5 for="txtOrderStatus">Tiền đặt cọc</h5>
+                                <span class=""></span>
+                                <div class="grid-booking">
+                                    <div class="displayflex gr-re mt-1 mb-1" *ngFor="let item of YardSettings">
+                                        <div class="col-10 p-color">
+                                            <span> {{item.NoteDeposit}}</span>
+                                        </div>
+                                        <div class="col-2 price-booking">
+                                            <span> {{item.PriceDeposit | currency:'VND':'symbol':'1.0-0' | slice: 1}}đ</span>
+                                        </div>
+                                        <div class="col-12 p-color">
+                                            <i>( {{item.ContentDeposit}} )</i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="col-12">
+                            <div class="field p-fluid">
+                                <h5 for="txtOrderStatus">Tiền phụ phí</h5>
+                                <span class=""></span>
+                                <div class="grid-booking">
+                                    <div class="displayflex gr-re mt-1 mb-1 mr-1" *ngFor="let item of YardSettings">
+                                        <div class="col-10 p-color">
+                                            <span> {{item.NoteFee}}</span>
+                                        </div>
+                                        <div class="col-2 price-booking">
+                                            <span> {{item.PriceFee | currency:'VND':'symbol':'1.0-0' | slice: 1}}đ/giờ</span>
+                                        </div>
+                                        <div class="col-12 p-color">
+                                            <i>( {{item.ContentFee}} )</i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="col-12">
+                            <div class="field p-fluid">
+                                <h5 for="txtOrderStatus">Thông tin</h5>
+                                <span class=""></span>
+                                <div class="grid-booking">
+                                    <div class="displayflex gr-re mt-1 mb-1 mr-1" *ngFor="let item of YardSettings">
+                                        <div class="col-12" [innerHTML]="item.Regulations">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="col-12">
+                            <div class="field p-fluid">
+                                <h5 for="txtOrderStatus">Chính sách hoàn hủy</h5>
+                                <span class=""></span>
+                                <div class="grid-booking">
+                                    <div class="displayflex gr-re mt-1 mb-1 mr-1" *ngFor="let item of YardSettings">
+                                        <div class="col-12" [innerHTML]="item.BookEditing">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="col-6">
+                            <div class="field p-fluid p-date">
+                                <label for="txtDateStart">Chọn ngày/giờ
+                                    <span class="text-danger"> *</span>
+                                </label>
+                                <p-calendar id="txtDateStart" [showIcon]="true" inputId="icon" type="DateStart"
+                                    formControlName="DateStart"  dateFormat="dd/mm/yy" placeholder="Chọn ngày sử dụng sân"></p-calendar>
+                                <small *ngIf="fBooking.controls['DateStart'].hasError('required') && fBooking.controls['DateStart'].dirty" class="p-invalid text-danger">Vui lòng thêm ngày/giờ.</small>
+                            </div>
+                        </div> 
+                        <div class="col-6" *ngIf="typeYard == 2">
+                            <div class="field p-fluid p-date">
+                                <label for="txtDateStart">Chọn khung giờ
+                                    <span class=""></span>
+                                </label>
+                                <p-dropdown
+                                    [options]="listYardTypeSettings" 
+                                    placeholder="Khung giờ" 
+                                    emptyMessage="Không có dữ liệu." 
+                                    [showClear]="true"
+                                    optionLabel="Name" 
+                                    optionValue="Id"
+                                    (onChange)="onPrice($event)"
+                                    [disabled]="disable"
+                                    [(ngModel)]="DepositId"
+                                    [ngModelOptions]="{standalone: true}">
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-6" *ngIf="typeYard !== 2">
+                            <div class="w-100 pd-t1 displayflex text-mask">
+                                <span>Từ</span>
+                                <div class="col-4">
+                                    <div class="p-inputgroup input-pay mb-3">
+                                        <p-inputMask inputId="inputmask" mask="99:90" [(ngModel)]="TimeStart" [ngModelOptions]="{standalone: true}" min="00:00" max="23:59" 
+                                            (ngModelChange)="onTimeStartChange($event)" [disabled]="disable"></p-inputMask>
+                                        <span class="input-group-text">Giờ</span>
+                                    </div>
+                                </div>
+                                <span>Đến</span>
+                                <div class="col-4">
+                                    <div class="p-inputgroup input-pay mb-3">
+                                        <p-inputMask inputId="inputmask" mask="99:90" [(ngModel)]="TimeEnd" [ngModelOptions]="{standalone: true}" min="00:00" max="23:59" 
+                                            (ngModelChange)="onTimeEndChange($event)" [disabled]="disable"></p-inputMask>
+                                        <span class="input-group-text">Giờ</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="field p-fluid">
+                                <label for="txtNote">Ghi chú <span class="text-danger"> </span></label>
+                                <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note" placeholder="Ghi chú"></textarea>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="grid gr-re">
+                        <div class="col-12">
+                            <h3 ><p class="pi pi-briefcase"></p> Phản hồi từ BQL</h3>
+                        </div>  
+                        <div class="col-6">
+                            <div class="field p-fluid droplist-item">
+                                <label for="txtOrderStatus">Trạng thái</label>
+                                <span class="text-danger"> *</span>
+                                <p-dropdown 
+                                    [options]="statusBooking" 
+                                    placeholder="Trạng thái đăng ký" 
+                                    emptyMessage="Không có dữ liệu." 
+                                    [showClear]="true"
+                                    formControlName="OrderStatus" 
+                                    optionLabel="Name" 
+                                    optionValue="Id" 
+                                    (onChange)="onSetOrderStatus($event)">
+                                    <ng-template let-item pTemplate="item">
+                                        <li [ngClass]="{'disabled': item.disable}">
+                                            <option [value]="item.Id" [disabled]="item.disable">{{item.Name}}</option>
+                                        </li>
+                                    </ng-template>
+                                </p-dropdown>
+                                <small *ngIf="fBooking.controls['OrderStatus'].hasError('required') && fBooking.controls['OrderStatus'].dirty" class="p-invalid text-danger">Vui lòng chọn trạng thái đơn.</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="field p-fluid mt-2">
+                                <div class="form-check">
+                                    <div class="form-check form-check-inline mr-2 mt-4">
+                                        <div class="checkbox">
+                                            <input type="checkbox" [(ngModel)]="isDeposit" [ngModelOptions]="{standalone: true}">
+                                        </div>
+                                        <label class="form-check-label" for="male">Đã hoàn cọc cho cư dân</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="field p-fluid w-100 inv-input">
+                                <label for="">Tiền cọc
+                                    <span class="text-danger"> *</span>
+                                </label>
+                                <div class="p-inputgroup input-pay mb-3">
+                                    <input type="text" pInputText formControlName="PriceDeposit" placeholder="Tiền phụ phí" currencyMask 
+                                            [options]="{ prefix: '', thousands: '.', precision: 0 }" />
+                                    <span class="input-group-text">VNĐ</span>
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="col-4">
+                            <div class="field p-fluid w-100 inv-input">
+                                <label for="">Tiền sân
+                                    <span class="text-danger"> *</span>
+                                </label>
+                                <div class="p-inputgroup input-pay mb-3">
+                                    <input type="text" pInputText formControlName="PricePay" placeholder="Tiền phụ phí" currencyMask 
+                                            [options]="{ prefix: '', thousands: '.', precision: 0 }" />
+                                    <span class="input-group-text">VNĐ</span>
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="col-4">
+                            <div class="field p-fluid w-100 inv-input">
+                                <label for="">Tiền phụ phí
+                                    <span class="text-danger"> *</span>
+                                </label>
+                                <div class="p-inputgroup input-pay mb-3">
+                                    <input type="text" pInputText formControlName="PriceFee" placeholder="Tiền phụ phí" currencyMask 
+                                            [options]="{ prefix: '', thousands: '.', precision: 0 }" />
+                                    <span class="input-group-text">VNĐ</span>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="col-12 text-flex">
+                            <span>Số tiền cần thanh toán để đặt sân: </span>
+                            <p> {{formattedPrice}} </p>
+                            <span>(
+                                <span *ngIf="!DepositName && !YardName && !FeeName"> Tiền cọc, Tiền sân, Tiền phụ phí</span>
+                                <span *ngIf="DepositName"> {{DepositName}}</span>
+                                <span *ngIf="YardName">, {{YardName}}</span>
+                                <span *ngIf="FeeName">, {{FeeName}}</span> )
+                            </span>
+                        </div> 
+                        <div class="col-12">
+                            <h4>Danh sách thanh toán</h4>
+                        </div> 
+                        <div class="col-12">
+                            <div class="btnAction_Project btn-pay">
+                                <button  type="button" class="btn btn-outline-primary" (click)="onPayPrice()">
+                                    <span > Thêm mới thanh toán</span>
+                                </button>
+                            </div>
+                        </div> 
+                        <div class="col-12">
+                            <p-table 
+                                [value]="lstPay"
+                                [rows]="10"
+                                [tableStyle]="{ 'min-width': '50rem' }"
+                                [loading]="isLoadingTable"
+                                [scrollable]="true"
+                                scrollDirection="horizontal">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="width: 10%">Stt</th>
+                                        <th style="width: 20%">Ngày thanh toán</th>
+                                        <th style="width: 20%">Số tiền thanh toán</th>
+                                        <th style="width: 20%">Hình thức thanh toán</th>
+                                        <th style="width: 20%">Nội dung thanh toán</th>
+                                        <th style="width: 10%">Hành động</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                                    <tr>
+                                        <td>{{ rowIndex + 1}}</td>
+                                        <td>{{ item.RegistrationEnd | date:'dd/MM/yyyy' }}</td>
+                                        <td>{{ item.Name }}</td>
+                                        <td>{{ item.Email}}</td>
+                                        <td>{{ item.Phone }}</td>
+                                        <td> 
+                                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" 
+                                            pTooltip="Cập nhật thông tin cấu hình đặt sân" ></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr class="text-center">
+                                                <td colspan="9" class="text-center text-danger">Không có dữ liệu.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div> 
+                        <div class="col-12">
+                            <div class="field p-fluid">
+                                <label for="txtNotePolicy">Dành cho bộ phận an ninh </label>
+                                <small *ngIf="fBooking.controls['NotePolicy'].hasError('required') && fBooking.controls['NotePolicy'].dirty" class="p-invalid text-danger">Nhập ghi chú.</small>                   
+                                <textarea id="txtNotePolicy" class="w-100" rows="5" pInputTextarea formControlName="NotePolicy" placeholder="Ghi chú"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="field p-fluid">
+                                <label for="txtNoteConfirm">Phản hồi từ BQL đối với cư dân </label>
+                                <small *ngIf="fBooking.controls['NoteConfirm'].hasError('required') && fBooking.controls['NoteConfirm'].dirty" class="p-invalid text-danger">Nhập ghi chú.</small>                   
+                                <textarea id="txtNoteConfirm" class="w-100" rows="5" pInputTextarea formControlName="NoteConfirm" placeholder="Ghi chú"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12" *ngIf="disableEvaluate">
+                            <div class="field p-fluid">
+                                <div class="grid-booking">
+                                    <h5 for="txtOrderStatus">Đánh giá của cư dân</h5>
+                                    <div class="displayflex gr-re mt-1 mb-1" >
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="col-12 mt-2" *ngIf="disableEvaluate">
+                            <div class="field p-fluid">
+                                <div class="single-booking">
+                                    <h5 for="txtOrderStatus">Chi tiết đơn hủy</h5>
+                                    <div class="displayflex gr-re mt-1 mb-1" >
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>  
+                </div>        
+                <div class="col-12 p_float_right mt-4">
+                    <button *ngIf="id" pButton pRipple type="button" label="Nhật ký đơn" class="p-button-success mr-3" (click)="onCancellationLog()"></button>
+                    <button *ngIf="id" pButton pRipple type="button" label="Hủy đơn" class="p-button-warning mr-3" (click)="onCancelRegistration()"></button>
+                    <button pButton pRipple type="button" label="Quay lại" class="p-button-outlined p-button-secondary mr-3" (click)="onBack($event)"></button>
+                    <p-button label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+<p-toast></p-toast>

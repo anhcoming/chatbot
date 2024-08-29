@@ -1,0 +1,48 @@
+<ng-container>
+    <p-table 
+    [value]="lstConfigCardDetail"
+    [paginator]="false"
+    responsiveLayout="stack"
+    [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 3%" class="border-right-1">
+                Stt
+            </th>
+            <th class="border-right-1  diagonal-header-table">
+                <div>
+                    <span class="bottom">Tên kiểu thẻ</span>
+                    <span class="top">Loại thẻ</span>
+                    <div class="line"></div>
+                </div>
+            </th>
+            <th class="text-center" *ngFor="let type_card of lstTypeCard"> {{type_card.Name}}</th>
+            <th class="border-left-1" style="width: 8%">Tích hợp 1 - N</th>
+            <th class="border-left-1" style="width: 30%">Mô tả chi tiết</th>
+            <th class="border-left-1" style="width: 8%">Thao tác</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-cfCardDetail let-rowIndex="rowIndex">
+        <tr>
+            <td class="border-right-1">{{ rowIndex + 1 }}</td>
+            <td class="border-right-1">
+                <input type="text" placeholder="Tên kiểu thẻ" pInputText class="p-invalid w-100" [(ngModel)]="cfCardDetail.Name">
+            </td>
+            <ng-container>
+                <td class="text-center" *ngFor="let type_card of lstTypeCard; let j = index">
+                    <p-checkbox [name]="'txtCheckBoxTypeCard' + j" [value]="type_card.Id" label="" [checked]="cfCardDetail.TypeCardIds[j] === type_card.Id" [(ngModel)]="cfCardDetail.TypeCardIds" (ngModelChange)="onChangeCheck($event)"></p-checkbox>
+                </td>
+            </ng-container>
+            <td class="border-left-1 text-center">
+                <p-checkbox [name]="'txtCheckBoxIntegratedAll' + j" binary="true" label="" [(ngModel)]="cfCardDetail.IsIntegratedAll"></p-checkbox>
+            </td>
+            <td class="border-left-1">
+                <input type="text" placeholder="Ghi chú" pInputText class="p-invalid w-100" [(ngModel)]="cfCardDetail.Description">
+            </td>
+            <td class="border-left-1  text-center">
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(rowIndex)"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</ng-container>

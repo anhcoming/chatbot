@@ -1,0 +1,122 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fContacts">
+            <h3 class="mg-0">
+                {{ !(id > 0) ? 'Thêm mới danh bạ khu dân cư' : 'Cập nhật danh bạ khu dân cư' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtNameContacts">Người phụ trách</label>
+                        <span class="text-danger">*</span>
+                        <input id="txtNameContacts" type="text" pInputText formControlName="Name" minlength="6" maxlength="150" required>
+                    </div>
+                    <small *ngIf="fContacts.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên hiển thị phải tối thiểu 6 ký tự.</small>
+                    <small *ngIf="fContacts.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên hiển thị phải tối đa 150 ký tự.</small>
+                    <small *ngIf="fContacts.controls['Name'].hasError('required') && fContacts.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập Tên hiển thị.</small>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Số điện thoại</label>
+                        <span class="text-danger">*</span>
+                        <input id="txtPhone" type="tel" pattern="[0-9\s]*" minlength="10" maxlength="12" required [(ngModel)]="text" pInputText formControlName="Phone">
+                    </div>
+                    <small *ngIf="fContacts.controls['Phone'].hasError('minlength')" class="p-invalid text-danger">Số điện thoại không hợp lệ.</small>
+                    <small *ngIf="fContacts.controls['Phone'].hasError('maxlength')" class="p-invalid text-danger">Số điện thoại không được quá 12 số.</small>
+                    <small *ngIf="fContacts.controls['Phone'].hasError('pattern')" class="p-invalid text-danger">Số điện thoại không được nhập chữ</small>
+                    <small *ngIf="fContacts.controls['Phone'].hasError('required') && fContacts.controls['Phone'].dirty" class="p-invalid text-danger">Vui lòng nhập số điện thoại.</small>
+                </div>
+                <div class="col-6">
+                    <label for="Icon" class="form-label">Ảnh đính kèm</label>
+                    <input  formControlName="Icon"  class="form-control no-bor" type="file" id="Icon" (change)="onFileSelected($event)">
+                    <div>
+                        <img [src]="uploadedImageUrl" class="img-thumbnail" [style.display]="isImageSelected ? 'block' : 'none'">
+                        <i class="fa fa-times-circle del-img" aria-hidden="true" (click)="Imagenull()" [style.display]="isImageSelected ? 'block' : 'none'"></i>
+                      </div>
+                </div>
+                <div class="col-12">
+                    <h5>Chọn khu đô thị <span class="text-danger"> *</span></h5>
+                    <div class="grid" formArrayName="listProjectMaps">
+                        <div class="col-3 mt-3" *ngFor="let project of lstProject;let i = index" >
+                            <div class="flex align-items-center">
+                                <div class="checkbox">
+                                    <input type="checkbox" [value]="project.name"  [(ngModel)]="project.check"  (change)="onSelectTower(project.Id)" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> {{ project.Name }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div *ngIf="fNotebook.controls['ListProject'].errors && fNotebook.controls['ListProject'].touched">
+                            Vui lòng chọn ít nhất 1 khu đô thị.
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-12 mg-t-2">
+                    <div class="field p-fluid">
+                        <div class="displayflex">
+                            <h5>Chọn tòa nhà <span class="text-danger"> *</span></h5>
+                            <!-- <i class="color-i" *ngIf="!isProjectSelect">Vui lòng chọn Khu đô thị</i> -->
+                            <div class="displayflex" *ngIf="fContacts.get('listProjectMaps') as FormArray">
+                                <div class="checkbox">
+                                    <input type="checkbox" [(ngModel)]="allChecked" (change)="toggleAll()" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> Chọn tất cả</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="displayflex">
+                            <div *ngFor="let tower of lstTower" class="checkbox">
+                                <input type="checkbox"  [(ngModel)]="tower.checked"  (change)="checkAll()" [ngModelOptions]="{standalone: true}">
+                                <div>
+                                    <span> {{ tower.Name }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <small *ngIf="fNews.controls['TowerId'].hasError('required') && fNews.controls['TowerId'].dirty" class="p-invalid text-danger">Vui lòng chọn tòa nhà.</small>                         -->
+                    </div>
+                </div>
+                <div class="col-12 mg-t-2">
+                    <div class="field p-fluid">
+                        <div class="displayflex">
+                            <h5>Chọn vị trí <span class="text-danger"> *</span></h5>
+                            <div class="displayflex">
+                                <div class="checkbox">
+                                    <input type="checkbox" [(ngModel)]="allChecked2" (change)="toggleAll2()" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> Chọn tất cả</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="displayflex">
+                            <div *ngFor="let zone of lstZone" class="checkbox" formArrayName="listZoneMaps">
+                                <input type="checkbox"  [(ngModel)]="zone.checked"  (change)="checkAll2()" [ngModelOptions]="{standalone: true}">
+                                <div>
+                                    <span> {{ zone.Name }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <small *ngIf="fNews.controls['TowerId'].hasError('required') && fNews.controls['TowerId'].dirty" class="p-invalid text-danger">Vui lòng chọn tòa nhà.</small>                         -->
+                    </div>
+                </div>
+
+                <div class="col-12 p_float_right">
+                    <p-confirmDialog class="custom-toast"></p-confirmDialog>
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'  
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<!-- <p-confirmDialog class="custom-toast"></p-confirmDialog> -->
+
+
+
+

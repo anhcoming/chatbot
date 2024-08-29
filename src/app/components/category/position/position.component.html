@@ -1,0 +1,94 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div class="textFilterPos">
+                <h4 class="mg-l-9">Danh sách chức vụ</h4>
+
+                <section class="FilterProject">
+                    <div class="addProjectList btn-options">
+                        <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/category/position/create"></button>
+                    </div>
+                </section>
+            </div>
+            <div class="grid formgrid center-form-inpos" [formGroup]="fPosition">
+                <!-- <div class="field p-fluid center-text-inpos">
+                    <p-dropdown
+                        [options]="lstProject"
+                        placeholder="Khu đô thị"
+                        emptyMessage="Không có dữ liệu."
+                        [showClear]="true"
+                        formControlName="ProjectId"
+                        optionLabel="Name"
+                        optionValue="Id"
+                        (onChange)="onSelect($event)"
+                    >
+                    </p-dropdown>
+                </div> -->
+                <div class="formSearchText formsearch-posi">
+                    <input type="text"  placeholder="Tìm kiếm theo mã, tên chức vụ... " name="searchProject" [(ngModel)]="search" 
+                    (keyup.Enter)="onSearch($event)" [ngModelOptions]="{standalone: true}" (keyup)="isInputEmpty = search === ''" value="" class="StextSingle_Project">
+                    <button class="iconbtnSearch"  *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10" style="font-size: 1rem" (click)="onClearInput()"></span></button>
+                </div>
+            </div>
+            <p-table
+                [value]="lstPosition"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã chức vụ</th>
+                        <th>Tên chức vụ</th>
+                        <!-- <th>Khu đô thị</th> -->
+                        <th>Cấp độ</th>
+                        <th>Nhận thông báo đầu tiên</th>
+                        <th class="min-w-90">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template
+                    pTemplate="body"
+                    let-position
+                    let-rowIndex="rowIndex"
+                >
+                    <tr>
+                        <td>
+                            {{ rowIndex + 1 }}
+                        </td>
+                        <td>{{ position.Code }}</td>
+                        <td>{{ position.Name }}</td>
+                        <!-- <td>{{ position.Name }}</td> -->
+                        <td>{{ position.LevelId }}</td>
+                        <td><input class="hlight-ckb" type="checkbox" id="checkbox" [(ngModel)]="position.IsNotification" [ngModelOptions]="{standalone: true}" disabled="true"/></td>
+                        <td>
+                            <button
+                                pButton
+                                pRipple
+                                icon="pi pi-pencil"
+                                class="p-button-rounded p-button-success mr-2"
+                                routerLink="/category/position/update/{{position.Id}}"></button>
+                            <button
+                                pButton
+                                pRipple
+                                icon="pi pi-trash"
+                                class="p-button-rounded p-button-warning"
+                                (click)="deletePosition(position.Id, rowIndex)"
+                            ></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                                 <td colspan="7" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

@@ -1,0 +1,157 @@
+<div class="grid">
+    <div class="col-12">
+        <h3>
+            {{ !(id > 0) ? 'Thêm mới cấu hình đặt sân' : 'Cập nhật cấu hình đặt sân' }}
+        </h3>
+        <div class="card" [formGroup]="fBooking">
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <h3 class="mg-0"><p class="pi pi-briefcase"></p> Thông tin cấu hình</h3>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="lstProject" 
+                            placeholder="Khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ProjectId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            (onChange)="getListTower($event)">
+                        </p-dropdown>
+                        <small *ngIf="fBooking.controls['ProjectId'].hasError('required') && fBooking.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn Khu đô thị.</small>                   
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Trạng thái  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="isStatus" 
+                            placeholder="Chọn trạng thái" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="Status" 
+                            optionLabel="label" 
+                            optionValue="value">
+                        </p-dropdown>
+                        <small *ngIf="fBooking.controls['Status'].hasError('required') && fBooking.controls['Status'].dirty" class="p-invalid text-danger">Vui lòng chọn Trạng thái.</small>                   
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div class="displayflex">
+                            <label for="txtDistrict" class="w-15">Tòa nhà  <span class="text-danger"> *</span></label>
+                            <i class="color-i" *ngIf="!fBooking.get('ProjectId').value">Vui lòng chọn Khu đô thị</i>
+                            <div class="displayflex" *ngIf="fBooking.get('ProjectId').value">
+                                <div class="checkbox">
+                                    <input type="checkbox" [(ngModel)]="allChecked" (change)="toggleAll()" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> Chọn tất cả</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="displayflex" >
+                            <div *ngFor="let tower of lstTower" class="checkbox">
+                                <input type="checkbox" [value]="tower.name" [(ngModel)]="tower.checked"  (change)="checkAll()" [ngModelOptions]="{standalone: true}">
+                                <div>
+                                    <span> {{ tower.Name }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <small *ngIf="fBooking.controls['listTowerMaps'].dirty" class="p-invalid text-danger">Vui lòng chọn Tòa nhà.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên cấu hình 
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name">
+                        <small *ngIf="fBooking.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên dự án phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fBooking.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên dự án chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fBooking.controls['Name'].hasError('required') && fBooking.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập Tên cấu hình Email.</small> 
+                    </div>
+                </div>            
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtNote">Mô tả chi tiết
+                            <span class=""></span>
+                        </label>
+                        <input id="txtNote" type="text" pInputText formControlName="Note">
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h3><p class="pi pi-briefcase"></p>  Cấu hình đặt sân</h3>
+                </div>
+                <div class="col-12">
+                    <section class="FilterProject">
+                        <div class="textFilterProj">
+                            <div class="addProjectList btn-options">
+                                <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" (click)="onOpenDialog( ida, id, item )"></button>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="col-12">
+                        <p-table 
+                            [value]="listYardSettings"
+                            [paginator]="true"
+                            [rows]="10"
+                            [showCurrentPageReport]="true"
+                            [tableStyle]="{ 'min-width': '50rem' }"
+                            currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                            [rowsPerPageOptions]="[10, 25, 50]">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 10%;">Stt</th>
+                                    <th style="width: 20%;">Loại sân</th>
+                                    <th style="width: 40%;">Loại dịch vụ</th>
+                                    <th style="width: 30%;">Trạng thái</th>
+                                    <th class="min-w-90">Thao tác</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                                <tr>
+                                    <td>
+                                        {{ rowIndex + 1 }}
+                                    </td>
+                                    <td>{{ item.Name }}</td>
+                                    <td>{{ item.serviceType }}</td>
+                                    <td>
+                                        <ul class="p-activate">
+                                            <li *ngIf="item.Status == 1" class="p-activated"><span>{{ item.isStatus }}</span></li>
+                                            <li *ngIf="item.Status == 10" class="p-notactivated"><span>{{ item.isStatus }}</span></li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="onOpenDialog( item.Id, id , item)" ></button>
+                                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(rowIndex)"></button>
+                                        <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(apartment.Id)"></button> -->
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

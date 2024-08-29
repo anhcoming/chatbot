@@ -1,0 +1,115 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fType">
+            <h3 class="mg-0">
+                {{ !(id > 0) ? 'Thêm mới loại hình' : 'Cập nhật loại hình' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên hiển thị
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name">
+                        <small *ngIf="fType.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên cấu hình phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fType.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên cấu hình chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fType.controls['Name'].hasError('required') && fType.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên cấu hình.</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Mã cấu hình
+                            <span class=""></span>
+                        </label>
+                        <input id="txtCode" type="text" [disabled]="fType.Id > 0" pInputText formControlName="Code">
+                        <small *ngIf="fType.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã cấu hình phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fType.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã cấu hình chỉ được tối đa 50 kí tự.</small>
+                        <small *ngIf="fType.controls['Code'].hasError('required') && fType.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập mã cấu hình.</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-check">
+                        <input formControlName="IsUpdate" class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
+                        <label class="form-check-label" for="flexCheckIndeterminate">
+                          Được sửa thuộc tính loại hình sau khi thêm mới
+                        </label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-check">
+                      <input formControlName="IsDelete" class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
+                      <label class="form-check-label" for="flexCheckIndeterminate">
+                        Được xóa thuộc tính loại hình sau khi thêm mới
+                      </label>
+                    </div>
+                </div>
+                <div class="col-2 p_float_left">
+                    <div class="field p-fluid">
+                        <p-button label="Thêm thuộc tính" *ngIf="id > 0" icon='pi pi-plus' [loading]="loading[0]" 
+                            (onClick)="onOpenConfigDialog(id)">
+                        </p-button>
+                        <p-button label="Thêm thuộc tính" *ngIf="!id" icon='pi pi-plus' [loading]="loading[0]" 
+                            (onClick)="onOpenConfigDialog(id)">
+                        </p-button>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <p-table 
+                        [value]="listAttributeItem"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        [loading]="isLoadingTable">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 5%">Stt</th>
+                                <th style="width: 20%">Tên hiển thị</th>
+                                <th style="width: 15%">Mã cấu hình</th>
+                                <th style="width: 20%">Được sử dụng</th>
+                                <th style="width: 15%">Thao tác</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-typeattribute let-rowIndex="rowIndex">
+                            <tr>
+                                <td>
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td>{{ typeattribute.Name }}</td>            
+                                <td>{{ typeattribute.Code}}</td>
+                                <td class="text-center">
+                                    <span *ngIf="typeattribute.Status == 10" tooltip="Không được sử dụng"><i
+                                        class="fa fa-check-circle-o is-delete" aria-hidden="true"></i></span>
+                                    <span *ngIf="typeattribute.Status == 1" tooltip="Được sử dụng"><i
+                                        class="fa fa-check-circle-o is-update"
+                                        aria-hidden="true"></i></span>
+                                  </td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (onClick)="onOpenConfigDialog(id)" ></button>
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(rowIndex)"></button>
+                                    <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(lstTypeAttributeItem.Id)"></button> -->
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="col-12 p_float_right mt-4">
+                    <p-toast></p-toast>
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                        
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'  
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+
+

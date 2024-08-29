@@ -1,0 +1,319 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    /* Chiếm toàn bộ chiều cao của màn hình */
+    transition: width 0.2s ease;
+    /* Hiệu ứng chuyển tiếp cho độ rộng của sidebar */
+    width: 25rem;
+    /* Độ rộng mặc định của sidebar */
+    background-color: var(--bg-side-bar);
+    font-family: Roboto;
+
+    @media (max-width: 767px) {
+        #toggle-bigSide {
+            display: none;
+        }
+
+        #toggle-logo,
+        #close-popup {
+            display: block;
+            color:var(--text-color);
+        }
+
+        .dot {
+            display: block !important;
+        }
+    }
+
+    @media (min-width: 767px) {
+
+        #toggle-logo,
+        #close-popup {
+            display: none;
+        }
+    }
+
+
+    hr {
+        border-top: 1px solid var(--color-hr);
+        margin: 0 0 1rem 0;
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+
+
+}
+
+#delete-options {
+    ::ng-deep.p-dialog {
+        border-radius: 19px;
+
+        .p-dialog-header {
+            color: var(--text-color-blue-black);
+            border-radius: 19px 19px 0 0;
+            font-size: 1.5rem;
+            background: var(--bg-popup);
+        }
+
+        .p-dialog-content {
+            font-size: 1rem;
+            justify-content: start !important;
+            border-radius: 0 0 19px 19px;
+            background: var(--bg-popup);
+            color: var(--text-color);
+            padding-top: 0;
+        }
+    }
+}
+
+.sidebar.closed {
+    width: 80px;
+    /* Độ rộng khi sidebar bị thu nhỏ */
+}
+
+.sticky-top,
+.bottom {
+    background-color: var(--bg-side-bar);
+    /* Màu nền cho phần đầu và chân của sidebar */
+    height: 5rem;
+    /* Chiều cao cho phần đầu và chân của sidebar */
+    z-index: 10 !important;
+}
+
+.pin-icon {
+    fill: var(--icon-edit);
+    color: var(--icon-edit);
+}
+
+.content {
+    background-color: var(--bg-side-bar);
+    /* Màu nền cho phần đầu và chân của sidebar */
+    flex: 1;
+    /* Chiếm toàn bộ không gian còn lại giữa phần đầu và chân */
+    overflow-y: auto;
+    /* Thêm thanh cuộn dọc nếu nội dung vượt quá chiều cao */
+    padding: 0 1rem 1rem 1rem;
+
+    /* Khoảng cách xung quanh nội dung */
+    .btn-add {
+        background: linear-gradient(90deg, #8F61FF 0%, #4756FF 52.9%, #03C6FF 100%);
+        border-radius: 49px;
+        padding: 1rem 1.5rem;
+        font-weight: bold;
+        color: #fff;
+        font-size: 15px;
+        line-height: 20px;
+
+    }
+    .btn-add-disabled {
+        background: linear-gradient(90deg, #A9A8AD 0%, #D7D7D7 52.9%, #C6C6C6 100%);
+        border-radius: 49px;
+        padding: 1rem 1.5rem;
+        font-weight: bold;
+        color: #fff;
+        font-size: 15px;
+        line-height: 20px;
+
+    }
+
+    #mini-newchat:hover {
+        opacity: 0.8;
+    }
+
+    .sticky-top {
+        background-color: var(--bg-side-bar);
+    }
+
+    .btn-add:hover {
+        background: linear-gradient(90deg, #7953d6 0%, #404de3 52.9%, #04afe1 100%);
+    }
+
+    .pin {
+        background-color: var(--bg-pin);
+        color: var(--text-color-pin);
+        border-radius: 0.4rem 2rem 2rem 0.4rem;
+
+        .pin-option {
+            font-size: 1.2rem
+        }
+
+        .item-pin {
+            .item {
+                padding: 0.8rem 0;
+                margin: 0 1rem;
+
+                .dot {
+                    all: unset;
+                    display: none;
+                }
+
+                div {
+                    font-size: 14px;
+                    font-weight: 400;
+                    line-height: 20px;
+                }
+
+                .fade-out-text {
+                    position: relative;
+                    padding-left: 10px;
+                    width: 250px;
+                    /* Độ rộng của vùng chứa văn bản */
+                    white-space: nowrap;
+                    /* Giữ văn bản trên một dòng */
+                    overflow: hidden;
+                    /* Ẩn phần văn bản thừa */
+                }
+
+                .fade-out-text::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    height: 100%;
+                    background: var(--bg-trans-hover)
+                }
+
+                .icon-button {
+                    background: none;
+                    border: none;
+                }
+
+                .dropdown-toggle::after {
+                    display: none !important;
+                }
+
+            }
+
+            .item:hover {
+                background-color: var(--bg-side-bar);
+                cursor: pointer;
+                border-radius: 0.4rem;
+
+                .dot {
+                    all: unset;
+                    display: block;
+                }
+
+                .fade-out-text::after {
+                    background: var(--bg-trans);
+                    /* Hiệu ứng mờ dần */
+                }
+            }
+
+            .active {
+                background-color: var(--bg-side-bar);
+                cursor: pointer;
+
+                .dot {
+                    all: unset;
+                }
+
+                border-radius: 0.4rem;
+
+                .fade-out-text::after {
+                    background: var(--bg-trans);
+                    /* Hiệu ứng mờ dần */
+                }
+
+            }
+        }
+
+    }
+}
+
+.cancel {
+    border-radius: 49px;
+    background-color: #DDE0EA;
+    color: #878A99;
+}
+
+.delete {
+    border-radius: 49px;
+    background-color: #EB4335;
+    color: white;
+}
+
+.text-color-blue-black {
+    color: var(--text-color-blue-black)
+}
+
+.text-option {
+    color: var(--text-option);
+}
+
+::ng-deep.p-overlaypanel {
+    position: absolute;
+    margin-top: 10px ;
+    margin-left: -104px ;
+
+}
+
+@media (min-width: 550px) {
+    ::ng-deep.p-overlaypanel {
+        margin-top: -33px !important;
+        margin-left: 60px;
+    }
+}
+
+::ng-deep.p-overlaypanel:before,
+.p-overlaypanel:after {
+    display: none;
+}
+
+::ng-deep.p-overlaypanel {
+    .p-overlaypanel-content {
+        border-radius: 10px;
+        border-color: var(--popup-action);
+        background-color: var(--popup-action);
+        box-shadow: 0px 4px 14.2px 0px rgba(65, 84, 154, 0.25);
+        padding:0.5rem;
+        .dropdown-item:hover {
+            background-color: var(--bg-side-bar);
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 0.5rem 1rem;
+            clear: both;
+            font-weight: 400;
+            color: #212529;
+            text-align: inherit;
+            white-space: nowrap;
+            background-color: transparent;
+            border: 0;
+
+            span {
+                color: var(--text-option);
+            }
+        }
+
+        button:hover {
+            border-radius: 5px;
+        }
+    }
+    border-radius: 15px;
+    --overlayArrowLeft: -100000px !important;
+    border-color: var(--bg-popup);
+
+}
+/* Lớp CSS tùy chỉnh để ẩn mũi tên */
+.custom-overlay-panel .p-overlaypanel:before,
+.custom-overlay-panel .p-overlaypanel:after {
+    display: none;
+
+}

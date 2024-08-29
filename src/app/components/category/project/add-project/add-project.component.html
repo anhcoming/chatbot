@@ -1,0 +1,122 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h3 class="mg-0">
+                {{ !(projectId > 0) ? 'Thêm mới khu đô thị' : 'Cập nhật khu đô thị' }}
+            </h3>
+
+            <form class="grid formgrid" [formGroup]="fProject">
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Mã khu đô thị  <span class="text-danger"> *</span></label>
+                        <input id="txtCode" type="text" pInputText formControlName="Code" class="p-invalid">
+                        <small *ngIf="fProject.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã khu đô thị phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fProject.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã khu đô thị chỉ được tối đa 50 kí tự.</small>
+                        <small *ngIf="fProject.controls['Code'].hasError('required') && fProject.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập mã khu đô thị.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên khu đô thị 
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name" class="p-invalid">
+                        <small *ngIf="fProject.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên khu đô thị phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fProject.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên khu đô thị chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fProject.controls['Name'].hasError('required') && fProject.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên khu đô thị.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPersonContact">Người liên hệ</label>
+                        <input id="txtName" type="text" pInputText formControlName="ContactName">
+                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPhoneContact">Số điện thoại liên hệ</label>
+                        <input id="txtPhoneContact" type="text" pattern="[0-9\s]*" pInputText formControlName="ContactPhone">
+                        <small *ngIf="fProject.controls['ContactPhone'].errors?.pattern" class="p-invalid text-danger">Số điện thoại không hợp lệ.</small>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtProvince">Tỉnh/Thành Phố</label>
+                        <p-dropdown 
+                            [options]="lstProvince" 
+                            placeholder="Tỉnh/Thành Phố" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            optionLabel="Name" 
+                            optionValue="Id" 
+                            formControlName="ProvinceId" 
+                            (onChange)="onSelectDistrict($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Quận/Huyện</label>
+                        <p-dropdown 
+                            [options]="lstDistrict" 
+                            placeholder="Quận/Huyện" 
+                            emptyMessage='Vui lòng chọn Tỉnh/Thành phố.'
+                            [showClear]="true" 
+                            optionLabel="Name" 
+                            optionValue="Id" 
+                            formControlName="DistrictId" 
+                            (onChange)="onSelectWards($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtWard">Phường Xã</label>
+                        <p-dropdown 
+                            [options]="lstWard" 
+                            placeholder="Phường/Xã" 
+                            emptyMessage="Vui lòng chọn Quận/Huyện."
+                            [showClear]="true" 
+                            optionLabel="Name" 
+                            optionValue="Id" 
+                            formControlName="WardId">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Địa chỉ</label>
+                        <input id="txtAddress" type="text" pInputText formControlName="Address">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="txtImage" class="form-label">Ảnh đính kèm</label>
+                    <div class="displayflex">
+                        <div class="col-6">
+                            <input  formControlName="Image"  class="form-control no-bor" type="file" (change)="onImageSelected($event)">
+                        </div>
+                        <div class="col-6" *ngIf="fProject.get('Image').value || this.data.Image">
+                            <img [src]="uploadedImageUrl" class="img-thumbnail" [style.display]="isImageSelected ? 'block' : 'none'">
+                            <i class="fa fa-times-circle del-img proj-img" aria-hidden="true" (click)="Imagenull()"[style.display]="isImageSelected ? 'block' : 'none'"></i>
+                        </div>
+                    </div>
+                </div>     
+                <div class="col-12">
+                    <div class="field p-fluid ">
+                        <label for="txtNote">Mô tả</label>
+                        <textarea id="txtNote" rows="5" pInputTextarea formControlName="Note"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </form>
+ 
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

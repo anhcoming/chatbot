@@ -1,0 +1,37 @@
+.layout-main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+    padding: 9rem 2rem 2rem 2rem;
+    transition: margin-left $transitionDuration;
+}
+
+.layout-main {
+    flex: 1 1 auto;
+}
+
+.container-manage {
+    box-shadow: 0px 4px 18.8px 0px #4A8FCE40;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    padding: 1.5rem;
+    
+    .title {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 22px;
+        text-align: left;
+        color: var(--surface-menu);
+    }
+    .StextSingle_Project {
+        background: #FFFFFF;
+        border: 1px solid rgba(56, 85, 179, 0.42);
+        border-radius: 25px;
+        font-size: 15px;
+        padding: 17px 21px;
+    }
+    .container-button {
+        text-align: end;
+    }
+}

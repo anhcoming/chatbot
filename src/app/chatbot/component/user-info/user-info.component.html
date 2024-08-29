@@ -1,0 +1,250 @@
+<div class="web-screen px-5">
+    <div class="user-info p-5 pt-3 overflow-auto mb-5">
+        <div class="text-end edit">
+            <p class="cursor-pointer text-edit" *ngIf="!isEdit" (click)="isEdit = !isEdit">Chỉnh sửa</p>
+        </div>
+        <div class="row tag-info">
+            <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20.5" cy="20.5" r="19.5" stroke="#4285F4" stroke-width="2" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M23.4255 17.2443L28.4672 17.6818C29.3839 17.7547 29.7485 18.9006 29.0505 19.5047L25.2276 22.8172L26.3735 27.7443C26.5818 28.6401 25.613 29.3485 24.8214 28.8693L20.4985 26.2547L16.1755 28.8589C15.3839 29.3381 14.4151 28.6297 14.6235 27.7339L15.7693 22.8172L11.9464 19.5047C11.2485 18.9006 11.6235 17.7547 12.5401 17.6818L17.5714 17.2547L19.5401 12.6089C19.8943 11.7651 21.1026 11.7651 21.4568 12.6089L23.4255 17.2443ZM16.5818 26.6714L20.4985 24.3068L24.4255 26.6818L23.3839 22.2235L26.8422 19.2235L22.2797 18.8276L20.4985 14.6193L18.7276 18.8172L14.1651 19.2131L17.6235 22.2131L16.5818 26.6714Z"
+                    fill="#4285F4" />
+            </svg>
+            <div class="col-lg col-md" style="margin-left: 1.8rem;">
+                <p class="info-text">Thông tin tài khoản</p>
+
+
+                <form [formGroup]="formGroup">
+                    <div class="row" style="margin-left: 0">
+                        <div class="">
+                            <div class="blog-header">
+                                <img src="assets/imgs-chatbot/svg/avt.svg">
+                                <img class="blog-author-image" src="assets/imgs/svg/ic-edit-avt.svg">
+                            </div>
+                        </div>
+                        <div class="col-lg col-md" style="margin-left: 7.35rem;">
+                            <div class="row align-items-center mb-5">
+                                <div class="text-lable">Tài khoản:</div>
+                                <input type="text" [ngClass]="{'readonly' : !isEdit}" pInputText
+                                    style="margin-left: 8.85rem;" class="input-info col-lg col-md" disabled
+                                    formControlName="userName" />
+                            </div>
+                            <div class="row align-items-center mb-5">
+                                <div class="text-lable">Họ và tên:</div>
+                                <input type="text" [ngClass]="{'readonly' : !isEdit}" pInputText
+                                    style="margin-left: 8.86rem;" class="input-info col-lg col-md"
+                                    formControlName="fullName" />
+                            </div>
+                            <div class="row align-items-center mb-5">
+                                <div class="text-lable">Email:</div>
+                                <input type="text" [ngClass]="{'readonly' : !isEdit}" pInputText
+                                    style="margin-left: 10.92rem;" class="input-info col-lg col-md" disabled
+                                    formControlName="email" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+        <div class="row tag-info mt-6">
+            <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20.5" cy="20.5" r="19.5" stroke="#4285F4" stroke-width="2" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M24 16C24 18.21 22.21 20 20 20C17.79 20 16 18.21 16 16C16 13.79 17.79 12 20 12C22.21 12 24 13.79 24 16ZM22 16C22 14.9 21.1 14 20 14C18.9 14 18 14.9 18 16C18 17.1 18.9 18 20 18C21.1 18 22 17.1 22 16ZM20 21C17.33 21 12 22.34 12 25V27C12 27.55 12.45 28 13 28H27C27.55 28 28 27.55 28 27V25C28 22.34 22.67 21 20 21ZM14 25.01V26H26V25C25.8 24.29 22.7 23 20 23C17.3 23 14.2 24.29 14 25.01Z"
+                    fill="#4285F4" />
+            </svg>
+            <div class="col-lg col-md" style="margin-left: 1.8rem;">
+                <p class="info-text">Thông tin cá nhân</p>
+
+
+
+                <form [formGroup]="formGroup">
+                    <div class="row" style="margin-left: 0">
+                        <div style="width: 144px; height: 144px;"></div>
+                        <div class="col-lg col-md" style="margin-left: 7.35rem;">
+                            <div class="row align-items-center mb-5">
+                                <div class="text-lable">Ngày sinh:</div>
+                                <span class="text-value" *ngIf="!isEdit" style="margin-left: 8.86rem;">{{ formGroup.controls["dob"].value || '' | date: 'dd/MM/yyyy' }}</span>
+                                <div style="position: relative; margin-left: 7.5rem;" *ngIf="isEdit" class=" row col-lg col-md">
+                                    <input type="date" [ngClass]="{'readonly' : !isEdit}" pInputText
+                                        class="input-info w-full" formControlName="dob" />
+                                    <div class="svg-icon"></div>
+                                </div>
+                            </div>
+                            <div class="row align-items-center mb-5">
+                                <div class="text-lable">Giới tính:</div>
+                                <span class="text-value" *ngIf="!isEdit" style="margin-left: 9.71rem;">{{personal.sex}}</span>
+                                <div class="flex flex-wrap gap-8 row" *ngIf="isEdit" style="margin-left: 9.71rem;">
+                                    <div class="flex align-items-center">
+                                        <p-radioButton name="pizza" value="Cheese" formControlName="gender"
+                                            inputId="ingredient1" />
+                                        <label for="ingredient1" class="ml-2 mt-2 text-radio">
+                                            Nam
+                                        </label>
+                                    </div>
+                                    <div class="flex align-items-center">
+                                        <p-radioButton name="pizza" value="Mushroom" formControlName="gender"
+                                            inputId="ingredient2" />
+                                        <label for="ingredient2" class="ml-2 mt-2 text-radio">
+                                            Nữ
+                                        </label>
+                                    </div>
+                                    <div class="flex align-items-center">
+                                        <p-radioButton name="pizza" value="Pepper" formControlName="gender"
+                                            inputId="ingredient3" />
+                                        <label for="ingredient3" class="ml-2 mt-2 text-radio">
+                                            Khác
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row align-items-center mb-5">
+                                <div class="text-lable">Số điện thoại cá nhân:</div>
+                                <input type="text" [ngClass]="{'readonly' : !isEdit}" pInputText class="input-info col-lg col-md " style="margin-left: 2.78rem;"
+                                formControlName="phone" />
+                            </div>
+                            <div class="row align-items-center mb-5">
+                                <div class="text-lable">Địa chỉ:</div>
+                                <input type="text" [ngClass]="{'readonly' : !isEdit}" pInputText class="input-info col-lg col-md" style="margin-left: 10.28rem;"
+                                formControlName="address" />
+                            </div>
+                            <div class="row align-items-center mb-5">
+                                <div class="text-lable">Phòng ban:</div>
+                                <input type="text" [ngClass]="{'readonly' : !isEdit}" pInputText class="input-info col-lg col-md" style="margin-left: 8.28rem;"
+                                    disabled formControlName="department" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="flex justify-content-end py-4 " *ngIf="isEdit">
+            <div class="cancel flex px-5 py-3 align-item-center gap-3 cursor-pointer" (click)="cancelEditInfo()">
+                <div class="flex align-item-center">
+                    <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.89951 2.92873C7.80274 -0.974496 14.1384 -0.974496 18.0416 2.92873C21.9449 6.83196 21.9449 13.1676 18.0416 17.0709C14.1384 20.9741 7.80274 20.9741 3.89951 17.0709C-0.00371599 13.1676 -0.00371633 6.83196 3.89951 2.92873ZM10.9706 11.414L13.0919 13.5353C13.4808 13.9242 14.1172 13.9242 14.5061 13.5353C14.895 13.1464 14.895 12.51 14.5061 12.1211L12.3848 9.9998L14.5061 7.87848C14.895 7.48957 14.895 6.85318 14.5061 6.46427C14.1172 6.07536 13.4808 6.07536 13.0919 6.46427L10.9706 8.58559L8.84926 6.46427C8.46035 6.07536 7.82396 6.07536 7.43505 6.46427C7.04614 6.85318 7.04614 7.48957 7.43505 7.87848L9.55637 9.9998L7.43505 12.1211C7.04614 12.51 7.04614 13.1464 7.43505 13.5353C7.82396 13.9242 8.46035 13.9242 8.84926 13.5353L10.9706 11.414Z" fill="#878A99"/>
+                    </svg>
+                </div>
+                <div>Hủy</div>
+            </div>
+            <div (click)="isEdit = !isEdit" (click)="onSubmit()" class="flex btn-save align-items-center gap-2 ml-3 cursor-pointer">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M14.59 0.59C14.21 0.21 13.7 0 13.17 0H2C0.89 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H16C17.1 18 18 17.1 18 16V4.83C18 4.3 17.79 3.79 17.41 3.42L14.59 0.59ZM9 16C7.34 16 6 14.66 6 13C6 11.34 7.34 10 9 10C10.66 10 12 11.34 12 13C12 14.66 10.66 16 9 16ZM4 6H10C11.1 6 12 5.1 12 4C12 2.9 11.1 2 10 2H4C2.9 2 2 2.9 2 4C2 5.1 2.9 6 4 6Z"
+                        fill="white" />
+                </svg>
+                <div>Lưu thay đôi</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Screen mobile -->
+<div class="mobile-screen p-3 overflow-auto" style="height:90vh">
+    <div class="container">
+        <div class="blog-header">
+            <img src="assets/imgs-chatbot/svg/avt.svg" style="border-radius: 50%;">
+            <img class="blog-author-image" src="assets/imgs/svg/ic-edit-avt.svg">
+        </div>
+    </div>
+    <div class="text-edit mt-1" *ngIf="!isEdit" (click)="isEdit = !isEdit">Chỉnh sửa</div>
+    <div class="container-info-user mt-4">
+        <div class="tag-info-mobile">
+            <div class="info-detail">
+                <span class="text-lable mb-2">Tài khoản:</span>
+                <input value="Lam222" disabled class="input-info" [ngClass]="{'readonly' : !isEdit}" />
+            </div>
+            <div class="line"></div>
+            <div class="info-detail">
+                <span class="text-lable mb-2">Họ và tên:</span>
+                <input value="Hoang Van Lam" class="input-info" [ngClass]="{'readonly' : !isEdit}" />
+            </div>
+            <div class="line"></div>
+            <div class="info-detail">
+                <span class="text-lable mb-2">Email:</span>
+                <input value="lam222@gmail.com" disabled class="input-info" [ngClass]="{'readonly' : !isEdit}" />
+            </div>
+            <div class="line"></div>
+        </div>
+    </div>
+    <div class="container-info-user mt-4">
+        <div class="tag-info-mobile">
+            <div class="info-detail">
+                <span class="text-lable mb-2">Ngày sinh:</span>
+                <span class="text-value" *ngIf="!isEdit">dd/mm/yyyy</span>
+                <div style="position: relative" *ngIf="isEdit">
+                    <input class="input-info w-full" type="date" />
+                    <div class="svg-icon"></div>
+                </div>
+
+            </div>
+            <div class="line"></div>
+            <div class="info-detail">
+                <span class="text-lable mb-2">Giới tính:</span>
+                <span class="text-value" *ngIf="!isEdit">Nam</span>
+                <div class="flex flex-wrap gap-5" *ngIf="isEdit">
+                    <div class="flex align-items-center">
+                        <p-radioButton name="pizza" value="Cheese" [(ngModel)]="ingredient" inputId="ingredient1" />
+                        <label for="ingredient1" class="ml-2 mt-2">
+                            Nam
+                        </label>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-radioButton name="pizza" value="Mushroom" [(ngModel)]="ingredient" inputId="ingredient2" />
+                        <label for="ingredient2" class="ml-2 mt-2">
+                            Nữ
+                        </label>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-radioButton name="pizza" value="Pepper" [(ngModel)]="ingredient" inputId="ingredient3" />
+                        <label for="ingredient3" class="ml-2 mt-2">
+                            Khác
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="line"></div>
+            <div class="info-detail">
+                <span class="text-lable mb-2">Số điện thoại cá nhân:</span>
+                <input value="099.999.999" class="input-info" [ngClass]="{'readonly' : !isEdit}" />
+            </div>
+            <div class="line"></div>
+            <div class="info-detail">
+                <span class="text-lable mb-2">Địa chỉ:</span>
+                <input value="Hoàng Hoa Thám" class="input-info" [ngClass]="{'readonly' : !isEdit}" />
+            </div>
+            <div class="line"></div>
+            <div class="info-detail">
+                <span class="text-lable mb-2">Phòng ban:</span>
+                <input value="Kỹ thuật" class="input-info" disabled [ngClass]="{'readonly' : !isEdit}" />
+            </div>
+            <div class="line"></div>
+            <div class="flex justify-content-center px-4 " *ngIf="isEdit">
+                <div class="cancel flex px-5 py-3 align-item-center gap-3 cursor-pointer" (click)="cancelEditInfo()">
+                    <div class="flex align-item-center">
+                        <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M3.89951 2.92873C7.80274 -0.974496 14.1384 -0.974496 18.0416 2.92873C21.9449 6.83196 21.9449 13.1676 18.0416 17.0709C14.1384 20.9741 7.80274 20.9741 3.89951 17.0709C-0.00371599 13.1676 -0.00371633 6.83196 3.89951 2.92873ZM10.9706 11.414L13.0919 13.5353C13.4808 13.9242 14.1172 13.9242 14.5061 13.5353C14.895 13.1464 14.895 12.51 14.5061 12.1211L12.3848 9.9998L14.5061 7.87848C14.895 7.48957 14.895 6.85318 14.5061 6.46427C14.1172 6.07536 13.4808 6.07536 13.0919 6.46427L10.9706 8.58559L8.84926 6.46427C8.46035 6.07536 7.82396 6.07536 7.43505 6.46427C7.04614 6.85318 7.04614 7.48957 7.43505 7.87848L9.55637 9.9998L7.43505 12.1211C7.04614 12.51 7.04614 13.1464 7.43505 13.5353C7.82396 13.9242 8.46035 13.9242 8.84926 13.5353L10.9706 11.414Z" fill="#878A99"/>
+                        </svg>
+                    </div>
+                    <div>Hủy</div>
+                </div>
+                <div (click)="isEdit = !isEdit" class="flex btn-save align-items-center gap-2 ml-3">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M14.59 0.59C14.21 0.21 13.7 0 13.17 0H2C0.89 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H16C17.1 18 18 17.1 18 16V4.83C18 4.3 17.79 3.79 17.41 3.42L14.59 0.59ZM9 16C7.34 16 6 14.66 6 13C6 11.34 7.34 10 9 10C10.66 10 12 11.34 12 13C12 14.66 10.66 16 9 16ZM4 6H10C11.1 6 12 5.1 12 4C12 2.9 11.1 2 10 2H4C2.9 2 2 2.9 2 4C2 5.1 2.9 6 4 6Z"
+                              fill="white" />
+                    </svg>
+                    <div>Lưu thay đôi</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-toast></p-toast>

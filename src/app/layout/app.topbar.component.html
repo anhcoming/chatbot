@@ -1,0 +1,48 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="">
+        <img src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo_shortcut' : 'logo_side_bar'}}.png"
+            alt="logo">
+        <!-- <span>SAKAI</span> -->
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <!-- <i class="pi pi-align-left"></i> -->
+        <img src="assets/imgs/svg/ic-collapse-menu.svg" />
+    </button>
+    <div #topbarmenutime class="topbar-menu-time">
+        <div class="present-time">
+            <label class="font-topbar" for="">
+                {{this.currentDate ? (this.currentDate | date: 'HH:mm:ss') : '-' }}
+            </label>
+        </div>
+        <div class="present-date">
+            <label class="font-topbar" for="">
+                {{nameDay}}, {{getDate}} tháng {{getMonth}} năm {{getFullYear}}
+            </label>
+        </div>
+    </div>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button"
+        (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu layout-user togg-btn"
+        [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <button type="button" class="p-link layout-user-profile align-items-center" (click)="menu.toggle($event)">
+            <span class="text-user">
+                {{userInfo?.fullName}}
+            </span>
+            <div class="bgr-avt">
+                <img src="http://i-apigw.cnttvietnam.com.vn/uploads/images/{{this.Avata}}">
+            </div>
+        </button>
+        <p-tieredMenu #menu [model]="menuItems" [popup]="true"></p-tieredMenu>
+    </div>
+
+    <div class="layout-noti">
+        <img src="assets/imgs/svg/ic-bell.svg" />
+        <span class="bagde">10</span>
+    </div>
+
+</div>

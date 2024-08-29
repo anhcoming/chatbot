@@ -1,0 +1,114 @@
+<div class="container-manage">
+    <form [formGroup]="fFunction">
+        <span class="title"><img src="assets/imgs/svg/ic-title-screen.svg" class="mr-3" />{{ !(funcId > 0) ? 'Thêm mới nhóm chủ đề' : 'Cập nhật nhóm chủ đề' }}</span>
+        <div class="grid formgrid  mt-3">
+            <div class="col-lg-6 col-sm-12">
+                <div class="field p-fluid">
+                    <label for="txtCode" class="text-label">Mã nhóm chủ đề
+                        <span class="text-danger"> *</span>
+                    </label>
+                    <input id="txtCode" type="text" pInputText formControlName="Code" class="form-input">
+                    <small *ngIf="fFunction?.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã
+                        nhóm chủ đề phải tối thiểu 3 kí tự.</small>
+                    <small *ngIf="fFunction?.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã
+                        nhóm chủ đề chỉ được tối đa 25 kí tự.</small>
+                    <small *ngIf="fFunction?.controls['Code'].hasError('required') && fFunction?.controls['Code'].dirty"
+                        class="p-invalid text-danger">Vui lòng nhập mã nhóm chủ đề.</small>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+                <div class="field p-fluid">
+                    <label for="txtName" class="text-label">Tên nhóm chủ đề
+                        <span class="text-danger"> *</span>
+                    </label>
+                    <input id="txtName" type="text" pInputText formControlName="Name" class="form-input">
+                    <small *ngIf="fFunction?.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên
+                        nhóm chủ đề phải tối thiểu 6 kí tự.</small>
+                    <small *ngIf="fFunction?.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên
+                        nhóm chủ đề chỉ được tối đa 150 kí tự.</small>
+                    <small *ngIf="fFunction?.controls['Name'].hasError('required') && fFunction?.controls['Name'].dirty"
+                        class="p-invalid text-danger">Vui lòng nhập tên nhóm chủ đề.</small>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-sm-12">
+                <div class="field p-fluid">
+                    <div>
+                        <label for="txtAddress" class="text-label">Chọn Model</label>
+                        <span class="text-danger"> *</span>
+
+                    </div>
+                    <p-dropdown [options]="models" formControlName="ModelId" optionLabel="name" optionValue="id"
+                        placeholder="Chọn model" />
+
+                    <small
+                        *ngIf="fFunction?.controls['ModelId'].hasError('required') && fFunction?.controls['ModelId'].dirty"
+                        class="p-invalid text-danger">Vui lòng chọn Model.</small>
+                </div>
+            </div>
+
+            <div class="col-12 mt-2">
+                <div class="field p-fluid">
+                    <div>
+                        <label for="txtAddress" class="text-label">Mô tả</label>
+                    </div>
+                    <textarea id="txtNote" class="w-100 form-input" rows="5" pInputTextarea formControlName="Note"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form name="form" class="form-custom" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+        <div>
+            <div class="infoPackage">
+                <div class="inDetailPackage">
+                    <div class="AddForm_Package">
+                        <div class="ColForm_AddPackage">    
+                            <label for="" class="text-lab">Danh sách chủ đề</label>
+                            <p-table [value]="topics" [paginator]="true" [rows]="10"
+                                [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+                                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục"
+                                [rowsPerPageOptions]="[10, 25, 50]" [loading]="isLoadingTable"
+                                [(selection)]="selectedTopics">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th class="w-15">STT</th>
+                                        <th class="w-50">Tên chủ đề</th>
+                                        <th class="text-center w-15">
+                                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-topics let-rowIndex="rowIndex">
+                                    <tr>
+                                        <td>{{ rowIndex + 1 }}</td>
+                                        <td>{{ topics.name }}</td>
+                                        <td class="text-center">
+                                            <p-tableCheckbox [value]="topics.id"></p-tableCheckbox>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="p_float_right mt-3">
+        <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="onBack($event)">
+            <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+        </button>
+        <button class="btn btn-digi" (click)="onSubmit()"><img src="assets/imgs/svg/ic-save.svg"
+                class="mr-3" />Lưu thông tin</button>
+    </div>
+</div>
+
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+<p-toast></p-toast>

@@ -1,0 +1,233 @@
+.tag-info {
+    box-shadow: 0px 4px 18.8px 0px #4A8FCE40;
+    border-radius: 29px;
+    background-color:var(--tag-info);
+}
+
+.info-text {
+    color: #405189;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.label-info {
+    color: #555555;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: left;
+    justify-content: space-evenly;
+}
+
+.value-info {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    color: #555555;
+    justify-content: space-evenly;
+
+}
+
+.label-value {
+    gap: 10rem
+}
+
+.label-value-personal {
+    gap: 5rem
+}
+
+.edit {
+    text-align: end;
+    color: #405189;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.readonly {
+    border: none
+}
+
+.btn-save {
+    background: linear-gradient(90deg, #8F61FF 0%, #4756FF 52.9%, #03C6FF 100%);
+    padding: 10px 15px;
+    border-radius: 29px;
+    color: #fff;
+}
+
+.group-input {
+    border-radius: 25px;
+    padding: 5px;
+    border: 1px solid var(--border-table);
+    background-color:var(--tag-info);
+
+    input {
+        border: none;
+        outline: none;
+        background-color:var(--tag-info);
+        color:var(--text-color);
+        border-radius:20px
+    }
+}
+
+.icon-date{
+    color:var(--text-color);
+}
+
+td{
+    color:var(--text-color-pin);
+    font-size:1rem
+}
+
+.header-table{
+    background-color:var(--header-table);
+}
+
+.table td, th {
+    border: 1px solid var(--border-table);
+}
+
+
+.text-saved {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 21.09px;
+    text-align: left;
+    color: var(--icon-edit);
+}
+
+@media (max-width: 1170px) {
+    .first-col {
+        display: none
+    }
+}
+
+@media (max-width: 767px) {
+    #web-history {
+        display: none
+    }
+    #mobile-history {
+        display: block
+    }
+    .tag-info {
+        box-shadow: none;
+        background:var(--tag-info-mobile);
+    }
+    .history-chat {
+        padding: 0 !important;
+    }
+    .group-input{
+        input{
+            background-color:var(--tag-info);
+        }
+
+    }
+}
+
+@media (min-width: 767px) {
+    #web-history {
+        display: block
+    }
+    #icon-history{
+        display: none
+    }
+    #mobile-history {
+        display: none;
+        background: #DDE0EA;
+    }
+}
+
+#mobile-history {
+    .time{
+        background: var(--label-time);
+    }
+    .title{
+        font-size: 16px;
+        font-weight: 600;
+        text-align: left;
+        color:var(--label-text);
+    }
+}
+
+.history-chat{
+    overflow-y:scroll ;
+    height: 90%;
+}
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+.dropdown-menu{
+    border-radius: 8px;
+    border-color:var(--popup-action);
+    background-color:var(--popup-action);
+    box-shadow: 0px 4px 14.2px 0px rgba(65, 84, 154, 0.25);
+    .dropdown-item:hover{
+        background-color: var(--bg-side-bar);
+    }
+    button{
+        padding:5px 0px 5px 20px;
+        span{
+            color:var(--text-option);
+        }
+    }
+}
+.dot{
+    svg{
+        circle{
+            fill:var(--pin);
+        }
+        fill:var(--text-option);
+    }
+}
+#delete-options{
+    ::ng-deep.p-dialog{
+        border-radius: 25px;
+        border-color: var(--user-chat);
+        .p-dialog-header {
+            color:var(--text-color-blue-black);
+            border-radius: 19px 19px 0 0;
+            font-size: 1.5rem;
+            background:var(--bg-popup);
+        }
+        .p-dialog-content {
+            font-size: 1rem;
+            justify-content: start !important;
+            border-radius:  0 0 19px 19px;
+            background:var(--bg-popup);
+            color:var(--text-color);
+            padding-top: 0;
+            div{
+                .cancel{
+                    border-radius:49px;
+                    background-color:#DDE0EA;
+                    color:#878A99;
+                }
+
+                .delete{
+                    border-radius:49px;
+                    background-color:#EB4335;
+                    color:white;
+                }
+            }
+
+        }
+
+    }
+
+}
+
+.svg-icon{
+    width: 17px;
+    background-color: var(--bg-calendar);
+    mask: url(/assets/imgs-chatbot/svg/ic-calendar.svg) no-repeat center;
+}
+

@@ -1,0 +1,9 @@
+{
+    "/api": {
+      "target": "https://qln.cnttvietnam.com.vn/",
+      "secure": false,
+      "changeOrigin": true
+    }
+  }
+  
+  

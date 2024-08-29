@@ -1,0 +1,151 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Danh sách khách hàng nội bộ</h4>
+            <div class="displayflex">
+                <div class="textFilterProj w-30">
+                    <span>Tìm kiếm</span>
+                    <div class="formSearchText">
+                        <input type="text" placeholder="Tìm kiếm theo mã, tên tòa nhà... " name="searchProject" [(ngModel)]="search" 
+                        (keyup.Enter)="onSearch($event)" (keyup)="isInputEmpty = search === ''" value="" class="StextSingle_Project">
+                        <button class="iconbtnSearch"  *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10" style="font-size: 1rem" (click)="onClearInput()"></span></button>
+                    </div>   
+                </div>  
+                <div class="displayflex formgrid w-70 mt-2 " [formGroup]="fSearch">
+                    <div class="field p-fluid center-text-input w-25">
+                        <p-dropdown
+                            [options]="lstServicePricing"
+                            placeholder="Gói dịch vụ"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="ServicePricingId"
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="onSelect($event)">
+                        </p-dropdown>
+                    </div>
+                    <div class="field p-fluid center-text-input w-25 search-time">
+                        <p-calendar type="text" id="txtDateStart" [showIcon]="true" inputId="icon"  formControlName="DateStart" placeholder="Ngày đăng ký"></p-calendar>
+                    </div>
+                    <div class="field p-fluid center-text-input w-25 search-time">
+                        <p-calendar type="text" id="txtDateEnd" [showIcon]="true" inputId="icon"  formControlName="DateEnd" placeholder="Ngày kết thúc"></p-calendar>
+                    </div>
+                    <div class="field p-fluid center-text-input w-15 search-time">
+                        <button type="button" pButton icon="pi pi-filter" label="Lọc" (click)="onSelectFilter()"></button>
+                    </div>
+                </div>
+            </div>
+            <section class="FilterProject mt-4">
+                <div class="textFilterProj">
+                    <p-toggleButton [(ngModel)]="idFrozen" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open" [onLabel]="'Thao tác'" 
+                    offLabel="Thao tác" [style]="{'width': '8rem'}"></p-toggleButton>
+                    <div class="addProjectList btn-options">
+                        <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/managerment/company/create"></button>
+                    </div>
+                    <div class="addProjectList mr-2 btn-orange absolute-btn">
+                        <button #btn type="button" pButton icon="pi pi-chevron-down" label="Hành động" (click)="menu.toggle($event)" style="width:auto"></button>
+                        <p-tieredMenu #menu [model]="menuItems" [popup]="true"></p-tieredMenu>
+                    </div>
+                    <div class="addProjectList mr-2 btn-options btn-green">
+                        <button type="button" pButton icon="pi ft-download" label="Tải xuống" ></button>
+                    </div>
+                    <div class="addProjectList mr-2 btn-options btn-yellow">
+                        <button type="button" pButton icon="ft-upload" label="Tải lên" routerLink="/category/company/upload"></button>
+                    </div>
+                    <div class="addProjectList btn-options mr-2">
+                        <button type="button" pButton icon="pi pi-refresh" label="Làm mới" (click)="btnReset()"></button>
+                    </div>
+                </div>
+            </section>
+
+            <p-table 
+                [value]="lstCompany"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable"
+                [scrollable]="true"
+                scrollDirection="horizontal"
+                [(selection)]="selectedItems"
+                (onPage)="handlePageChange($event)">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>Stt</th>
+                        <th class="min-w-100">Mã khách hàng</th>
+                        <th class="min-w-150">Tên khách hàng</th>
+                        <th class="min-w-200">Gói đăng ký</th>
+                        <th class="min-w-125">Trạng thái</th>
+                        <th class="min-w-100">Điện thoại</th>
+                        <th class="min-w-150">Email</th>
+                        <th class="min-w-100">Số căn hộ quản lý</th>
+                        <th class="min-w-125">Ngày đăng ký</th>
+                        <th class="min-w-125">Ngày hết hạn</th>
+                        <th class="min-w-125 text-center"  alignFrozen="right" pFrozenColumn [frozen]="idFrozen" [ngClass]="{'color-bg': idFrozen}">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-company let-rowIndex="rowIndex">
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="company"></p-tableCheckbox>
+                        </td>
+                        <td>{{ rowIndex + 1}}</td>
+                        <td>{{ company.Code }}</td>
+                        <td>{{ company.Name }}</td>
+                        <td>{{ company.servicePricing?.Name }}</td>
+                        <td>
+                            <ul class="p-activate">
+                                <li *ngIf="company.Status == 1" class="p-activated"><span>{{ company.isStatus }}</span></li>
+                                <li *ngIf="company.Status == 10" class="p-notactivated"><span>{{ company.isStatus }}</span></li>
+                            </ul>
+                        </td>
+                        <td>{{ company.Phone }}</td>
+                        <td>{{ company.Email}}</td>
+                        <td>{{ company.AppartmentNo }}</td>
+                        <td>{{ company.RegistrationStart | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ company.RegistrationEnd | date:'dd/MM/yyyy' }}</td>
+                        <td pFrozenColumn alignFrozen="right" [frozen]="idFrozen" [ngClass]="{'color-bg': idFrozen}"> 
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" pTooltip="Cập nhật thông tin khách hàng" 
+                                routerLink="/managerment/company/update/{{company.Id }}" ></button>
+                            <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-success mr-2" pTooltip="Xem thông tin gói dịch vụ" (click)="onOpenConfigDialog(company.Id)"></button>
+                            <button *ngIf="company?.Status == 98" pButton pRipple icon="pi pi-lock-open" pTooltip="Mở khóa tài khoản khách hàng nội bộ" 
+                                class="p-button-rounded p-toggleButton-lock p-button-info mr-2" (click)="onLockAccount(company)">
+                            </button>
+                            <button *ngIf="company?.Status == 1" pButton pRipple icon="pi pi-lock" pTooltip="Khóa tài khoản khách hàng nội bộ" 
+                                class="p-button-rounded p-toggleButton-lock p-button-warning mr-2" (click)="onLockAccount(company)">
+                            </button>
+                            <button pButton pRipple icon="pi pi-cog" class="p-button-rounded p-button-success mr-2 mt-2" pTooltip="Đổi mật khẩu" (click)="onOpenChangePassword(company.Id)"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning mr-2 mt-2" pTooltip="Xóa khách hàng" (click)="onDelete(company.Id)"></button>
+                            <button pButton pRipple icon="pi pi-power-off" class="p-button-rounded p-button-success mt-2" pTooltip="Đăng nhập bằng tài khoản khách hàng" (click)="onLogin(company.Id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                                <td colspan="9" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <!-- <div class="pagination_Project">
+                <p *ngIf="totalRecords > 0" class="Count_paged mr-4">Hiển thị <span class="numpaged onepaged">{{ (filterParram.page - 1) *
+                    filterParram.page_size + 1 }}</span> <i class="fa fa-long-arrow-right" aria-hidden="true"></i> <span
+                    class="numpaged twopaged">{{ totalRecords < filterParram.page * filterParram.page_size ? totalRecords :
+                        filterParram.page * filterParram.page_size }}</span> <i class="fa fa-ellipsis-v" aria-hidden="true"></i> <span
+                            class="numpaged totalpaged">{{ totalRecords }}</span> bản ghi</p>
+                <ngb-pagination [(collectionSize)]="totalRecords" [(page)]="filterParram.page" [(pageSize)]="filterParram.page_size" [maxSize]="5" (pageChange)="handlePageChange($event)" aria-label="Default pagination"></ngb-pagination>
+                <select [(ngModel)]="filterParram.page_size" (change)="handlePageChange($event)" name="selectNumview" class="selectNumview">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                </select> 
+            </div> -->
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

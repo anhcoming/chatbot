@@ -1,0 +1,51 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="ContractGroup">
+            <h5>
+                {{ !id ? 'Thêm mới nhóm hợp đồng' : 'Xem chi tiết nhóm hợp đồng' }}
+            </h5>
+
+            <div class="grid formgrid" >
+                <div class="col-8">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Mã nhóm hợp đồng</label>
+                        <input id="txtCode" type="text" pInputText formControlName="Code">
+                        <small *ngIf="ContractGroup.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã vị trí phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="ContractGroup.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã vị trí chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="ContractGroup.controls['Code'].hasError('required') && ContractGroup.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập mã vị trí.</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên nhóm hợp đồng
+                            <span class=""></span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name">
+                        <small *ngIf="ContractGroup.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên vị trí phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="ContractGroup.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên vị trí chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="ContractGroup.controls['Name'].hasError('required') && ContractGroup.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên vị trí.</small>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <label for="txtGroupService">Trạng thái:</label>
+                    <div class="form-check">
+                        <div class="form-check form-check-inline mr-2 mt-2">
+                            <input type="checkbox" id="checkbox" formControlName="State" [(ngModel)]="ContractGroupCheck" />
+                            <label class="form-check-label mg-l-9">Hoạt động/ Không hoạt động</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'  
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+

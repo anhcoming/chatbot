@@ -1,0 +1,77 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fTower">
+            <h3 class="mg-0">
+                {{ !( towerId > 0) ? 'Thêm mới tòa nhà' : 'Cập nhật tòa nhà' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="lstProject" 
+                            placeholder="Khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ProjectId" 
+                            optionLabel="Name"
+                            optionValue="Id">
+                        </p-dropdown>
+                        <small *ngIf="fTower.controls['ProjectId'].hasError('required') && fTower.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn khu đô thị.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Mã tòa nhà  <span class="text-danger"> *</span></label>
+                        <input id="txtCode" type="text" pInputText formControlName="Code">
+                        <small *ngIf="fTower.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Tên dự án phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fTower.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Tên dự án chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fTower.controls['Code'].hasError('required') && fTower.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập mã tòa nhà.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên hiển thị
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name">
+                        <small *ngIf="fTower.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên dự án phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fTower.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên dự án chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fTower.controls['Name'].hasError('required') && fTower.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên hiển thị.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPersonContact">Người liên hệ</label>
+                        <input id="txtName" type="text" pInputText formControlName="ContactName">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPhoneContact">Số điện thoại liên hệ</label>
+                        <input id="txtPhoneContact" type="text" pattern="[0-9\s]*" pInputText formControlName="ContactPhone">
+                        <small *ngIf="fTower.controls['ContactPhone'].errors?.pattern" class="p-invalid text-danger">Số điện thoại không hợp lệ.</small>
+                    </div>
+                </div>
+                
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAddress">Mô tả</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

@@ -1,0 +1,116 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fConfigUtilities">
+            <h3 class="mg-0">
+                {{ !(id > 0) ? 'Thêm mới cấu hình người đăng ký dịch vụ' : 'Cập nhật cấu hình người đằng ký dịch vụ' }}
+            </h3>
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="lstProject" 
+                            placeholder="Chọn Khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ProjectId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            (onChange)="getListTower($event)">
+                        </p-dropdown>
+                        <small *ngIf="fConfigUtilities.controls['ProjectId'].hasError('required') && fConfigUtilities.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn Khu đô thị.</small>                   
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Trạng thái  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="isStatus" 
+                            placeholder="Chọn trạng thái" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="Status" 
+                            optionLabel="label" 
+                            optionValue="value">
+                        </p-dropdown>
+                        <small *ngIf="fConfigUtilities.controls['Status'].hasError('required') && fConfigUtilities.controls['Status'].dirty" class="p-invalid text-danger">Vui lòng chọn Trạng thái.</small>                   
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div class="displayflex">
+                            <label for="txtDistrict" class="w-15">Tòa nhà  <span class="text-danger"> *</span></label>
+                            <i class="color-i" *ngIf="!fConfigUtilities.get('ProjectId').value">Vui lòng chọn Khu đô thị</i>
+                            <div class="displayflex" *ngIf="fConfigUtilities.get('ProjectId').value">
+                                <div class="checkbox">
+                                    <input type="checkbox" [(ngModel)]="allChecked" (change)="toggleAll()" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> Chọn tất cả</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="displayflex" >
+                            <div *ngFor="let tower of lstTower" class="checkbox">
+                                <input type="checkbox" [value]="tower.name" [(ngModel)]="tower.checked"  (change)="checkAll()" [ngModelOptions]="{standalone: true}">
+                                <div>
+                                    <span> {{ tower.Name }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <small *ngIf="fConfigUtilities.controls['listTowerMaps'].dirty" class="p-invalid text-danger">Vui lòng chọn Tòa nhà.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Tiện ích  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="listUtilities"
+                            placeholder="Chọn tiện ích" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ServiceUtilitiesId" 
+                            optionLabel="Name"
+                            optionValue="Id">
+                        </p-dropdown>                      
+                        <small *ngIf="fConfigUtilities.controls['ServiceUtilitiesId'].hasError('required') && fConfigUtilities.controls['ServiceUtilitiesId'].dirty" class="p-invalid text-danger">Vui lòng chọn Tiện ích.</small>                        
+                    </div>
+                </div>           
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Người đăng ký
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <p-multiSelect 
+                            [options]="role" 
+                            [(ngModel)]="TypeRegister" 
+                            placeholder="Chọn người đăng ký" 
+                            optionLabel="label"
+                            optionValue="value" 
+                            class="multiselect-custom" 
+                            display="chip"
+                            (onChange)="onSelectTypeRegister()"
+                            [ngModelOptions]="{standalone: true}">
+                            <ng-template let-item pTemplate="item">
+                                <div class="flex align-items-center">
+                                    <span class="ml-2">{{item.label}}</span>
+                                </div>
+                            </ng-template>
+                        </p-multiSelect>
+                        <small *ngIf="fConfigUtilities.controls['TypeRegister'].dirty" class="p-invalid text-danger">Vui lòng chọn Người đăng ký.</small> 
+                    </div>
+                </div> 
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+
+

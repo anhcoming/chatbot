@@ -1,0 +1,70 @@
+<div class="container-manage">
+    <span class="title"><img src="assets/imgs/svg/ic-title-screen.svg" class="mr-3" />Quản lý quyền</span>
+    <div class="textFilterProj mt-3 flex">
+        <div class="formSearchText w-40">
+            <input type="text" placeholder="Tìm kiếm theo mã, tên tên nhóm quyền... " name="searchProject"
+                [(ngModel)]="search" (keyup.Enter)="onSearch($event)" (keyup)="isInputEmpty = search === ''" value=""
+                class="StextSingle_Project">
+            <button class="iconbtnSearch" *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10"
+                    style="font-size: 1rem" (click)="onClearInput()"></span></button>
+        </div>
+        <div class="w-30 ml-4 mt-1" id="selectedRole">
+            <p-dropdown [options]="listRole" [(ngModel)]="selectedRole" optionLabel="name" placeholder="Chọn loại nhóm quyền" (onChange)="onSelect($event)"/>
+        </div>
+    </div>
+    <div class="container-button mt-4 mb-4">
+        <button class="btn btn-digi" routerLink="/system/function-role/create"><i
+                class="fa fa-plus-circle mr-2"></i>Thêm mới</button>
+    </div>
+    <p-table [value]="lstFunctionRole" [tableStyle]="{ 'min-width': '50rem' }" [loading]="isLoadingTable">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 5%">STT</th>
+                <th style="width: 15%">Mã quyền</th>
+                <th style="width: 30%">Tên nhóm quyền</th>
+                <th>Mô tả</th>
+                <th>Loại nhóm quyền</th>
+                <th>Thao tác</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-functionrole let-rowIndex="rowIndex">
+            <tr>
+                <td>{{ rowIndex + 1}}</td>
+                <td>{{ functionrole.code }}</td>
+                <td>{{ functionrole.name }}</td>
+                <td>{{ functionrole.note }}</td>
+                <td>{{ getTextRole(functionrole.subsystem) }}</td>
+                <td>
+                    <button class="btn" routerLink="/system/function-role/update/{{functionrole.id}}">
+                        <img src="assets/imgs/svg/ic-edit.svg" />
+                    </button>
+                    <button class="btn" (click)="onDelete(functionrole.id, rowIndex)">
+                        <img src="assets/imgs/svg/ic-remove-red.svg" /></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr class="text-center">
+                <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <p-paginator (onPageChange)="onPageChange($event)" [rows]="10" [totalRecords]="totalElements"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+        [rowsPerPageOptions]="[10, 25, 50]" />
+</div>
+
+<p-toast></p-toast>
+
+<p-dialog header="Xác nhận xóa" [modal]="true" [(visible)]="visible" [style]="{ width: '460px' }">
+    <span class="p-text-secondary block text-center title-modal">Bạn có chắc chắn muốn xóa <span
+            style="font-weight: 700;">"{{nameRole}}"</span> không?</span>
+    <div class="d-flex justify-content-center align-items-center">
+        <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="closeModal()">
+            <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+        </button>
+        <button class="btn btn-remove" (click)="confirmRemove()"><img src="assets/imgs/svg/ic-remove-circle.svg"
+                class="mr-3" />Xóa</button>
+    </div>
+</p-dialog>

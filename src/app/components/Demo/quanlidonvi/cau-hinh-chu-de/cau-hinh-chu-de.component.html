@@ -1,0 +1,118 @@
+<div class="container-manage">
+    <span class="title"><img src="assets/imgs/svg/ic-title-screen.svg" class="mr-3" />Quản lý chủ đề đơn vị: {{
+        Organization.name }}</span>
+    <div class="textFilterProj mt-3">
+        <div class="formSearchText w-40">
+            <input type="text" placeholder="Tìm kiếm theo mã, tên chủ đề... " name="searchProject" [(ngModel)]="search"
+                (keyup.Enter)="onSearch($event)" (keyup)="isInputEmpty = search === ''" value=""
+                class="StextSingle_Project">
+            <button class="iconbtnSearch" *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10"
+                    style="font-size: 1rem" (click)="onClearInput()"></span></button>
+        </div>
+    </div>
+    <div class="grid mt-2">
+        <div class="col-12">
+            <section class="FilterProject">
+                <div class="textFilterProj">
+                    <div class="button-container">
+                        <button type="button" pButton icon="pi pi-chevron-left" class="p-button-link mr-2"
+                            routerLink="/demo/quanlidonvi" label="Quay lại"></button>
+                        <div class="container-button">
+                            <button class="btn btn-digi" (click)="createTopic()"><i
+                                    class="fa fa-plus-circle mr-2"></i>Thêm mới</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <p-table [value]="listData"
+                [tableStyle]="{ 'min-width': '50rem' }" [loading]="isLoadingTable">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã chủ đề</th>
+                        <th>Tên chủ đề</th>
+                        <th>Ngày tạo</th>
+                        <th>Mô tả</th>
+                        <th class="min-w-90">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-function let-rowIndex="rowIndex">
+                    <tr>
+                        <td>{{ rowIndex + 1}}</td>
+                        <td>
+                            {{function.code}}
+                        </td>
+                        <td>
+                            {{function.name}}
+                        </td>
+                        <td>
+                            {{function.dateCreated | date: 'dd/MM/YYYY'}}
+                        </td>
+                        <td>
+                            {{function.note}}
+                        </td>
+                        <td>
+                            <button tooltipPosition="bottom" pTooltip="Chi tiết chủ đề" class="btn"
+                                routerLink="/demo/quanlichude/detail/{{ function.id }}">
+                                <img src="assets/imgs/svg/ic-setting.svg" />
+                            </button>
+                            <button tooltipPosition="bottom" pTooltip="Cập nhật" class="btn"
+                                (click)="updateTopic(function.id)">
+                                <img src="assets/imgs/svg/ic-edit.svg" />
+                            </button>
+                            <button tooltipPosition="bottom" pTooltip="Xóa" class="btn" (click)="onDelete(function)">
+                                <img src="assets/imgs/svg/ic-remove-red.svg" />
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                        <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <p-paginator (onPageChange)="onPageChange($event)" [rows]="10" [totalRecords]="totalElement"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]" />
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+<p-dialog [(visible)]="topicDialog" [style]="{ width: '450px' }" header="Thêm mới chủ đề đơn vị" [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <form [formGroup]="fGroup">
+            <div class="field">
+                <label for="code" class="text-label">Mã chủ đề</label>
+                <input type="text" pInputText id="code" formControlName="Code" class="form-input" />
+                <small *ngIf="fGroup?.controls['Code'].hasError('required') && fGroup?.controls['Name'].dirty"
+                    class="p-invalid text-danger">Vui lòng nhập mã chủ đề.</small>
+            </div>
+            <div class="field">
+                <label for="name" class="text-label">Tên chủ đề</label>
+                <input type="text" pInputText id="name" formControlName="Name" class="form-input" />
+                <small *ngIf="fGroup?.controls['Name'].hasError('required') && fGroup?.controls['Name'].dirty"
+                    class="p-invalid text-danger">Vui lòng nhập tên chủ đề.</small>
+            </div>
+
+            <div class="field">
+                <label for="note" class="text-label">Mô tả</label>
+                <textarea id="note" pInputTextarea formControlName="Note" rows="3" class="w-100 form-input">
+                        </textarea>
+            </div>
+        </form>
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="cancel()">
+                <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+            </button>
+            <button class="btn btn-digi" (click)="onSubmit()"><img src="assets/imgs/svg/ic-save.svg" class="mr-3" />Lưu
+                thông tin</button>
+        </div>
+    </ng-template>
+</p-dialog>

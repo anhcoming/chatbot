@@ -1,0 +1,65 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Quản lý phương tiện</h4>
+        </div>
+    </div>
+</div>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">            
+            <section class="FilterProject">
+                <div class="textFilterProj">
+                    <div class="addProjectList">
+                        <a href="#/config-card/card-vehicle/create" class="mg-l-9"><i class="fa fa-plus-circle"
+                            aria-hidden="true"></i> Thêm mới</a>
+                    </div>
+                </div>
+            </section>
+            <p-table 
+                [value]="lstCard"
+                [paginator]="true"
+                [rows]="filterParrams.page_size"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3%">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>Stt</th>
+                        <th>Mã phương tiện</th>
+                        <th>Tiên phương tiện</th>
+                        <th>Mô tả</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-card let-rowIndex="rowIndex">
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="card"></p-tableCheckbox>
+                        </td>
+                        <td>{{ rowIndex + 1 }}</td>
+                        <td>{{ card.Id }}</td>
+                        <td>{{ card.Name }}</td>
+                        <td>{{ card.Description }}</td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" routerLink="/config-card/card-vehicle/update/{{ card.Id }}"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(card.Id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="7">No customers found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

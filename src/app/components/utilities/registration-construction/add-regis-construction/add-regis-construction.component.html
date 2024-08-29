@@ -1,0 +1,653 @@
+
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fConstruction">
+            <h2>
+                {{ !(id > 0) ? 'Thêm mới đăng ký thi công' : 'Cập nhật đăng ký thi công' }}
+            </h2>
+
+            <div class="grid formgrid">
+                <div class="dropdown-btn">
+                    <button (click)="isContentVisible = !isContentVisible">
+                        <i class="fa fa-chevron-down"></i>
+                      </button>
+                </div>
+                <div class="col-12">
+                    <h4><i class="pi pi-exclamation-circle mr-2"></i>Thông tin cư dân đăng ký</h4>
+                </div>
+                <div class="grid" *ngIf="isContentVisible">
+                    <div class="col-6">
+                        <div class="field p-fluid">
+                            <label for="txtTower">Tòa nhà</label>
+                             <span class="text-danger"> *</span>
+                            <p-dropdown
+                                [options]="lstTower" 
+                                placeholder="Tòa nhà" 
+                                emptyMessage="Không có dữ liệu."
+                                [showClear]="true" 
+                                formControlName="TownId" 
+                                optionLabel="Name" 
+                                optionValue="Id"
+                                [filter]="true"
+                                (onChange)="selectedApartment($event)">
+                            </p-dropdown>
+                        </div>
+                        <small *ngIf="fConstruction.controls['TownId'].hasError('required') && fConstruction.controls['TownId'].dirty" class="p-invalid text-danger">Vui lòng chọn tòa nhà.</small>
+                    </div>
+                    <div class="col-6">
+                        <div class="field p-fluid">
+                            <label for="txtProject">Căn hộ</label>
+                             <span class="text-danger"> *</span>
+                            <p-dropdown
+                                [options]="lstApartment" 
+                                placeholder="Căn hộ" 
+                                emptyMessage="Không có dữ liệu."
+                                [showClear]="true" 
+                                formControlName="ApartmentId" 
+                                optionLabel="Name" 
+                                optionValue="Id"
+                                [filter]="true"
+                                (onChange)="onSelectTower($event)">
+                            </p-dropdown>
+                        </div>
+                        <small *ngIf="fConstruction.controls['ApartmentId'].hasError('required') && fConstruction.controls['ApartmentId'].dirty" class="p-invalid text-danger">Vui lòng chọn căn hộ.</small>
+                    </div>
+                    <div class="col-6">
+                        <div class="field p-fluid">
+                            <label for="txtName">Chủ hộ
+                                 <span class="text-danger">*</span>
+                            </label>
+                            <input class="disable-input" id="txtCode" type="text" pInputText formControlName="ResidentName" readonly>
+                        </div>
+                        <!-- <small *ngIf="fConstruction.controls['ResidentName'].hasError('minlength')" class="p-invalid text-danger">Tên chủ hộ phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fConstruction.controls['ResidentName'].hasError('maxlength')" class="p-invalid text-danger">Tên chủ hộ chỉ được tối đa 150 kí tự.</small> -->
+                        <small *ngIf="fConstruction.controls['ResidentName'].hasError('required') && fConstruction.controls['ResidentName'].dirty" class="p-invalid text-danger">Vui lòng nhập tên chủ hộ.</small>
+                    </div>  
+                    <div class="col-6">
+                        <div class="field p-fluid">
+                            <label for="txtPhone">Số điện thoại chủ hộ</label>
+                            <span class="text-danger">*</span>
+                            <input class="disable-input" id="txtPhone" type="tel" pattern="[0-9\s]*" minlength="10" maxlength="12" required  pInputText formControlName="Phone" readonly>
+                        </div>
+                        <small *ngIf="fConstruction.controls['Phone'].hasError('minlength')" class="p-invalid text-danger">Số điện thoại không hợp lệ.</small>
+                        <small *ngIf="fConstruction.controls['Phone'].hasError('maxlength')" class="p-invalid text-danger">Số điện thoại không được quá 12 số.</small>
+                        <small *ngIf="fConstruction.controls['Phone'].hasError('pattern')" class="p-invalid text-danger">Số điện thoại không được nhập chữ</small>
+                        <small *ngIf="fConstruction.controls['Phone'].hasError('required') && fConstruction.controls['Phone'].dirty" class="p-invalid text-danger">Vui lòng nhập số điện thoại.</small>
+                    </div>
+                    <!-- <div class="col-6">
+                        <div class="field p-fluid">
+                            <label for="txtEmail">Người đăng ký
+                                 <span class="text-danger">*</span>
+                            </label>
+                            <input id="txtEmail" type="text" pInputText formControlName="RegisterName"/>
+                        </div>
+                        <small *ngIf="fConstruction.controls['RegisterName'].hasError('minlength')" class="p-invalid text-danger">Người đăng ký phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fConstruction.controls['RegisterName'].hasError('maxlength')" class="p-invalid text-danger">Người đăng ký chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fConstruction.controls['RegisterName'].hasError('required') && fConstruction.controls['RegisterName'].dirty" class="p-invalid text-danger">Vui lòng nhập tên người đăng ký.</small>
+                    </div>   -->
+                    <div class="col-6">
+                        <div class="field p-fluid">
+                            <label for="txtTower">Người đăng ký</label>
+                             <span class="text-danger"> *</span>
+                            <p-dropdown
+                                [options]="lstRegister" 
+                                placeholder="Người đăng ký" 
+                                emptyMessage="Không có dữ liệu."
+                                [showClear]="true" 
+                                formControlName="RegisterId" 
+                                optionLabel="ResidentName" 
+                                optionValue="ResidentId"
+                                (onChange)="selectedRegister($event)">
+                            </p-dropdown>
+                        </div>
+                        <small *ngIf="fConstruction.controls['RegisterId'].hasError('required') && fConstruction.controls['RegisterId'].dirty" class="p-invalid text-danger">Vui lòng chọn người đăng ký.</small>
+                    </div>
+                    <div class="col-6">
+                        <div class="field p-fluid">
+                            <label for="txtPhone">Số điện thoại người đăng ký
+                                 <span class="text-danger"> *</span>
+                            </label>
+                            <input id="txtPhone" required pInputText formControlName="RegisterPhone">
+                            <!-- <small *ngIf="fConstruction.controls['RegisterPhone'].hasError('pattern')" class="p-invalid text-danger">Số điện thoại không được nhập chữ</small>
+                            <small *ngIf="fConstruction.controls['RegisterPhone'].hasError('minlength')" class="p-invalid text-danger">Số điện thoại không được nhỏ hơn 10 số.</small>
+                             <small *ngIf="fConstruction.controls['RegisterPhone'].hasError('maxlength')" class="p-invalid text-danger">Số điện thoại không được quá 12 số.</small> -->
+                            <small *ngIf="fConstruction.controls['RegisterPhone'].hasError('required') && fConstruction.controls['RegisterPhone'].dirty" class="p-invalid text-danger">Vui lòng nhập số điện thoại.</small> 
+                        </div>
+                    </div>      
+                </div>
+                <div class="dropdown-btn3">
+                    <button (click)="isContentVisible5 = !isContentVisible5">
+                        <i class="fa fa-chevron-down"></i>
+                      </button>
+                </div>
+                <div class="col-6">
+                    <h4><i class="pi pi-car mr-2"></i>Thông tin ủy quyền</h4>
+                </div>
+                <div class="grid gr-re" *ngIf="isContentVisible5">
+                    <div class="col-6">
+                        <div class="field p-fluid">
+                            <label for="txtName">Họ tên người được ủy quyền
+                                 <span class="text-danger"></span>
+                            </label>
+                            <input id="txtCode" type="text" pInputText formControlName="AuthorityName">
+                        </div>
+                    </div>  
+                    <div class="col-6">
+                        <div class="field p-fluid">
+                            <label for="txtPhone">Số điện thoại người được ủy quyền</label>
+                            <span class="text-danger"> </span>
+                            <!-- <input id="txtPhone" type="text" pInputText formControlName="AuthorityPhone" /> -->
+                            <p-inputMask mask="999 999-9999"  formControlName="AuthorityPhone" placeholder="999 999-9999"></p-inputMask>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="field p-fluid">
+                            <label for="txtAddress">CMND/Hộ chiếu người được ủy quyền
+                                 <span class="text-danger"> </span>
+                            </label>
+                            <!-- <input id="txtAddress" type="text" pInputText formControlName="AuthorityCard"/> -->
+                            <p-inputMask mask="999-999-999-999"  formControlName="AuthorityCard" placeholder="999-999-999-999"></p-inputMask>
+                        </div>
+                    </div>  
+                    <div class="col-12">
+                    </div>  
+                    <div class="col-6">
+                        <div class="field p-fluid p-date">
+                            <label for="txtDateStart">Thực hiện giao dịch từ ngày</label>
+                            <p-calendar id="txtDateStart" [showIcon]="true" inputId="icon" type="date" formControlName="AuthorityStart" dateFormat="dd.mm.yy"></p-calendar>
+                        </div>
+                    </div>  
+                    <div class="col-6">
+                        <div class="field p-fluid p-date">
+                            <label for="txtDateStart">Thực hiện giao dịch đến ngày</label>
+                            <p-calendar id="txtDateStart" [showIcon]="true" inputId="icon" type="date" formControlName="AuthorityEnd" dateFormat="dd.mm.yy"></p-calendar>
+                        </div>
+                    </div>  
+                    <div class="col-12">
+                        <div class="field p-fluid">
+                            <div>
+                                <label for="txtFeedback">Nội dung ủy quyền</label>
+                            </div>
+                            <textarea id="txtFeedback" class="w-100" rows="5" pInputTextarea formControlName="AuthorityNote"></textarea>
+                        </div>
+                    </div>   
+                </div>
+                <div class="dropdown-btn2">
+                    <button (click)="isContentVisible2 = !isContentVisible2">
+                        <i class="fa fa-chevron-down"></i>
+                      </button>
+                </div>
+                <div class="col-12">
+                    <h4><i class="pi pi-pencil mr-2"></i>Danh sách đơn vị thi công</h4>
+                </div>
+                    <div class="grid gr-re" *ngIf="isContentVisible2">
+                        <div class="col-12">       
+                            <button *ngIf="isInputDisabled==false" (click)="onOpenUnitsDialog(id)" type="button" class="btn btn-warning mg-t-2">Thêm đơn vị thi công</button>
+                        </div>
+                        <div class="col-12">
+                            <p-table 
+                            [value]="listOrderUnits"
+                            [paginator]="false"
+                            responsiveLayout="stack"
+                            [tableStyle]="{ 'min-width': '50rem' }">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 3%" class="border-right-1">
+                                        Stt
+                                    </th>
+                                    <th class="text-center">Đơn vị thi công</th>
+                                    <th class="text-center">Người đại diện liên hệ</th>
+                                    <th class="text-center" style="width: 20%">Số điện thoại liên hệ</th>
+                                    <th class="border-left-1" style="width: 8%">Thao tác</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-unitconstruct let-rowIndex="rowIndex">
+                                <tr>
+                                    <td class="border-right-1">{{ rowIndex + 1 }}</td>
+                                    <td class="border-right-1">
+                                        <input [disabled]="isInputDisabled" type="text" placeholder="Đơn vị thi công" pInputText class="p-invalid w-100" [(ngModel)]="unitconstruct.UnitName"  [ngModelOptions]="{standalone: true}" required>
+                                        <small *ngIf="!unitconstruct.UnitName" class="text-danger">Vui lòng nhập tên đơn vị thi công</small>
+                                    </td>
+                                    <td class="border-left-1">
+                                        <input  [disabled]="isInputDisabled" type="text" placeholder="Người đại diện liên hệ" pInputText class="p-invalid w-100" [(ngModel)]="unitconstruct.ContactName"  [ngModelOptions]="{standalone: true}">
+                                    </td>
+                                    <td class="border-left-1">
+                                        <input  [disabled]="isInputDisabled" type="text" placeholder="Số điện thoại người liên hệ" pInputText class="p-invalid w-100" [(ngModel)]="unitconstruct.ContactPhone"  [ngModelOptions]="{standalone: true}">
+                                    </td>
+                                    <td class="border-left-1  text-center">
+                                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDeleteUnitConstruct(rowIndex,unitconstruct.Id)"></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                         </p-table>
+                        </div>
+                    </div>
+                    <div class="dropdown-btn3">
+                        <button (click)="isContentVisible3 = !isContentVisible3">
+                            <i class="fa fa-chevron-down"></i>
+                          </button>
+                    </div>
+                    <div class="col-6">
+                        <h4><i class="pi pi-clock mr-2"></i>Thông tin đơn đăng ký</h4>
+                    </div>
+                    <div class="grid gr-re" *ngIf="isContentVisible3">
+                        <div class="col-6">
+                            <div class="field p-fluid p-date">
+                                <label for="txtDateStart">Ngày bắt đầu thi công</label><span class="text-danger"> *</span>
+                                <p-calendar id="txtDateStart" [showIcon]="true" inputId="icon" type="date" formControlName="DateStart" dateFormat="dd.mm.yy"></p-calendar>
+                            </div>
+                            <small *ngIf="fConstruction.controls['DateStart'].hasError('required') && fConstruction.controls['DateStart'].dirty" class="p-invalid text-danger">Vui lòng chọn ngày bắt đầu thi công.</small>
+                        </div>  
+                        <div class="col-6">
+                            <div class="field p-fluid p-date">
+                                <label for="txtDateStart">Ngày kết thúc thi công</label><span class="text-danger"> *</span>
+                                <p-calendar id="txtDateStart" [showIcon]="true" inputId="icon" type="date" formControlName="DateEnd" dateFormat="dd.mm.yy"></p-calendar>
+                            </div>
+                            <small *ngIf="fConstruction.controls['DateEnd'].hasError('required') && fConstruction.controls['DateEnd'].dirty" class="p-invalid text-danger">Vui lòng chọn ngày kết thúc thi công.</small>
+                        </div>  
+                        <div class="col-12">
+                            <div class="field p-fluid">
+                                <label for="txtName">Nội dung thi công
+                                     <span class="text-danger"> *</span>
+                                </label>
+                                <input id="txtCode" type="text" pInputText formControlName="Contents">
+                            </div>
+                            <small *ngIf="fConstruction.controls['Contents'].hasError('required') && fConstruction.controls['Contents'].dirty" class="p-invalid text-danger">Vui lòng nhập nội dung thi công.</small>
+                        </div>  
+                        <div class="col-12">
+                            <div class="field p-fluid">
+                                <label for="txtName">Ghi chú
+                                     <span class="text-danger"></span>
+                                </label>
+                                <textarea id="txtFeedback" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="dropdown-btn4">
+                        <button (click)="isContentVisible4 = !isContentVisible4">
+                            <i class="fa fa-chevron-down"></i>
+                          </button>
+                    </div>
+                    <div class="col-12">
+                        <h4><i class="pi pi-table mr-2"></i>Danh sách hồ sơ đăng ký thi công</h4>
+                    </div>
+                    <div class="grid gr-re" *ngIf="isContentVisible4">
+                        <div class="col-12">
+                            <button *ngIf="isInputDisabled==false" (click)="onOpenDocumentDialog(id,idd,lst)" type="button" pButton icon="fa fa-plus-circle" label="Thêm mới hồ sơ thi công" class="btn btn-warning mb-2">
+                            </button>
+                            <p-table [value]="lstDocument" [tableStyle]="{ 'min-width': '50rem' }"
+                                [loading]="isLoadingTable">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th >STT</th>
+                                        <th >Tên hồ sơ</th>
+                                        <th >Loại hồ sơ</th>
+                                        <th >Số lượng</th>
+                                        <th >File đính kèm</th>
+                                        <th >Trạng thái hồ sơ</th>
+                                        <th >Ghi chú</th>
+                                        <th style="width:15%" class="text-center">Hành động</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                                    <tr>
+                                        <td>
+                                            {{ rowIndex + 1 }}
+                                        </td>
+                                        <td>{{ item.Name }}</td>
+                                        <td>{{ ShowTypeDocument(item.Type) }}</td>
+                                        <!-- <td>{{ item.DateOfBirth | date:'dd/MM/yyyy' }}</td> -->
+                                        <td>{{ item.Quatity }}</td>
+                                        <td>
+                                            <span *ngFor="let doc of item.listAttactments;let last=last">{{doc?.Name}}<span *ngIf="!last">, </span></span>
+                                        </td>
+                                        <td>
+                                            <span class="text-warning" *ngIf="item.StatusProcess === 1">Đăng ký mới</span>
+                                            <span class="text-danger" *ngIf="item.StatusProcess === 3">Không phê duyệt đăng ký</span>
+                                            <span class="text-primary" *ngIf="item.StatusProcess === 2">Phê duyệt đăng ký</span>
+                                        </td>                      
+                                        <td>{{ item.Note }}</td>
+                                        <td style="width:15%" class="text-center">
+                                            <button pButton pRipple icon="pi pi-pencil"
+                                                class="p-button-rounded p-button-success mr-2 mg-l-2" (click)="onOpenDocumentDialog(id, item.Id, item)"></button>
+                                            <button *ngIf="isInputDisabled==false" pButton pRipple icon="pi pi-trash"
+                                                class="p-button-rounded p-button-warning" (click)="onDeleteDocument(item.Id,rowIndex)"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="10" class="text-center text-danger">
+                                            Không có dữ liệu.
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        <div class="col-6">
+                            <label for="txtattactments" class="form-label">File đính kèm</label>
+                            <input  formControlName="listOrderAttactments"  class="form-control no-bor" type="file"  multiple (change)="onFileSelected($event)">
+                            <!-- <a href="{{uploadedFileUrl}}">{{fileName}}</a> -->
+                            <a *ngFor="let file of listOrderAttactments;  let i = index"
+                               class="list-group-item list-group-item-success a-att"
+           
+                               href="http://i-category.cnttvietnam.com.vn/uploads/files/{{file.Name}}" target="_blank">{{file.Name}}<span
+                                 (click)="RemoveAttactment(file)"
+                                 class="span-attactment">×</span><br></a>
+                       </div>
+                    </div>
+                    <div class="dropdown-btn4">
+                        <button (click)="isContentVisible6 = !isContentVisible6">
+                            <i class="fa fa-chevron-down"></i>
+                          </button>
+                    </div>
+                    <div class="col-12" *ngIf="fConstruction.get('OrderStatus').value == 3 || fConstruction.get('OrderStatus').value == 5 || fConstruction.get('OrderStatus').value == 6 ">
+                        <h4><i class="pi pi-car mr-2"></i>Danh sách đơn gia hạn thi công</h4>
+                    </div>
+                    <div class="grid gr-re" *ngIf="isContentVisible6">
+                        <div class="col-12" *ngIf="fConstruction.get('OrderStatus').value >= 5">
+                            <button *ngIf="isInputDisabled==false" (click)="onOpenConfigDialogExtend(id, idc, lse)" type="button" pButton icon="fa fa-plus-circle" label="Thêm mới đơn gia hạn thi công" class="btn btn-warning mb-2">
+                            </button>
+                            <p-table [value]="lstExtend" [tableStyle]="{ 'min-width': '50rem' }"
+                                [loading]="isLoadingTable">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th >STT</th>
+                                        <th >Đơn vị thi công</th>
+                                        <th >Người đại diện</th>
+                                        <th >Số điện thoại liên hệ</th>
+                                        <th >Lần gia hạn</th>
+                                        <th >Gia hạn từ ngày</th>
+                                        <th >Gia hạn đến ngày</th>
+                                        <th >Ngày đăng ký</th>
+                                        <th >Trạng thái đơn gia hạn</th>
+                                        <th class="text-center">Hành động</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                                    <tr>
+                                        <td>
+                                            {{ rowIndex + 1 }}
+                                        </td>
+                                        <td>{{ item.UnitName }}</td>
+                                        <td>{{ item.ContactName}}</td>
+                                        <td>{{ item.ContactPhone}}</td>
+                                        <td>1</td>
+                                        <td>{{ item.DateStart | date:'dd/MM/yyyy' }}</td>
+                                        <td>{{ item.DateEnd | date:'dd/MM/yyyy' }}</td>
+                                        <td>{{ item.CreatedAt | date : 'dd/MM/yyyy'}}</td>
+                                        <td>
+                                            <span class="text-warning" *ngIf="item.StatusProcess === 1">Đăng ký mới</span>
+                                            <span class="text-danger" *ngIf="item.StatusProcess === 3">Không phê duyệt đăng ký</span>
+                                            <span class="text-primary" *ngIf="item.StatusProcess === 2">Phê duyệt đăng ký</span>
+                                        </td>
+                                        <td>
+                                            <button pButton pRipple icon="pi pi-pencil"
+                                                class="p-button-rounded p-button-success mr-2" (click)="onOpenConfigDialogExtend(id, item.Id, item)"></button>
+                                            <button pButton pRipple icon="pi pi-trash"
+                                                class="p-button-rounded p-button-warning" (click)="onDeleteExtend(item.Id,rowIndex)"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="10" class="text-center text-danger">
+                                            Không có dữ liệu.
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+            </div>        
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <h4><i class="pi pi-user-edit mr-2 mg-t-2"></i>Thông tin phản hồi từ BQL</h4>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Trạng thái xử lý</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="ProcessStatus"
+                            placeholder="Trạng thái xử lý"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="OrderStatus"
+                            optionLabel="label"
+                            optionValue="value"
+                            (onChange)="selectStatus($event)">
+                        </p-dropdown>
+                    </div>
+                    <small *ngIf="fConstruction.controls['OrderStatus'].hasError('required') && fConstruction.controls['OrderStatus'].dirty" class="p-invalid text-danger">Vui lòng chọn trạng thái xử lý.</small>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Người duyệt hồ sơ</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="userConfirm"
+                            placeholder="Người duyệt hồ sơ"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="UserConfirm"
+                            optionLabel="label"
+                            optionValue="value">
+                        </p-dropdown>
+                    </div>
+                    <small *ngIf="fConstruction.controls['UserConfirm'].hasError('required') && fConstruction.controls['UserConfirm'].dirty" class="p-invalid text-danger">Vui lòng chọn người duyệt hồ sơ.</small>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Trạng thái thi công</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="ConstructionStatus"
+                            placeholder="Trạng thái thi công"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="ConstructionStatus"
+                            optionLabel="label"
+                            optionValue="value">
+                        </p-dropdown>
+                    </div>
+                    <small *ngIf="fConstruction.controls['ConstructionStatus'].hasError('required') && fConstruction.controls['ConstructionStatus'].dirty" class="p-invalid text-danger">Vui lòng chọn trạng thái thi công.</small>
+                </div>
+                <div class="col-6" *ngIf="fConstruction.get('Id') && fConstruction.get('ConstructionStatus').value==2">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateStart">Ngày tạm dừng thi công</label>
+                        <span class="text-danger"> *</span>
+                        <p-calendar id="txtDateStart" [showIcon]="true" inputId="icon" type="date" formControlName="DatePause" dateFormat="dd.mm.yy"></p-calendar>
+                    </div>
+                    <small *ngIf="fConstruction.controls['DatePause'].hasError('required') && fConstruction.controls['DatePause'].dirty" class="p-invalid text-danger">Vui lòng chọn ngày tạm dừng thi công.</small>
+                </div>  
+                <div class="col-6" *ngIf="fConstruction.get('Id') && fConstruction.get('ConstructionStatus').value==2">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateStart">Ngày tiếp tục thi công</label>
+                        <span class="text-danger"> *</span>
+                        <p-calendar id="txtDateStart" [showIcon]="true" inputId="icon" type="date" formControlName="DateContinue" dateFormat="dd.mm.yy"></p-calendar>
+                    </div>
+                    <small *ngIf="fConstruction.controls['DateContinue'].hasError('required') && fConstruction.controls['DateContinue'].dirty" class="p-invalid text-danger">Vui lòng chọn ngày tiếp tục thi công.</small>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Đặt cọc</label>
+                         <span class="text-danger"> *</span>
+                        <div class="form-check">
+                            <div class="form-check form-check-inline mr-2">
+                                <p-radioButton formControlName="IsDeposit" class="form-check-input form-check-radio" type="radio"  value="true"></p-radioButton>
+                                <label class="form-check-label" for="deposit">Đặt cọc</label>
+                            </div>
+                            <div class="form-check form-check-inline ml-4">
+                                <p-radioButton formControlName="IsDeposit"  class="form-check-input form-check-radio" type="radio" value="false"></p-radioButton>
+                                <label class="form-check-label" for="notdeposit">Không đặt cọc</label>
+                            </div>
+                        </div>
+                        <small *ngIf="fConstruction.controls['IsDeposit'].hasError('required') && fConstruction.controls['IsDeposit'].dirty" class="p-invalid text-danger">Vui lòng chọn trạng thái đặt cọc!</small>
+                    </div>
+                </div>
+                <div class="col-12"></div>
+                <div class="col-6 gr-re" *ngIf="this.fConstruction.get('IsDeposit').value=='true'">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Số tiền đặt cọc
+                            <span class=""> *</span>
+                        </label>
+                        <div class="input-group mb-3">
+                            <input type="text" formControlName="PriceDeposit" class="form-control"
+                                aria-label="Amount (to the nearest dollar)" />
+                            <div class="input-group-append">
+                                <span class="input-group-text">VNĐ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 gr-re mg-t-2" *ngIf="this.fConstruction.get('IsDeposit').value=='true'">
+                    <button *ngIf="isInputDisabled==false" (click)="onOpenConfigDialogPayment(id)" type="button" class="btn btn-warning btn-payment">Thanh toán đặt cọc</button>
+                </div>
+                <div class="col-3 gr-re" *ngIf="this.fConstruction.get('IsDeposit').value=='true'">
+                    <div class="field p-fluid">
+                        <label for="txtStatusPayment">Trạng thái nhận tiền cọc</label>
+                        <span class=""></span>
+                        <p-dropdown 
+                            [options]="statusPayment" 
+                            placeholder="Trạng thái thanh toán" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="PaymentStatus" 
+                            optionLabel="Name"
+                            optionValue="Id"
+                        >
+                        </p-dropdown>
+                    </div>
+                </div> 
+                <div class="col-12" *ngIf="this.fConstruction.get('IsDeposit').value=='true'">
+                    <button (click)="onOpenDepositAdditionDialog(id,idr,lst)" type="button" pButton icon="fa fa-plus-circle" label="Thêm mới đặt cọc bổ sung" class="btn btn-warning mb-2">
+                    </button>
+                    <p-table [value]="lstPayment" [tableStyle]="{ 'min-width': '50rem' }"
+                        [loading]="isLoadingTable">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th >STT</th>
+                                <th >Ngày đặt cọc</th>
+                                <th >Số tiền cọc</th>
+                                <th >Hình thức đặt cọc</th>
+                                <th >Ghi chú</th>
+                                <th class="text-center">Hành động</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                            <tr>
+                                <td>
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td>{{ item.UnitName }}</td>
+                                <!-- <td>{{ item.DateOfBirth | date:'dd/MM/yyyy' }}</td> -->
+                                <td>{{ item.ContactName}}</td>
+                                <td>{{ item.ContactPhone }}</td>
+                                <td>{{ item.statusOptionName }}</td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2 mg-l-2" (click)="onOpenConfigDialog(id, item.Id, item)"></button>
+                                    <button pButton pRipple icon="pi pi-trash"
+                                        class="p-button-rounded p-button-warning" (click)="onDeleteResidentMoveIn(item.Id)"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="10" class="text-center text-danger">
+                                    Không có dữ liệu.
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtFeedback">Dành cho bộ phận an ninh</label>
+                        </div>
+                        <textarea id="txtFeedback" class="w-100" rows="5" pInputTextarea formControlName="NoteSecurity"></textarea>
+                    </div>
+                </div>    
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtFeedback">Phản hồi từ BQL tới cư dân</label>
+                        </div>
+                        <textarea id="txtFeedback" class="w-100" rows="5" pInputTextarea formControlName="NoteConfirm"></textarea>
+                    </div>
+                </div>       
+                </div>
+                <div class="col-12" *ngIf="fConstruction.get('OrderStatus').value==6 && this.id !== null">
+                    <h4><i class="pi pi-user-edit mr-2 mg-t-2"></i>Đánh giá của cư dân</h4>
+                    <div class="Detail_Packed">
+                        <p>  <span>
+                            <i class="pi pi-star-fill"></i>
+                            <i class="pi pi-star-fill"></i>
+                            <i class="pi pi-star-fill"></i>
+                            <i class="pi pi-star-fill"></i>
+                            <i class="pi pi-star"></i>
+                        </span> -  <span>{{ this.CancelDate ? (this.CancelDate | date: 'dd/MM/yyyy') : '' }} - {{ this.CancelDate ? (this.CancelDate | date:'shortTime') : '' }}</span></p> 
+                        <div class="col-12"></div>
+                        <h5><b>Nội dung đánh giá</b></h5><br>
+                        <div class="form-outline w-100">
+                            <textarea class="form-control" id="textAreaExample" rows="4"
+                              style="background: #fff;">-{{this.NoteReview}}</textarea>
+                        </div>
+                    </div>
+                   </div>
+                   <!-- <div class="col-12" *ngIf="fConstruction.get('OrderStatus').value==4 && this.id !== null">
+                    <h4><i class="pi pi-user-edit mr-2 mg-t-2"></i>Chi tiết hủy đơn</h4>
+                    <div class="Detail_Packed">
+                        <p>Bên hủy đơn :<b>{{ShowUserCancel(this.UserCancel)}}</b> - Hủy đơn ngày: <span>{{ this.CancelDate ? (this.CancelDate | date: 'dd/MM/yyyy') : '' }} - {{ this.CancelDate ? (this.CancelDate | date:'shortTime') : '' }}</span></p> 
+                        <h5><b>Lý do hủy đơn</b></h5><br>
+                        <div class="form-outline w-100">
+                            <textarea class="form-control" id="textAreaExample" rows="4"
+                              style="background: #fff;">-{{this.NoteCancel}}</textarea>
+                        </div>
+                    </div>
+                   </div> -->
+                   <div class="col-12 mt-2" *ngIf="fConstruction.get('OrderStatus').value==4 && this.id !== null">
+                    <div class="field p-fluid">
+                        <div class="grid-booking height-cancel">
+                            <h5 for="txtProcessStatus">Chi tiết đơn hủy</h5>
+                            <div class="displayflex gr-re mt-1 mb-1" >
+                                    <p class="mg-l-2">Bên hủy đơn :<span class="text-primary"><b>{{ShowUserCancel(this.UserCancel)}}</b></span> - Hủy đơn ngày: <span>{{ this.CancelDate ? (this.CancelDate | date: 'dd/MM/yyyy') : '' }} - {{ this.CancelDate ? (this.CancelDate | date:'shortTime') : '' }}</span></p> 
+                                    <div class="col-12"></div><br>
+                                    <h5 ><b>Lý do hủy đơn</b></h5><br>
+                                    <div class="form-outline w-100">
+                                        <textarea class="form-control" id="textAreaExample" rows="4"
+                                          style="background: #fff;">-{{this.NoteCancel}}</textarea>
+                                     </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                <div class="col-12 p_float_right">
+                    <p-toast></p-toast>
+                    <button pButton pRipple type="button" label="Hủy bỏ" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                        <span class="pi pi-times-circle"></span>
+                    </button>
+                    <button *ngIf="id" pButton pRipple type="button" label="Lịch sử trao đổi" class="p-button-outlined mr-2">
+                        <span class="pi pi-eye"></span>
+                    </button>
+                    <button *ngIf="id" pButton pRipple type="button" label="Hủy đơn" (click)="onDialogCancel()" class="p-button-outlined mr-2">
+                        <span></span>
+                    </button>
+                    <p-button class="mr-2" [label]=" !(id) ? 'Xác nhận' : 'Xác nhận'" [icon]="!(id) ? 'pi pi-plus' : 'pi pi-check'"  
+                        [loading]="loading[0]" (click)="onSubmit()"></p-button>
+                    <button type="button" pButton label="Danh sách đơn nghiệm thu" class="btn p-button-outlined mb-2" (click)="RoutertoOrderAccept()">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+<p-toast></p-toast>
+
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog> 
+
+
+
+
+

@@ -1,0 +1,92 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fServicePricing">
+            <h3 class="mg-0">
+                {{ !(Id > 0) ? 'Thêm mới gói dịch vụ' : 'Cập nhật gói dịch vụ' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Mã gói dịch vụ
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtCode" type="text" pInputText formControlName="Code">
+                        <small *ngIf="fServicePricing.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã gói dịch vụ phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fServicePricing.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã gói dịch vụ chỉ được tối đa 25 kí tự.</small>
+                        <small *ngIf="fServicePricing.controls['Code'].hasError('required') && fServicePricing.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập mã gói dịch vụ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên gói dịch vụ
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name">
+                        <small *ngIf="fServicePricing.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên gói dịch vụ phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fServicePricing.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên gói dịch vụ chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fServicePricing.controls['Name'].hasError('required') && fServicePricing.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên gói dịch vụ.</small>
+                    </div>
+                </div>
+                <form name="form" class="form-custom col-12" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+                    <div >
+                        <div class="infoPackage">
+                            <div class="inDetailPackage">
+                                <div class="Detail_Packed AddForm_Package">
+                                    <div class="ColForm_AddPackage">
+                                        <div>
+                                            <nav ngbNav #altnav="ngbNav" class="nav-tabs">
+                                                <ng-container ngbNavItem>
+                                                    <a ngbNavLink>Chức năng</a>
+                                                    <ng-template ngbNavContent>
+                                                        <table class="table table-striped tableListProj tbl-in-dialog">
+                                                            <thead class="category-plan-thead">
+                                                                <tr>
+                                                                    <th scope="col" class="stt-role">
+                                                                        Stt
+                                                                    </th>
+                                                                    <th scope="col" class="text-left">
+                                                                        <span>Tên chức năng</span>
+                                                                    </th>
+                                                                    <th scope="col" class="func-role">
+                                                                        <span>Check</span>
+                                                                        <input type="checkbox" value="None" class="checkbox1" id="Check" name="Check" value="" [(ngModel)]="Action.Check" (change)="changeAction(1)" [disabled]="isView">
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let item of listFunctions; let i = index" role="row">
+                                                                    <td style=" text-align: center; font-weight: bold;" class="stt-role">{{ i + 1 }}</td>
+                                                                    <td class="pl-5">
+                                                                        <span *ngFor="let number of [].constructor(item.Level); let i = index">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                                        <span>{{item.Name}}</span>
+                                                                    </td>
+                                                                    <td class="func-role">
+                                                                      <input type="checkbox" value="None" class="checkbox1" [(ngModel)]="item.Check" [ngModelOptions]="{standalone: true}" (change)="changeCell()" [disabled]="isView">
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </ng-template>
+                                                </ng-container>
+                                            </nav>
+                
+                                            <div  style="height: 250px; overflow-y: scroll;padding-top: 0px;" [ngbNavOutlet]="altnav" class="mt-3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-12 p_float_right">
+                    <p-toast></p-toast>
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

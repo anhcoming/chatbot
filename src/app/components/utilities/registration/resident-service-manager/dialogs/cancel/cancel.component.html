@@ -1,0 +1,23 @@
+<div class="grid">
+    <div class="col-12">
+        <!-- <div class="card" [formGroup]="fResidentService"> -->
+        <div class="card" >
+            <div class="grid formgrid">
+                <div class="col-12" >
+                    <label for="">Lý do hủy đơn 
+                        <span class="text-danger"> *</span>
+                    </label>
+                    <div class="field p-fluid">
+                        <textarea id="txtFeedback" class="w-100" rows="5" pInputTextarea></textarea>
+                    </div>
+                </div>     
+                <div class="col-12 p_float_right mt-2">
+                    <button pButton pRipple type="button" label="Quay lại" class="p-button-outlined p-button-secondary mr-3" ></button>
+                    <p-button label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (click)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+<p-toast></p-toast>

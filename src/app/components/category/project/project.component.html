@@ -1,0 +1,87 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Quản lý khu đô thị</h4>
+            <div class="textFilterProj">
+                <span>Tìm kiếm</span>
+                <div class="formSearchText w-30">
+                    <input type="text" placeholder="Tìm kiếm theo mã, tên khu đô thị... " name="searchProject" [(ngModel)]="search" 
+                    (keyup.Enter)="onSearch($event)" (keyup)="isInputEmpty = search === ''" value="" class="StextSingle_Project">
+                    <button class="iconbtnSearch"  *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10" style="font-size: 1rem" (click)="onClearInput()"></span></button>
+                </div>
+            </div>  
+            <section class="FilterProject mt-4">
+                <div class="textFilterProj">
+                    <div class="addProjectList btn-options">
+                        <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/category/project/create"></button>
+                    </div>
+                    <div class="addProjectList mr-2 btn-orange  absolute-btn">
+                        <button #btn type="button" pButton icon="pi pi-chevron-down" label="Hành động" (click)="menu.toggle($event)" style="width:auto"></button>
+                        <p-tieredMenu #menu [model]="menuItems" [popup]="true"></p-tieredMenu>
+                    </div>
+                    <div class="addProjectList mr-2 btn-options btn-green">
+                        <button type="button" pButton icon="pi ft-download" label="Tải xuống" (click)="exportExcel()"></button>
+                    </div>
+                    <div class="addProjectList mr-2 btn-options btn-yellow">
+                        <button type="button" pButton icon="ft-upload" label="Tải lên" routerLink="/category/project/upload"></button>
+                    </div>
+                </div>
+            </section>
+            <p-table 
+                [value]="lstProject"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable"
+                [(selection)]="selectedProjects">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th >
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th >Stt</th>
+                        <th >Mã</th>
+                        <th >Tên hiển thị</th>
+                        <th >Người liên hệ</th>
+                        <th >Số điện thoại</th>
+                        <th >Địa chỉ</th>
+                        <th class="min-w-90">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-project let-rowIndex="rowIndex">
+                    <tr>
+                        <td >
+                            <p-tableCheckbox [value]="project" ></p-tableCheckbox>
+                        </td>
+                        <td>{{ rowIndex + 1 }}</td>
+                        <td>{{ project.Code }}</td>
+                        <td>{{ project.Name }}</td>
+                        <td>{{ project.ContactName }}</td>
+                        <td>{{ project.ContactPhone }}</td>
+                        <td>{{ project.Address }}</td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" routerLink="/category/project/update/{{ project.Id }}"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(project)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <!-- <ng-template pTemplate="paginatorleft">
+                    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+                </ng-template>
+                <ng-template pTemplate="paginatorright">
+                    <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+                </ng-template> -->
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                                <td colspan="8" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

@@ -1,0 +1,118 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fQuestion">
+            <h3 class="mg-0">
+                {{ !(id > 0) ? 'Thêm mới câu hỏi thường gặp' : 'Cập nhật ' }}
+            </h3>
+         
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtTitle">Tên câu hỏi</label>
+                        <span class="text-danger"> *</span>
+                        <input id="txtTitle" type="text" pInputText formControlName="Title" minlength="6" maxlength="500" required>
+                    </div>
+                    <small *ngIf="fQuestion.controls['Title'].hasError('minlength')" class="p-invalid text-danger">Câu hỏi phải ít nhất 6 ký tự</small>
+                    <small *ngIf="fQuestion.controls['Title'].hasError('maxlength')" class="p-invalid text-danger">Câu hỏi chỉ được tối đa 500 ký tự</small>
+                    <small *ngIf="fQuestion.controls['Title'].hasError('required') && fQuestion.controls['Title'].dirty" class="p-invalid text-danger">Vui lòng nhập câu hỏi</small>
+                </div>
+                <div class="col-12 mg-t-2">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtContent">Câu trả lời</label>
+                        </div>
+                        <ckeditor  class="ck-edit-text" [config]="{placeholder: 'Nhập câu trả lời'}" [editor]="Editor" formControlName="Contents"></ckeditor>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="txtattactments" class="form-label">Tài liệu đính kèm</label>
+                    <input #fileInput formControlName="listAttactments" class="form-control no-bor" type="file" multiple (change)="onFileSelected($event)">
+                    <a *ngFor="let file of listAttactments; let i = index" class="list-group-item list-group-item-success a-att"
+                      href="https://i-apigw.cnttvietnam.com.vn/uploads/files/{{file.Name}}" target="_blank">{{file.Name}}<span
+                        (click)="RemoveAttactment(file)" class="span-attactment">×</span><br></a>
+                </div>
+                <div class="grid gr-re mg-t-2">
+                    <div class="col-12">
+                        <h5>Chọn khu đô thị <span class="text-danger"> *</span></h5>
+                        <div class="grid" formArrayName="listProjectMaps">
+                            <div class="col-3 mt-3" *ngFor="let project of lstProject;let i = index" >
+                                <div class="flex align-items-center">
+                                    <div class="checkbox">
+                                        <input type="checkbox" [value]="project.name"  [(ngModel)]="project.check" (change)="onSelectTower(project.Id)" [ngModelOptions]="{standalone: true}">
+                                        <div>
+                                            <span> {{ project.Name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div *ngIf="fNotebook.controls['ListProject'].errors && fNotebook.controls['ListProject'].touched">
+                                Vui lòng chọn ít nhất 1 khu đô thị.
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-12 mg-t-2">
+                        <div class="field p-fluid">
+                            <div class="displayflex">
+                                <h5>Chọn tòa nhà <span class="text-danger"> *</span></h5>
+                                <!-- <i class="color-i" *ngIf="!isProjectSelect">Vui lòng chọn Khu đô thị</i> -->
+                                <div class="displayflex" *ngIf="fQuestion.get('listProjectMaps') as FormArray">
+                                    <div class="checkbox">
+                                        <input type="checkbox" [(ngModel)]="allChecked" (change)="toggleAll()" [ngModelOptions]="{standalone: true}">
+                                        <div>
+                                            <span> Chọn tất cả</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="displayflex">
+                                <div *ngFor="let tower of lstTower" class="checkbox">
+                                    <input type="checkbox"  [(ngModel)]="tower.checked"  (change)="checkAll()" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> {{ tower.Name }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <small *ngIf="fNotebook.controls['TowerId'].hasError('required') && fNotebook.controls['TowerId'].dirty" class="p-invalid text-danger">Vui lòng chọn tòa nhà.</small>                         -->
+                        </div>
+                    </div>
+                    <div class="col-12 mg-t-2">
+                        <div class="field p-fluid">
+                            <div class="displayflex">
+                                <h5>Chọn vị trí <span class="text-danger"> *</span></h5>
+                                <div class="displayflex">
+                                    <div class="checkbox">
+                                        <input type="checkbox" [(ngModel)]="allChecked2" (change)="toggleAll2()" [ngModelOptions]="{standalone: true}">
+                                        <div>
+                                            <span> Chọn tất cả</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="displayflex">
+                                <div *ngFor="let zone of lstZone" class="checkbox" formArrayName="listZoneMaps">
+                                    <input type="checkbox"  [(ngModel)]="zone.checked"  (change)="checkAll2()" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> {{ zone.Name }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <small *ngIf="fNotebook.controls['TowerId'].hasError('required') && fNotebook.controls['TowerId'].dirty" class="p-invalid text-danger">Vui lòng chọn tòa nhà.</small>                         -->
+                        </div>
+                    </div>
+                <div class="col-12 p_float_right mg-t-2">
+                    <p-confirmDialog class="custom-toast"></p-confirmDialog>
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'  
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<!-- <p-confirmDialog class="custom-toast"></p-confirmDialog> -->
+
+
+
+

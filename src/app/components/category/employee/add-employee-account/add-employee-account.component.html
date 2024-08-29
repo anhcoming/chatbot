@@ -1,0 +1,202 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fEmployeeAccount">
+            <h3 class="mg-0">
+                {{ !(id > 0) ? 'Tạo tài khoản nhân viên ' : 'Cập nhật tài khoản nhân viên' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tài khoản
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="UserName">
+                        <small *ngIf="fEmployeeAccount.controls['UserName'].hasError('minlength')" class="p-invalid text-danger">Tài khoản phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fEmployeeAccount.controls['UserName'].hasError('maxlength')" class="p-invalid text-danger">Tài khoản chỉ được tối đa 15 kí tự.</small>
+                        <small *ngIf="fEmployeeAccount.controls['UserName'].hasError('required') && fEmployeeAccount.controls['UserName'].dirty" class="p-invalid text-danger">Vui lòng nhập Tài khoản.</small>
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtAccount">Loại tài khoản</label>
+                        <span class=""></span>
+                        <p-dropdown
+                            [options]="typeEmployee" 
+                            placeholder="Chọn loại tài khoản" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="Type" 
+                            optionLabel="Name" 
+                            optionValue="Id">
+                        </p-dropdown>
+                        <small *ngIf="fEmployeeAccount.controls['Type'].hasError('required') && fEmployeeAccount.controls['Type'].dirty" class="p-invalid text-danger">Vui lòng chọn loại tài khoản.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Mật khẩu
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <i class="float-right">
+                            <small *ngIf="fEmployeeAccount.controls['Password'].hasError('required') && fEmployeeAccount.controls['Password'].dirty" class="p-invalid text-danger">Vui lòng nhập Mật khẩu.</small>
+                        </i>
+                        <p-password formControlName="Password" id="txtPassword" autocomplete="off" placeholder="Nhập mật khẩu" [toggleMask]="true" (input)="matchingPasswords()" styleClass="mb-5"></p-password>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Nhập lại mật khẩu
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <i class="float-right">
+                            <small *ngIf="fEmployeeAccount.controls['ConfirmPassword'].hasError('mismatchedPasswords')" class="p-invalid text-danger">Mật khẩu nhập lại không đúng.</small>
+                            <small *ngIf="fEmployeeAccount.controls['ConfirmPassword'].hasError('required') && fEmployeeAccount.controls['Password'].dirty" class="p-invalid text-danger">Vui lòng nhập lại Mật khẩu.</small>
+                        </i>
+                        <p-password formControlName="ConfirmPassword" id="txtPassword" autocomplete="off" placeholder="Nhập lại mật khẩu" [toggleMask]="true" (input)="matchingPasswords()" styleClass="mb-5"></p-password>
+                    </div>
+                </div>  
+                <div class="col-12">
+                    <h4>Phân quyền nhân viên</h4>
+                </div> 
+                <div class="col-12">
+                    <h5>Chọn khu đô thị <span class="text-danger"> *</span></h5>
+                    <div class="grid" formArrayName="listProjectMaps">
+                        <div class="col-3 mt-3" *ngFor="let project of lstProject" >
+                            <div class="flex align-items-center">
+                                <div class="checkbox">
+                                    <input type="checkbox" [value]="project.name"   [(ngModel)]="project.check"  (change)="onSelectTower(project.Id)" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> {{ project.Name }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mg-t-2">
+                    <div class="field p-fluid">
+                        <div class="displayflex">
+                            <h5>Chọn tòa nhà <span class="text-danger"> *</span></h5>
+                            <div class="displayflex">
+                                <div class="checkbox">
+                                    <input type="checkbox" [(ngModel)]="allChecked" (change)="toggleAll()" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> Chọn tất cả</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="displayflex">
+                            <div *ngFor="let tower of lstTower" class="checkbox">
+                                <input type="checkbox"  [(ngModel)]="tower.checked"  (change)="checkAll()" [ngModelOptions]="{standalone: true}">
+                                <div>
+                                    <span> {{ tower.Name }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mg-t-2">
+                    <div class="field p-fluid">
+                        <div class="displayflex">
+                            <h5>Chọn vị trí <span class="text-danger"> *</span></h5>
+                            <div class="displayflex">
+                                <div class="checkbox">
+                                    <input type="checkbox" [(ngModel)]="allChecked2" (change)="toggleAll2()" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> Chọn tất cả</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="displayflex">
+                            <div *ngFor="let zone of lstZone" class="checkbox">
+                                <input type="checkbox"  [(ngModel)]="zone.checked"  (change)="checkAll2()" [ngModelOptions]="{standalone: true}">
+                                <div>
+                                    <span> {{ zone.Name }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPositionId">Chức vụ </label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstPosition" 
+                            placeholder="Chọn chức vụ" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="PositionId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            (onChange)="onSelectPostion($event)">
+                        </p-dropdown>
+                    </div>
+                    <small *ngIf="fEmployeeAccount.controls['PositionId'].hasError('required') && fEmployeeAccount.controls['PositionId'].dirty" class="p-invalid text-danger">Vui lòng chọn chức vụ.</small>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDepartmentId">Phòng ban </label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstDepartment" 
+                            placeholder="Chọn phòng ban" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="DepartmentId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            (onChange)="onSelectDepartment($event)">
+                        </p-dropdown>
+                    </div>
+                    <small *ngIf="fEmployeeAccount.controls['DepartmentId'].hasError('required') && fEmployeeAccount.controls['DepartmentId'].dirty" class="p-invalid text-danger">Vui lòng chọn phòng ban.</small>
+
+                </div>
+            </div>
+            <div class="textFilterPos">
+                <h4 class="mg-l-9">Phân quyền</h4>
+            </div>    
+            <p-table
+                [value]="listFuctionRole "
+                [rows]="5"
+                [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 10%"></th>
+                        <th style="width: 5%">STT</th>
+                        <th style="width: 35%">Tên nhóm quyền</th>
+                        <th style="width: 55%">Mô tả</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-role let-rowIndex="rowIndex" >
+                    <tr>
+                        <td>
+                            <input type="checkbox" id="checkbox" [ngModelOptions]="{standalone: true}"  [(ngModel)]="role.check"  (change)="onCheck()"/>
+                        </td>
+                        <td>
+                            {{ rowIndex + 1 }}
+                        </td>
+                        <td>{{ role.Name }}</td>
+                        <td>{{ role.Note }}</td>
+                    </tr>  
+                </ng-template>  
+            </p-table>        
+        </div>
+    </div>    
+    <div class="col-12 p_float_right mg-t-2">
+        <p-toast></p-toast>
+        <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)"></button>
+        <p-button [label]=" !(id > 0) ? 'Xác nhận' : 'Xác nhận'" [icon]="!(id > 0) ? 'pi pi-plus' : 'pi pi-check'"  
+            [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+    </div>    
+</div>
+
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+
+
+

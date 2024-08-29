@@ -1,0 +1,60 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fCancel">
+            <h3 class="mg-0">
+                {{ itemGood ? 'Thêm mới hàng hóa' : 'Cập nhật' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <!-- <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Bên hủy đơn</label>
+                        <span class="text-danger">*</span>
+                        <p-dropdown
+                            [options]="[
+                            {label : 'Bên quản lý',value : 1},
+                            {label: 'Bên đăng ký',value : 2},
+                            ]"
+                            placeholder="Bên hủy đơn"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="Name"
+                            optionLabel="label"
+                            optionValue="value">
+                        </p-dropdown>
+                    </div>
+                </div> -->
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateStart">Thời gian hủy đơn</label>
+                        <span class="text-danger">*</span>
+                        <p-calendar id="txtDateStart" [showIcon]="true" inputId="icon" type="date" formControlName="DateCancel" dateFormat="dd.mm.yy"></p-calendar>
+                    </div>
+                    <small *ngIf="fCancel.controls['DateCancel'].hasError('required') && fCancel.controls['DateCancel'].dirty" class="p-invalid text-danger">Vui lòng chọn ngày hủy đơn.</small>
+                </div>  
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAddress">Lý do hủy đơn</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                        <!-- <small *ngIf="fGood.controls['Note'].hasError('minlength')" class="p-invalid text-danger">Mô tả phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fGood.controls['Note'].hasError('maxlength')" class="p-invalid text-danger">Mô tả chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fGood.controls['Note'].hasError('required') && fGood.controls['Note'].dirty" class="p-invalid text-danger">Vui lòng nhập mô tả.</small> -->
+                    </div>
+                </div>
+
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" (click)="onBack()" label="Hủy" class="p-button-outlined p-button-secondary mr-2">
+                        <span class="pi pi-angle-left"></span>
+                    </button>
+                    <p-button class="p-button-outlined p-button-primary" [icon]="!(goodId > 0) ? 'pi pi-plus' : 'pi pi-check'" 
+                        [label]="!(goodId > 0) ? 'Hủy đơn' : 'Hủy đơn'" [loading]="loading[0]" (onClick)="onSubmit()">  
+                    </p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+

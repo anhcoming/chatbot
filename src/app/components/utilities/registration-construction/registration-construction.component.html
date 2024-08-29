@@ -1,0 +1,226 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Đăng ký thi công</h4>
+            <div class="textFilterProj">
+                <span>Tìm kiếm</span>
+                <div class="formSearchText w-30">
+                    <input type="text" placeholder="Tìm kiếm theo loại vận chuyển, tên người đăng ký... " name="searchProject" [(ngModel)]="search" 
+                    (keyup.Enter)="onSearch($event)" value="" class="StextSingle_Project" [ngModelOptions]="{standalone: true}"> 
+                    <button class="iconbtnSearch" (onClick)="onSearch($event)"><i _ngcontent-wsc-c163="" aria-hidden="true" class="fa fa-search"></i></button>
+                </div>
+                
+            </div>
+            <div class="grid formgrid" [formGroup]="fSearch"> 
+                <div class="col-3 mg-t-2">
+                    <div class="field p-fluid p-date">
+                        <label>Đăng ký đơn từ ngày</label>
+                        <p-calendar id="txtBirthDay" placeholder="Đăng ký đơn từ ngày" [showIcon]="true" inputId="icon"  formControlName="DateStart"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-3 mg-t-2">
+                    <div class="field p-fluid p-date">
+                        <label>Đăng ký đơn trước ngày</label>
+                        <p-calendar id="txtBirthDay" placeholder="Đăng ký đơn trước ngày" [showIcon]="true" inputId="icon"  formControlName="DateEnd"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-3 mg-t-2">
+                    <div class="field p-fluid p-date">
+                        <label>Nghiệm thu từ ngày</label>
+                        <p-calendar id="txtBirthDay" placeholder="Đăng ký đơn từ ngày" [showIcon]="true" inputId="icon"  formControlName="DateStart"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-3 mg-t-2">
+                    <div class="field p-fluid p-date">
+                        <label>Nghiệm thu trước ngày</label>
+                        <p-calendar id="txtBirthDay" placeholder="Đăng ký đơn trước ngày" [showIcon]="true" inputId="icon"  formControlName="DateEnd"></p-calendar>
+                    </div>
+                </div>
+                <div class="field p-fluid center-text-inpos wid-15">
+                    <div class="field p-fluid p-date">
+                        <label>Đặt cọc</label>
+                    </div>
+                    <p-dropdown
+                        [options]="lstOrder"
+                        placeholder="Đặt cọc"
+                        emptyMessage="Không có dữ liệu."
+                        [showClear]="true"
+                        formControlName="Type"
+                        optionLabel="Name"
+                        optionValue="Id"
+                        (onChange)="onSelectOrder($event)"
+                    >
+                    </p-dropdown>
+                </div>
+                <div class="field p-fluid center-text-inpos wid-15">
+                    <div class="field p-fluid p-date">
+                        <label>Trạng thái đặt cọc</label>
+                    </div>
+                    <p-dropdown
+                        [options]="lstOrderStatus"
+                        placeholder="Trạng thái đặt cọc"
+                        emptyMessage="Không có dữ liệu."
+                        [showClear]="true"
+                        formControlName="Type"
+                        optionLabel="Name"
+                        optionValue="Id"
+                        (onChange)="onSelectOrderStatus($event)"
+                    >
+                    </p-dropdown>
+                </div>
+                <section class="FilterProject filter-contracts">
+                    <div class="addProjectList btn-options">
+                        <button type="button" pButton icon="pi pi-filter" label="Lọc" (click)="onSelect()"></button>
+                    </div>
+                </section>
+            </div>    
+            <div class="allSelectFilter displayflex">
+                <div class="itemSelectFilter">
+                    <div class="grid formgrid center-form-inpos">
+                        <div class="col-12"></div>
+                        <p-toggleButton class="mg-l-2 mg-t-2" [(ngModel)]="idFrozen" [ngModelOptions]="{standalone: true}" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open" [onLabel]="'Thao tác'" 
+                            offLabel="Thao tác" [style]="{'width': '12rem'}"></p-toggleButton>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">            
+            <section class="FilterProject">
+                <div class="textFilterProj">
+                    <div class="addProjectList">
+                        <div class="btn-group mr-2">
+                            <div class="addProjectList mr-2 btn-orange absolute-btn">
+                                <button #btn type="button" pButton icon="pi pi-chevron-down" label="Hành động" (click)="menu.toggle($event)" style="width:auto"></button>
+                                <p-tieredMenu #menu [model]="menuItems" [popup]="true"></p-tieredMenu>
+                            </div>
+                          </div>
+                          <div class="addProjectList mr-2 text-danger absolute-btn">
+                            <button #btn type="button" pButton icon="pi pi-plus" label="Thêm" routerLink="/utilities/construction/create" style="width:auto"></button>
+                         </div>
+                         <div class="addProjectList mr-2 text-danger absolute-btn">
+                            <button #btn type="button" pButton label="In đơn đăng ký" style="width:auto"></button>
+                         </div>
+                         <div class="addProjectList mr-2 btn-green absolute-btn">
+                            <button type="button" pButton icon="pi ft-download" label="Xuất báo cáo" (click)="exportExcel()"></button>
+                        </div>
+                    </div>
+                    <div class="addProjectList mr-2">
+                        <button #btn type="button" class="btn-info mr-2" pButton icon="pi pi pi-sync" label="Làm mới" (click)="btnReset()" style="width:auto"></button>
+                        <!-- <a class="mr-2" href="#/category/tower/upload">
+                            <i class="ft-upload" aria-hidden="true" ></i>
+                            Tải lên</a> -->
+                    </div>
+                </div>
+            </section>
+            <ul ngbNav #nav="ngbNav" class="nav-tabs justify-content-center nav-justified w-80 bgModalTop"
+            orientation="horizontal" >
+                <li [ngbNavItem] = "7" class="bgModalTop">
+                    <a ngbNavLink (click)="onNew7()">Tất cả</a>
+                </li>
+                <li [ngbNavItem] = "1" class="bgModalTop">
+                    <a ngbNavLink (click)="onNew()">Đăng kí mới</a>
+                </li>
+                <li [ngbNavItem] = "2" class="bgModalTop">
+                    <a ngbNavLink (click)="onNew2()">Bổ sung thông tin</a>
+                </li>
+                <li [ngbNavItem] = "3" class="bgModalTop">
+                    <a ngbNavLink (click)="onNew3()">Duyệt đơn</a>
+                </li>
+                <li [ngbNavItem] = "4" class="bgModalTop">
+                    <a ngbNavLink (click)="onNew4()">Hủy đơn</a>
+                </li>
+                <li [ngbNavItem] = "5" class="bgModalTop">
+                    <a ngbNavLink (click)="onNew5()">Chờ nghiệm thu</a>
+                </li>
+                <li [ngbNavItem] = "6" class="bgModalTop">
+                    <a ngbNavLink (click)="onNew6()">Hoàn thành</a>
+                </li>
+            </ul>
+            <p-table 
+                [value]="lstConstruction"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable"
+                [scrollable]="true"
+                [(selection)]="selectedContructs">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3%">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th class="min-w-150">Mã đơn đăng ký</th>
+                        <th class="min-w-150">Nội dung thi công</th>
+                        <th class="min-w-100">Căn hộ</th>
+                        <th class="min-w-100">Người đăng ký</th>
+                        <th class="min-w-150">Số điện thoại</th>
+                        <th class="min-w-150">Người được ủy quyền</th>
+                        <th class="min-w-150">Số điện thoại người được ủy quyền</th>
+                        <th class="min-w-300 text-center">Trạng thái</th>
+                        <th class="min-w-150">Đặt cọc</th>
+                        <th class="min-w-150">Trạng thái đặt cọc</th>
+                        <th class="min-w-250">Ngày cập nhật đơn</th>
+                        <th class="min-w-250">Ngày nghiệm thu</th>
+                        <th class="min-w-250">Ngày đăng ký đơn</th>
+                        <th class="min-w-90">Hủy dịch vụ</th>
+                        <th class="min-w-100" alignFrozen="right" pFrozenColumn [frozen]="idFrozen" [ngClass]="{'color-bg': idFrozen}">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-construction let-rowIndex="rowIndex">
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="construction"></p-tableCheckbox>
+                        </td>
+                        <td>{{ construction.Code }}</td>
+                        <td>{{ construction.Contents }}</td>
+                        <td>{{ construction.ApartmentName }}</td>
+                        <td><span class="text-primary">{{ construction.RegisterName }}</span></td>
+                        <td>{{ construction.RegisterPhone }}</td>
+                        <td>{{ construction.AuthorityName }}</td>
+                        <td>{{ construction.AuthorityPhone}}</td>
+                        <!-- <td>{{ ShowStatusConstruction(construction.OrderStatus) }}</td> -->
+                        <td>
+                            <span class="alert alert-dark" *ngIf="construction.OrderStatus==1">Đăng ký mới</span>
+                            <span class="alert alert-secondary" *ngIf="construction.OrderStatus==2">Chờ cư dân bổ sung thông tin</span>
+                            <span class="alert alert-info" *ngIf="construction.OrderStatus==3">Duyệt đơn</span>
+                            <span class="alert alert-danger" *ngIf="construction.OrderStatus==4">Hủy đơn</span>
+                            <span class="alert alert-warning" *ngIf="construction.OrderStatus==5">Chờ nghiệm thu</span>
+                            <span class="alert alert-success" *ngIf="construction.OrderStatus==6">Hoàn thành</span>
+                        </td>
+                        <td>
+                            <span class="text-danger" *ngIf="construction.IsDeposit == false">Không</span>
+                            <span class="text-primary" *ngIf="construction.IsDeposit == true">Có</span>
+                        </td>
+                        <td>
+                            <span class="text-primary" *ngIf="construction.IsDeposit==true">{{ ShowStatusDeposit(construction.IsConfirm) }}</span>
+                            <span class="text-danger" *ngIf="construction.IsDeposit==false">Không đặt cọc</span>
+                        </td>
+                        <td>{{ construction.UpdatedAt ? (construction.UpdatedAt | date: 'dd/MM/yyyy') : '' }} - {{ construction.UpdatedAt ? (construction.UpdatedAt | date:'shortTime') : '' }}</td>
+                        <td>{{ construction.DateEnd ? (construction.DateEnd | date: 'dd/MM/yyyy') : '' }} - {{ construction.DateEnd ? (construction.DateEnd | date:'shortTime') : '' }}</td>
+                        <td>{{ construction.CreatedAt ? (construction.CreatedAt | date: 'dd/MM/yyyy') : '' }} - {{ construction.CreatedAt ? (construction.CreatedAt | date:'shortTime') : '' }}</td>
+                        <td><span *ngIf="construction.OrderStatus==4"><i class="pi pi-check text-danger"></i></span></td>
+                        <td alignFrozen="right" pFrozenColumn [frozen]="idFrozen" [ngClass]="{'color-bg': idFrozen}">
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" routerLink="/utilities/construction/update/{{ construction.Id }}" ></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(construction.Id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                                 <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

@@ -1,0 +1,50 @@
+<div class="container-user">
+    <span class="title">Thông tin tài khoản</span>
+    <div class="container-avt">
+        <img class="avt" src="{{imagePreview}}" />
+        <div class="text-center edit-avt">
+            <label>
+                <img src="assets/imgs/svg/ic-edit-avt.svg" style="cursor: pointer;" />
+                <input #file1 (change)="onChangeImage($event)" type="file" class="hidden" accept="image/*" />
+            </label>
+        </div>
+    </div>
+    <div class="grid formgrid content">
+        <div class="col-12">
+            <div class="field p-fluid input-info">
+                <label for="txtNameContacts" class="col-2">Tài khoản: </label>
+                <span class="name-account">{{userInfo.userName}}</span>
+            </div>
+        </div>
+        <div class="col-12 mt-4"  *ngIf="isEditName">
+            <div class="field p-fluid input-info">
+                <label for="txtNameContacts" class="col-2">Họ và tên: </label>
+                <div class="row col-10 text-right justify-content-end">
+                    <input id="txtNameContacts" type="text" pInputText [(ngModel)]="fullName" class="input-form mt-1" />
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-6" *ngIf="!isEditName">
+            <div class="field p-fluid input-info">
+                <label for="txtNameContacts" class="col-2">Họ và tên: </label>
+                <div class="d-flex justify-content-between w-full">
+                    <span class="name-account text-left">{{fullName}}</span>
+                    <span class="edit-info text-right" (click)="editUserName()">Chỉnh sửa</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-6">
+            <div class="field p-fluid input-info">
+                <label for="txtNameContacts" class="col-2">Email: </label>
+                <span class="name-account">{{userInfo.email}}</span>
+            </div>
+        </div>
+        <div class="col-12 p_float_right" *ngIf="isEditName">
+            <button class="btn btn-digi mr-5" (click)="saveInfoUser()"><img src="assets/imgs/svg/ic-save.svg"
+                    class="mr-3" />Lưu thông tin</button>
+        </div>
+    </div>
+</div>
+
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

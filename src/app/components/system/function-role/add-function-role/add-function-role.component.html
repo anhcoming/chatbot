@@ -1,0 +1,174 @@
+<div class="container-manage">
+    <span class="title"><img src="assets/imgs/svg/ic-title-screen.svg" class="mr-3" />{{ !(Id > 0) ? 'Thêm mới nhóm quyền' : 'Cập nhật nhóm quyền' }}</span>
+    <div class="grid formgrid mt-3" [formGroup]="fFunctionRole">
+        <div class="col-6">
+            <div class="field p-fluid">
+                <label for="txtCode" class="text-label">Mã quyền
+                    <span class="text-danger"> *</span>
+                </label>
+                <input id="txtCode" type="text" pInputText formControlName="Code" class="form-input">
+                <small *ngIf="fFunctionRole.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã quyền phải tối thiểu 3 kí tự.</small>
+                <small *ngIf="fFunctionRole.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã quyền chỉ được tối đa 25 kí tự.</small>
+                <small *ngIf="fFunctionRole.controls['Code'].hasError('required') && fFunctionRole.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập mã quyền.</small>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="field p-fluid">
+                <label for="txtName" class="text-label">Tên hiển thị
+                    <span class="text-danger"> *</span>
+                </label>
+                <input id="txtName" type="text" pInputText formControlName="Name" class="form-input">
+                <small *ngIf="fFunctionRole.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên quyền phải tối thiểu 6 kí tự.</small>
+                <small *ngIf="fFunctionRole.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên quyền chỉ được tối đa 150 kí tự.</small>
+                <small *ngIf="fFunctionRole.controls['Name'].hasError('required') && fFunctionRole.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên quyền.</small>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="field p-fluid">
+                <div>
+                    <label for="txtAddress" class="text-label">Mô tả</label>
+                </div>
+                <textarea id="txtNote" class="w-100 form-input" rows="5" pInputTextarea formControlName="Note"></textarea>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="field p-fluid">
+                <label for="txtName" class="text-label">Loại nhóm quyền
+                    <span class="text-danger"> *</span>
+                </label>
+                <p-dropdown
+                    [options]="listRole" 
+                    placeholder="Loại nhóm quyền" 
+                    emptyMessage="Không có dữ liệu."
+                    [showClear]="true" 
+                    formControlName="Subsystem" 
+                    optionLabel="name"
+                    optionValue="value"
+                    (onChange)="changeRole($event)"
+                    >
+                </p-dropdown>
+            </div>
+        </div>
+        <form name="form" class="form-custom" (ngSubmit)="f.form.valid && !validationExtend(1)" #f="ngForm" novalidate>
+            <div class="modal-body">
+                <div class="infoPackage">
+                    <div class="inDetailPackage">
+                        <div class="Detail_Packed AddForm_Package">
+                            <div class="ColForm_AddPackage">
+                                <div>
+                                    <nav ngbNav #altnav="ngbNav" class="nav-tabs">
+                                        <ng-container ngbNavItem style="border: 1px solid;">
+                                            <span class="text-lab">Chức năng</span>
+                                            <ng-template ngbNavContent>
+                                                <table class="table table-striped tableListProj tbl-in-dialog">
+                                                    <thead class="category-plan-thead">
+                                                        <tr>
+                                                            <th scope="col" class="stt-role">
+                                                                STT
+                                                            </th>
+                                                            <th scope="col" class="text-left">
+                                                                <span>Tên chức năng</span>
+                                                            </th>
+                                                            <th scope="col" class="func-role">
+                                                                <span>Full</span>
+                                                            </th>
+                                                            <th scope="col" class="func-role">
+                                                                <span>Menu</span>
+                                                                <input type="checkbox" value="None" class="checkbox1" id="Menu" name="Menu" value="" [(ngModel)]="Action.Menu" (change)="changeAction(9)" [disabled]="isView">
+                                                            </th>
+                                                            <th scope="col" class="func-role">
+                                                                <span>View</span>
+                                                                <input type="checkbox" value="None" class="checkbox1" id="View" name="View" value="" [(ngModel)]="Action.View" (change)="changeAction(1)" [disabled]="isView">
+                                                            </th>
+                                                            <th scope="col" class="func-role">
+                                                                <span>Create</span>
+                                                                <input type="checkbox" value="None" class="checkbox1" id="Create" name="Create" value="" [(ngModel)]="Action.Create" (change)="changeAction(2)" [disabled]="isView">
+                                                            </th>
+                                                            <th scope="col" class="func-role">
+                                                                <span>Update</span>
+                                                                <input type="checkbox" value="None" class="checkbox1" id="Update" name="Update" value="" [(ngModel)]="Action.Update" (change)="changeAction(3)" [disabled]="isView">
+                                                            </th>
+                                                            <th scope="col" class="func-role">
+                                                                <span>Delete</span>
+                                                                <input type="checkbox" value="None" class="checkbox1" id="Delete" name="Delete" value="" [(ngModel)]="Action.Delete" (change)="changeAction(4)" [disabled]="isView">
+                                                            </th>
+                                                            <th scope="col" class="func-role">
+                                                                <span>Import</span>
+                                                                <input type="checkbox" value="None" class="checkbox1" id="Import" name="Import" value="" [(ngModel)]="Action.Import" (change)="changeAction(5)" [disabled]="isView">
+                                                            </th>
+                                                            <th scope="col" class="func-role">
+                                                                <span>Export</span>
+                                                                <input type="checkbox" value="None" class="checkbox1" id="Export" name="Export" value="" [(ngModel)]="Action.Export" (change)="changeAction(6)" [disabled]="isView">
+                                                            </th>
+                                                            <th scope="col" class="func-role">
+                                                                <span>Print</span>
+                                                                <input type="checkbox" value="None" class="checkbox1" id="Print" name="Print" value="" [(ngModel)]="Action.Print" (change)="changeAction(7)" [disabled]="isView">
+                                                            </th>
+                                                            <th scope="col" class="func-role">
+                                                                <span>Other</span>
+                                                                <input type="checkbox" value="None" class="checkbox1" id="Other" name="Other" value="" [(ngModel)]="Action.Other" (change)="changeAction(8)" [disabled]="isView">
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let item of listFunction; let i = index" role="row">
+                                                            <td style=" text-align: center; font-weight: bold;" class="stt-role">{{ i + 1 }}</td>
+                                                            <td class="pl-5">
+                                                                <!-- <span *ngFor="let number of [].constructor(item.level); let i = index"></span> -->
+                                                                <span>{{item.name}}</span>
+                                                            </td>
+                                                            <td class="func-role">
+                                                              <input *ngIf="!item.IsParamRoute" type="checkbox" value="None" class="checkbox1" [(ngModel)]="item.Full" [ngModelOptions]="{standalone: true}" (change)="changeFull(i)" [disabled]="isView">
+                                                            </td>
+                                                            <td class="func-role">
+                                                              <input *ngIf="!item.IsParamRoute" type="checkbox" value="None" class="checkbox1" [(ngModel)]="item.Menu" [ngModelOptions]="{standalone: true}" (change)="changeCell()" [disabled]="isView">
+                                                            </td>
+                                                            <td class="func-role">
+                                                              <input type="checkbox" value="None" class="checkbox1" [(ngModel)]="item.View" [ngModelOptions]="{standalone: true}" (change)="changeCell()" [disabled]="isView">
+                                                            </td>
+                                                            <td class="func-role">
+                                                              <input type="checkbox" value="None" class="checkbox1" [(ngModel)]="item.Create" [ngModelOptions]="{standalone: true}" (change)="changeCell()" [disabled]="isView">
+                                                            </td>
+                                                            <td class="func-role">
+                                                              <input type="checkbox" value="None" class="checkbox1" [(ngModel)]="item.Update" [ngModelOptions]="{standalone: true}" (change)="changeCell()" [disabled]="isView">
+                                                            </td>
+                                                            <td class="func-role">
+                                                              <input type="checkbox" value="None" class="checkbox1" [(ngModel)]="item.Delete" [ngModelOptions]="{standalone: true}" (change)="changeCell()" [disabled]="isView">
+                                                            </td>
+                                                            <td class="func-role">
+                                                              <input type="checkbox" value="None" class="checkbox1" [(ngModel)]="item.Import" [ngModelOptions]="{standalone: true}" (change)="changeCell()" [disabled]="isView">
+                                                            </td>
+                                                            <td class="func-role">
+                                                              <input type="checkbox" value="None" class="checkbox1" [(ngModel)]="item.Export" [ngModelOptions]="{standalone: true}" (change)="changeCell()" [disabled]="isView">
+                                                            </td>
+                                                            <td class="func-role">
+                                                              <input type="checkbox" value="None" class="checkbox1" [(ngModel)]="item.Print" [ngModelOptions]="{standalone: true}" (change)="changeCell()" [disabled]="isView">
+                                                            </td>
+                                                            <td class="func-role">
+                                                              <input type="checkbox" value="None" class="checkbox1" [(ngModel)]="item.Other" [ngModelOptions]="{standalone: true}" (change)="changeCell()" [disabled]="isView">
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </ng-template>
+                                        </ng-container>
+                                    </nav>
+        
+                                    <div  style="height: 250px; overflow-y: scroll;padding-top: 0px;" [ngbNavOutlet]="altnav" class="mt-3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="col-12 p_float_right mt-3">
+            <p-toast></p-toast>
+            <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="onBack($event)">
+                <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+            </button>
+            <button class="btn btn-digi" (click)="onSubmit()"><img src="assets/imgs/svg/ic-check.svg" class="mr-3" />Xác nhận</button>
+        </div>
+    </div>
+</div>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

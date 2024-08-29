@@ -1,0 +1,35 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+                <h4>Tìm kiếm dữ liệu</h4>
+            <div class="textFilterProj">
+                <span>Tìm kiếm</span>
+                <div>
+                    <input type="text" placeholder="Nhập từ khóa" [(ngModel)]="searchTxt" (keyup.enter)="onSearch()" />
+                    <button (click)="onSearch()">Tìm kiếm</button>
+                </div>
+                <div *ngIf="results !== undefined || results !== null">
+                    <ul>
+                        <li *ngFor="let result of results?.hits?.hits">
+                             <div>
+                                <div>
+                                    <span [innerHTML]="result.highlight.content.join(' ')"></span>
+                                    <p [innerHTML]="result._source.content"></p>
+                                </div>
+                                <div class="download-btn-elastic-search">
+                                    <div><small style="font-size: 14px;">Nguồn: {{  getSourceName(result._source.site) }}</small></div>
+                                    <button (click)="downloadFile(result._source.file_name, result._source.bucket_name, result._source.site)">Tải xuống</button>
+                                    <!-- <p-splitButton 
+                                    label="Tải xuống" 
+                                    (onClick)="downloadFile(result._source.file_name, result._source.bucket_name)" 
+                                    [model]="items" /> -->
+                                </div>
+                             </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast />

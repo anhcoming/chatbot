@@ -1,0 +1,83 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fConstructDocument">
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Tên hồ sơ
+                             <span class="text-danger">*</span>
+                        </label>
+                        <input id="txtCode" type="text" pInputText formControlName="Name">
+                    </div>
+                    <small *ngIf="fConstructDocument.controls['Name'].hasError('required') && fConstructDocument.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên hồ sơ.</small>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Trạng thái hồ sơ</label>
+                         <span class="text-danger">*</span>
+                        <p-dropdown
+                            [options]="DocumentStatus"
+                            placeholder="Trạng thái hồ sơ"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="StatusProcess"
+                            optionLabel="label"
+                            optionValue="value">
+                        </p-dropdown>
+                    </div>
+                    <small *ngIf="fConstructDocument.controls['StatusProcess'].hasError('required') && fConstructDocument.controls['StatusProcess'].dirty" class="p-invalid text-danger">Vui lòng chọn trạng thái hồ sơ.</small>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Loại hồ sơ</label>
+                         <span class="text-danger">*</span>
+                        <p-dropdown
+                            [options]="DocumentFileType"
+                            placeholder="Loại hồ sơ"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="Type"
+                            optionLabel="label"
+                            optionValue="value">
+                        </p-dropdown>
+                    </div>
+                    <small *ngIf="fConstructDocument.controls['Type'].hasError('required') && fConstructDocument.controls['Type'].dirty" class="p-invalid text-danger">Vui lòng chọn loại hồ sơ.</small>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Số lượng
+                             <span class="text-danger">*</span>
+                        </label>
+                        <input id="txtCode" type="text" pInputText formControlName="Quatity">
+                    </div>
+                    <small *ngIf="fConstructDocument.controls['Quatity'].hasError('required') && fConstructDocument.controls['Quatity'].dirty" class="p-invalid text-danger">Vui lòng nhập số lượng.</small>
+                </div>
+                <div class="col-6">
+                    <label for="txtattactments" class="form-label">Tài liệu đính kèm</label>
+                    <input  formControlName="listAttactments"  class="form-control no-bor" type="file" multiple (change)="onFileSelected($event)">
+                    <a *ngFor="let file of listAttactments;  let i = index"
+                        class="list-group-item list-group-item-success a-att"
+    
+                        href="http://i-category.cnttvietnam.com.vn/uploads/files/{{file.Name}}" target="_blank">{{file.Name}}<span
+                          (click)="RemoveAttactment(file)"
+                          class="span-attactment">x</span><br></a>
+               </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtFeedback">Ghi chú hồ sơ</label>
+                        </div>
+                        <textarea id="txtFeedback" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                    </div>
+                </div>     
+            </div>    
+        </div>
+        <div class="col-12 p_float_right">
+            <p-toast></p-toast>
+            <button pButton pRipple type="button" label="Hủy bỏ" class="p-button-outlined p-button-secondary mr-2" (click)="onBack()">
+                <span class="pi pi-times-circle"></span>
+            </button>
+            <p-button *ngIf="!lstOrderDocument" [label]=" !(id > 0) ? 'Xác nhận' : 'Xác nhận'" [icon]="!(id) ? 'pi pi-plus' : 'pi pi-check'"  
+                [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+    </div>        
+</div>

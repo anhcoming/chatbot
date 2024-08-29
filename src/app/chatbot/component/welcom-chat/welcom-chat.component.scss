@@ -1,0 +1,70 @@
+.welcome{
+    align-items: center;
+    .main-text{
+        font-family: Roboto;
+        font-size: 54px;
+        font-weight: 700;
+        text-align: center;
+    }
+    .gradient-text {
+        font-size: 48px;
+        font-weight: 700;
+        background: linear-gradient(90deg, #FE030C 0%, #7F36F8 54.4%, #1162FF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+    }
+}
+.grid{
+    img {
+        width: 100%;
+        height: auto;
+    }
+}
+@media (max-width: 767px) {
+    .col-sm-12.col-md-6.col-lg-3 {
+        width: 50%; /* Tương đương với col-6 */
+    }
+    .gradient-text {
+        font-size: 30px !important;
+    }
+    .img-high {
+        margin-top: 0 !important;
+    }
+}
+@media (max-width: 300px) {
+    .col-sm-12.col-md-6.col-lg-3 {
+        width: 100%; /* Tương đương với col-6 */
+    }
+    .img-high {
+        margin-top: 0 !important;
+    }
+}
+@media (min-width: 576px) {
+    .col-sm-12.col-md-6.col-lg-3 {
+     flex:none
+    }
+    .img-high {
+        margin-top: 0 !important;
+    }
+}
+
+@media (max-width: 1200px) {
+        .col-sm-12.col-md-6.col-lg-3 {
+            width: 50%; /* Tương đương với col-6 */
+    }
+    .img-high {
+        margin-top: 1rem !important;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    .img-high {
+        margin-top: -60px !important;
+    }
+}
+

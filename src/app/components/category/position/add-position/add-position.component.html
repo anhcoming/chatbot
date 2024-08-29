@@ -1,0 +1,88 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fPosition">
+            <h3 class="mg-0">
+                {{ !(posID > 0) ? 'Thêm mới chức vụ' : 'Cập nhật chức vụ' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="textCodePosition">Mã chức vụ </label>
+                        <span class="text-danger"> *</span>
+                        <input id="textCodePosition" type="text" pInputText formControlName="Code" minlength="3" maxlength="50" required>
+                        <small *ngIf="fPosition.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã chức vụ tối thiểu 3 ký tự.</small>
+                        <small *ngIf="fPosition.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã chức vụ tối đa 50 ký tự</small>
+                        <small *ngIf="fPosition.controls['Code'].hasError('required') && fPosition.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập mã chức vụ</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="textPosition">Tên chức vụ<span class="text-danger"> *</span></label>
+                        <input id="textPosition" type="text" pInputText formControlName="Name" minlength="5" maxlength="150" required>
+                        <small *ngIf="fPosition.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên chức vụ tối thiểu 6 ký tự.</small>
+                        <small *ngIf="fPosition.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên chức vụ tối đa 150 ký tự</small>
+                        <small *ngIf="fPosition.controls['Name'].hasError('required') && fPosition.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên chức vụ</small>
+                    </div>
+                </div>
+                <!-- <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstProject" 
+                            placeholder="Khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ProjectId" 
+                            optionLabel="Name" 
+                            optionValue="Id">
+                        </p-dropdown>    
+                        <small *ngIf="fPosition.controls['ProjectId'].hasError('required') && fPosition.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn Khu đô thị</small>
+                    </div>
+                </div> -->
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPhoneContact">Cấp độ</label>
+                        <span class="text-danger"> *</span>
+                        <input id="txtPhoneContact" type="number" pInputText formControlName="LevelId" minlength="1" maxlength="5" required>
+                        <small *ngIf="fPosition.controls['LevelId'].hasError('minlength')" class="p-invalid text-danger">Cấp độ phải lớn hơn 0.</small>
+                        <small *ngIf="fPosition.controls['LevelId'].hasError('maxlength')" class="p-invalid text-danger">Cấp độ phải nhỏ hơn 9999</small>
+                        <small *ngIf="fPosition.controls['LevelId'].hasError('required') && fPosition.controls['LevelId'].dirty" class="p-invalid text-danger">Vui lòng nhập cấp độ</small>
+                        <small *ngIf="fPosition.controls['LevelId'].value < 0" class="p-invalid text-danger">Cấp độ phải lớn hơn hoặc bằng 0</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-check mg-t-2">
+                        <input formControlName="IsNotification" class="form-check-input" type="checkbox" value="false" id="IsNotification">
+                        <label class="form-check-label" for="flexCheckDefault" >
+                          Người nhận thông báo đầu tiên
+                        </label>
+                      </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAddress">Mô tả</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                    </div>
+                </div>
+               
+
+
+                <div class="col-12 p_float_right">
+                    <p-confirmDialog class="custom-toast"></p-confirmDialog>
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button class="p-button-outlined p-button-primary" icon='pi pi-check'
+                        label='Xác nhận' [loading]="loading[0]" (onClick)="onSubmit()">  
+                    </p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+
+

@@ -1,0 +1,52 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fRole">
+            <h3 class="mg-0">
+                {{ !(id>0) ? 'Thêm mới quyền quản lý' : 'Cập nhật quyền' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Mã quản lý</label>
+                        <span class="text-danger"> *</span>
+                        <input id="txtCode" type="text" pInputText formControlName="Code">
+                        <small *ngIf="fRole.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã quản lý phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fRole.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã quản lý chỉ được tối đa 25 kí tự.</small>
+                        <small *ngIf="fRole.controls['Code'].hasError('required') && fRole.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập mã quyền quản lý</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên hiển thị
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name">
+                        <small *ngIf="fRole.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên hiển thị phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fRole.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên hiển thị chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fRole.controls['Name'].hasError('required') && fRole.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên hiển thị.</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAddress">Mô tả</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                        <small *ngIf="fRole.controls['Note'].hasError('minlength')" class="p-invalid text-danger">Mô tả phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fRole.controls['Note'].hasError('maxlength')" class="p-invalid text-danger">Mô tả chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fRole.controls['Note'].hasError('required') && fRole.controls['Note'].dirty" class="p-invalid text-danger">Vui lòng nhập mô tả.</small>
+                    </div>
+                </div>
+
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

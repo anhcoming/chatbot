@@ -1,0 +1,100 @@
+<div class="container-manage">
+    <span class="title"><img src="assets/imgs/svg/ic-title-screen.svg" class="mr-3" />{{ !(funcId > 0) ? 'Thêm mới chức
+        năng' : 'Cập nhật chức năng' }}</span>
+    <div class="grid formgrid mt-3" [formGroup]="fFunction">
+        <div class="col-6">
+            <div class="field p-fluid">
+                <label for="txtCode" class="text-label">Mã chức năng
+                    <span class="text-danger"> *</span>
+                </label>
+                <input id="txtCode" type="text" pInputText formControlName="Code" class="form-input">
+                <small *ngIf="fFunction.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Tên dự án
+                    phải tối thiểu 3 kí tự.</small>
+                <small *ngIf="fFunction.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Tên dự án
+                    chỉ được tối đa 25 kí tự.</small>
+                <small *ngIf="fFunction.controls['Code'].hasError('required') && fFunction.controls['Code'].dirty"
+                    class="p-invalid text-danger">Vui lòng nhập mã chức năng.</small>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="field p-fluid">
+                <label for="txtName" class="text-label">Tên hiển thị
+                    <span class="text-danger"> *</span>
+                </label>
+                <input id="txtName" type="text" pInputText formControlName="Name" class="form-input">
+                <small *ngIf="fFunction.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên dự án
+                    phải tối thiểu 6 kí tự.</small>
+                <small *ngIf="fFunction.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên dự án
+                    chỉ được tối đa 150 kí tự.</small>
+                <small *ngIf="fFunction.controls['Name'].hasError('required') && fFunction.controls['Name'].dirty"
+                    class="p-invalid text-danger">Vui lòng nhập tên chức năng.</small>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="field p-fluid">
+                <label for="txtDistrict" class="text-label">Chức năng cha</label>
+                <p-dropdown [options]="lstFunctionPerant" placeholder="Chức năng cha" emptyMessage="Không có dữ liệu."
+                    [showClear]="true" formControlName="FunctionParentId" optionLabel="name" optionValue="id">
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="field p-fluid">
+                <label for="txtPersonContact" class="text-label">Icon
+                    <span class="text-danger"> *</span>
+                </label>
+                <input id="txtName" type="text" pInputText formControlName="Icon" class="form-input">
+                <small *ngIf="fFunction.controls['Icon'].hasError('required') && fFunction.controls['Icon'].dirty"
+                    class="p-invalid text-danger">Vui lòng nhập Icon.</small>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="field p-fluid">
+                <label for="txtPersonContact" class="text-label">Đường dẫn
+                    <span *ngIf="fFunction.get('FunctionParentId').value" class="text-danger"> *</span>
+                </label>
+                <input id="txtName" type="text" pInputText formControlName="Url" class="form-input">
+                <small *ngIf="fFunction.controls['Url'].hasError('required') && fFunction.controls['Url'].dirty"
+                    class="p-invalid text-danger">Vui lòng nhập Đường dẫn.</small>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="field p-fluid">
+                <label for="txtPhoneContact" class="text-label">Vị trí
+                    <span class="text-danger"> *</span>
+                </label>
+                <input id="txtPhoneContact" type="number" pInputText formControlName="Location" class="form-input">
+                <small
+                    *ngIf="fFunction.controls['Location'].hasError('required') && fFunction.controls['Location'].dirty"
+                    class="p-invalid text-danger">Vui lòng nhập vị trí.</small>
+            </div>
+        </div>
+        <div class="col-12 mt-2">
+            <div class="field p-fluid d-flex align-items-center">
+                <p-checkbox formControlName="SubSystem" [binary]="true" variant="filled" (onChange)="changeSubSystem($event)" />
+                <span for="txtAddress" class="text-label ml-2">Chức năng đơn vị</span>
+            </div>
+        </div>
+
+        <div class="col-12 mt-2">
+            <div class="field p-fluid">
+                <div>
+                    <label for="txtAddress" class="text-label">Mô tả</label>
+                </div>
+                <textarea id="txtNote" class="w-100 form-input" rows="5" pInputTextarea
+                    formControlName="Note"></textarea>
+            </div>
+        </div>
+
+        <div class="col-12 p_float_right">
+            <p-toast></p-toast>
+            <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="onBack($event)">
+                <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+            </button>
+            <button class="btn btn-digi" (click)="onSubmit()"><img src="assets/imgs/svg/ic-check.svg" class="mr-3" />Xác
+                nhận</button>
+        </div>
+    </div>
+</div>
+
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

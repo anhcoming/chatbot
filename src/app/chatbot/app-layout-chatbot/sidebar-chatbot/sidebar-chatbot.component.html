@@ -1,0 +1,162 @@
+<div class="sidebar" [ngClass]="{'closed': isClosed}">
+    <div class="sticky-top h-5rem flex align-items-center pl-2 justify-content-between">
+        <div id="toggle-bigSide" class="w-full {{isClosed ? 'text-center':''}}">
+            <svg class="cursor-pointer pin-icon" (click)="toggleSidebar()" width="41" height="31" viewBox="0 0 41 31"
+                xmlns="http://www.w3.org/2000/svg">
+                <!-- Thay đổi hình dạng để có diện tích có thể fill -->
+                <rect x="8" y="7" width="15" height="3" />
+                <rect x="8" y="23" width="10" height="3" />
+                <rect x="8" y="15" width="24" height="3" />
+            </svg>
+
+        </div>
+        <img id="toggle-logo" class="pl-3 cursor-pointer" src="assets/imgs-chatbot/svg/logo{{theme ?'':'-dark'}}.svg" alt="">
+        <i (click)="onButtonClick()" id="close-popup" class="cursor-pointer pi pi-times pr-3"></i>
+    </div>
+    <hr>
+    <div class="content flex-grow-1 text-center">
+        <ng-container *ngIf="!isClosed;else miniSide">
+            <div class="sticky-top">
+                <div (click)="linkToNew()"
+                    class="{{checkDisableAddNew ? 'btn-add-disabled':'btn-add' }} text-left cursor-pointer flex justify-content-between align-items-center ">
+                    <span>THÊM MỚI TRÒ CHUYỆN</span>
+                    <img class="cursor-pointer" src="assets/imgs-chatbot/svg/chat.svg" alt="">
+                </div>
+            </div>
+            <div class="overflow-y-hidden">
+                <div class="pin mt-3" *ngFor="let item of data;let i = index">
+                    <div class="pin-option flex align-items-center p-3 gap-2">
+                        <svg class="pin-icon" width="22" height="22" viewBox="0 0 22 22" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M14.1504 0.0988282C13.9707 0.215625 13.7551 0.664844 13.6293 1.12305C13.4676 1.75195 13.4496 2.28203 13.5574 2.95586L13.6562 3.57578L13.3508 3.91719C13.1891 4.10586 12.2637 5.04922 11.3023 6.01055L9.55039 7.75352L8.99336 7.52891C8.68789 7.40312 8.17578 7.23242 7.86133 7.14258C7.34023 7.00781 7.16953 6.98984 6.21719 6.98984C5.23789 6.98984 5.12109 6.99883 4.62695 7.15156C3.97109 7.3582 3.40508 7.63672 2.91094 8.00508C2.42578 8.36445 2.29102 8.54414 2.29102 8.80469C2.29102 9.00234 2.4168 9.14609 4.32148 11.0598C5.43555 12.1828 6.34297 13.1262 6.325 13.1531C6.31602 13.1801 4.8875 14.8602 3.15352 16.8727C0.197656 20.3137 0 20.5563 0 20.7719C0 21.1492 0.341406 21.4008 0.682813 21.275C0.763672 21.248 2.4707 19.8016 4.47422 18.0676L8.11289 14.9051L10.1164 16.8996C11.2125 17.9957 12.1738 18.9211 12.2547 18.966C12.4703 19.0738 12.7219 18.984 12.9734 18.7055C13.4945 18.1305 13.9258 17.3488 14.1414 16.5223C14.2492 16.127 14.2762 15.8664 14.2762 15.0758C14.2852 14.2043 14.2672 14.0516 14.1055 13.4406C14.0066 13.0723 13.8359 12.5422 13.7102 12.2547L13.4855 11.7336L15.5789 9.64023L17.6723 7.55586L18.0316 7.63672C18.5168 7.75352 19.568 7.75352 20.0262 7.63672C20.8617 7.41211 21.2031 7.17852 21.2031 6.80117C21.2031 6.54961 21.1762 6.53164 17.9238 3.2793C15.0398 0.395313 14.6266 0 14.4648 0C14.366 0 14.2223 0.0449219 14.1504 0.0988282Z" />
+                        </svg>
+
+                        <p class="font-weight-bold text-color-blue-black">{{ item.label }}</p>
+                    </div>
+                    <div class="item-pin flex flex-column">
+                        <div [routerLink]="['/chat-bot/'+ data?.id]" (click)="chooseItem(data.no, data.id)"
+                             *ngFor="let data of item?.dataShow"
+                             class="{{data.active?'active':''}} item flex align-items-center justify-content-between">
+                            <div class="text-ellipsis fade-out-text">{{ data.name }}</div>
+                            <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
+                                <button class="dot pr-3 icon-button" (click)="op.toggle($event)">
+                                    <i class="pi pi-ellipsis-h"></i>
+                                </button>
+                                <p-overlayPanel #op appendTo="body" class="custom-overlay-panel">
+                                    <button *ngIf="data.pin" ngbDropdownItem (click)="unPin(data.id)">
+                                        <svg width="20" height="20" class="cursor-pointer pin-icon" viewBox="0 0 20 20"
+                                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M10.678 0.303092C10.5424 0.391228 10.3797 0.730211 10.2847 1.07597C10.1627 1.55055 10.1492 1.95055 10.2305 2.45902L10.3051 2.92682L10.0746 3.18445C9.95254 3.32682 9.25424 4.03869 8.52881 4.76411L7.20678 6.07936L6.78644 5.90987C6.55593 5.81496 6.16949 5.68614 5.9322 5.61835C5.53898 5.51665 5.41017 5.50309 4.69153 5.50309C3.95254 5.50309 3.86441 5.50987 3.49153 5.62513C2.99661 5.78106 2.56949 5.99123 2.19661 6.26919C1.83051 6.54038 1.72881 6.67597 1.72881 6.87258C1.72881 7.02174 1.82373 7.13021 3.26102 8.57428C4.10169 9.42174 4.78644 10.1336 4.77288 10.1539C4.7661 10.1743 3.68814 11.4421 2.37966 12.9607C0.149152 15.5573 0 15.7404 0 15.9031C0 16.1878 0.257627 16.3777 0.515254 16.2828C0.576271 16.2624 1.86441 15.1709 3.37627 13.8624L6.12203 11.476L7.6339 12.9811C8.46102 13.8082 9.18644 14.5065 9.24746 14.5404C9.41017 14.6217 9.6 14.5539 9.78983 14.3438C10.1831 13.9099 10.5085 13.32 10.6712 12.6963C10.7525 12.398 10.7729 12.2014 10.7729 11.6048C10.7797 10.9472 10.7661 10.8319 10.6441 10.3709C10.5695 10.0929 10.4407 9.69292 10.3458 9.47597L10.1763 9.08275L11.7559 7.50309L13.3356 5.93021L13.6068 5.99123C13.9729 6.07936 14.7661 6.07936 15.1119 5.99123C15.7424 5.82174 16 5.64546 16 5.36072C16 5.17089 15.9797 5.15733 13.5254 2.70309C11.3492 0.526821 11.0373 0.228516 10.9153 0.228516C10.8407 0.228516 10.7322 0.262414 10.678 0.303092Z" />
+                                        </svg>
+                                        <span class="ml-2 text-option">Bỏ ghim</span></button>
+                                        <button *ngIf="!data.pin" ngbDropdownItem (click)="pin(data.id)">
+                                            <svg width="20" height="20" class="cursor-pointer pin-icon" viewBox="0 0 20 20"
+                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M10.678 0.303092C10.5424 0.391228 10.3797 0.730211 10.2847 1.07597C10.1627 1.55055 10.1492 1.95055 10.2305 2.45902L10.3051 2.92682L10.0746 3.18445C9.95254 3.32682 9.25424 4.03869 8.52881 4.76411L7.20678 6.07936L6.78644 5.90987C6.55593 5.81496 6.16949 5.68614 5.9322 5.61835C5.53898 5.51665 5.41017 5.50309 4.69153 5.50309C3.95254 5.50309 3.86441 5.50987 3.49153 5.62513C2.99661 5.78106 2.56949 5.99123 2.19661 6.26919C1.83051 6.54038 1.72881 6.67597 1.72881 6.87258C1.72881 7.02174 1.82373 7.13021 3.26102 8.57428C4.10169 9.42174 4.78644 10.1336 4.77288 10.1539C4.7661 10.1743 3.68814 11.4421 2.37966 12.9607C0.149152 15.5573 0 15.7404 0 15.9031C0 16.1878 0.257627 16.3777 0.515254 16.2828C0.576271 16.2624 1.86441 15.1709 3.37627 13.8624L6.12203 11.476L7.6339 12.9811C8.46102 13.8082 9.18644 14.5065 9.24746 14.5404C9.41017 14.6217 9.6 14.5539 9.78983 14.3438C10.1831 13.9099 10.5085 13.32 10.6712 12.6963C10.7525 12.398 10.7729 12.2014 10.7729 11.6048C10.7797 10.9472 10.7661 10.8319 10.6441 10.3709C10.5695 10.0929 10.4407 9.69292 10.3458 9.47597L10.1763 9.08275L11.7559 7.50309L13.3356 5.93021L13.6068 5.99123C13.9729 6.07936 14.7661 6.07936 15.1119 5.99123C15.7424 5.82174 16 5.64546 16 5.36072C16 5.17089 15.9797 5.15733 13.5254 2.70309C11.3492 0.526821 11.0373 0.228516 10.9153 0.228516C10.8407 0.228516 10.7322 0.262414 10.678 0.303092Z"/>
+                                            </svg>
+                                            <span class="ml-2 text-option">Ghim</span></button>
+                                    <button ngbDropdownItem (click)="exportDocx(data.id, data.name)">
+                                        <svg width="20" height="20" class="cursor-pointer pin-icon" viewBox="0 0 20 20"
+                                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M10 3.3335C13.0333 3.3335 15.5583 5.49183 16.125 8.36683C18.2917 8.51683 20 10.3002 20 12.5002C20 14.8002 18.1333 16.6668 15.8333 16.6668H5C2.24167 16.6668 0 14.4252 0 11.6668C0 9.09183 1.95 6.96683 4.45833 6.70016C5.5 4.70016 7.59167 3.3335 10 3.3335ZM11.6667 14.1668V10.8335H14.1667L10.3 6.9585C10.1333 6.79183 9.875 6.79183 9.70833 6.9585L5.83333 10.8335H8.33333V14.1668H11.6667Z" />
+                                        </svg>
+                                        <span class="ml-2 text-option">Xuất word</span></button>
+                                    <button ngbDropdownItem>
+                                        <svg width="20" height="20" class="cursor-pointer pin-icon" viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M15.5315 4.22339C15.824 4.51589 15.824 4.98839 15.5315 5.28089L14.159 6.65339L11.3465 3.84089L12.719 2.46839C12.8591 2.32795 13.0494 2.24902 13.2478 2.24902C13.4462 2.24902 13.6364 2.32795 13.7765 2.46839L15.5315 4.22339ZM2.24902 15.3759V13.0959C2.24902 12.9909 2.28652 12.9009 2.36152 12.8259L10.544 4.64339L13.3565 7.45589L5.16652 15.6384C5.09902 15.7134 5.00152 15.7509 4.90402 15.7509H2.62402C2.41402 15.7509 2.24902 15.5859 2.24902 15.3759Z" />
+                                        </svg>
+                                        <span class="ml-2 text-option">Đổi tên</span></button>
+                                    <button ngbDropdownItem (click)="storageChatSession(data.id)">
+                                        <svg width="20" height="20" class="cursor-pointer pin-icon"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M10.0003 5.00016H16.667C17.5837 5.00016 18.3337 5.75016 18.3337 6.66683V15.0002C18.3337 15.9168 17.5837 16.6668 16.667 16.6668H3.33366C2.41699 16.6668 1.66699 15.9168 1.66699 15.0002L1.67533 5.00016C1.67533 4.0835 2.41699 3.3335 3.33366 3.3335H7.64199C8.08366 3.3335 8.50866 3.5085 8.82533 3.82516L10.0003 5.00016ZM4.16699 15.0002H15.8337C16.292 15.0002 16.667 14.6252 16.667 14.1668V7.50016C16.667 7.04183 16.292 6.66683 15.8337 6.66683H4.16699C3.70866 6.66683 3.33366 7.04183 3.33366 7.50016V14.1668C3.33366 14.6252 3.70866 15.0002 4.16699 15.0002Z" />
+                                        </svg>
+                                        <span class="ml-2 text-option">Lưu trữ</span></button>
+                                    <button (click)="confirm(data.id)" ngbDropdownItem>
+                                        <img width="20px" height="20px" class="cursor-pointer"
+                                            src="assets/imgs-chatbot/svg/action-delete.svg" alt="">
+                                        <span class="ml-2 text-color-red">Xóa</span>
+                                    </button>
+                                </p-overlayPanel>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-pin flex flex-column">
+                        <div class="flex align-items-center py-2">
+                            <ng-container *ngIf="!checkShow(i)" >
+                                <img (click)="showMorePin(item.type)" class="cursor-pointer ml-4"
+                                src="assets/imgs-chatbot/svg/show-more.svg" alt="">
+                            <div (click)="showMorePin(item.type)" class="text-color-blue cursor-pointer">Hiện thêm
+                            </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </ng-container>
+
+        <ng-template #miniSide>
+            <img (click)="linkToNew()" id="mini-newchat" width="35px" class="cursor-pointer" src="assets/imgs-chatbot/svg/chat-color{{checkDisableAddNew?'-disabled':''}}.svg"
+                alt="">
+        </ng-template>
+
+
+        <!-- Thêm nhiều nội dung hơn nếu cần -->
+    </div>
+    <div class="bottom h-8rem flex flex-column justify-content-center px-4 gap-3">
+        <div [routerLink]="['/chat-bot/user-info']" routerLinkActive="router-link-active"  class="cursor-pointer flex align-items-center gap-2 {{isClosed ? 'justify-content-center':''}}">
+            <img width="27px" class="cursor-pointer" src="assets/imgs-chatbot/svg/user.svg"
+                alt="">
+            <p *ngIf="!isClosed" class="font-weight-bold text-color-blue-black">Tài khoản</p>
+        </div>
+        <div (click)="logOut()" class="flex align-items-center gap-2 {{isClosed ? 'justify-content-center':''}}">
+            <svg width="27" class="cursor-pointer pin-icon" viewBox="0 0 23 23" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M9.3878 19.4795C9.35841 19.4013 9.34829 19.3348 9.35826 19.281C9.36818 19.2276 9.33401 19.1833 9.25566 19.1492C9.17731 19.1151 9.13821 19.088 9.13821 19.0687C9.13821 19.0492 9.08206 19.0344 8.96949 19.0248C8.85698 19.015 8.80082 19.01 8.80082 19.01H8.61022H8.44889H4.2244C3.579 19.01 3.02645 18.7804 2.56678 18.3205C2.10721 17.8608 1.87746 17.3084 1.87746 16.6631V6.33654C1.87746 5.69115 2.10716 5.1388 2.56678 4.67918C3.02645 4.21951 3.579 3.9896 4.2244 3.9896H8.91822C9.04538 3.9896 9.14536 3.95806 9.21888 3.89435C9.29209 3.8308 9.34089 3.73539 9.36545 3.60828C9.38991 3.48118 9.40465 3.3664 9.40959 3.2637C9.41442 3.1611 9.41205 3.03143 9.40219 2.87499C9.39248 2.71859 9.3876 2.62083 9.3876 2.58152C9.3876 2.45442 9.3411 2.34462 9.24826 2.25153C9.15532 2.15885 9.04538 2.11235 8.91827 2.11235H4.2244C3.06082 2.11235 2.06575 2.52552 1.23936 3.35181C0.413171 4.1781 0 5.17301 0 6.33669V16.6631C0 17.8267 0.413171 18.8218 1.23936 19.6478C2.06575 20.4745 3.06082 20.8877 4.2244 20.8877H8.91843C9.04558 20.8877 9.14561 20.8557 9.21908 20.7924C9.29229 20.7288 9.3411 20.6335 9.36566 20.5062C9.39011 20.3793 9.40486 20.2639 9.40979 20.1616C9.41462 20.0589 9.41226 19.9295 9.40239 19.7731C9.39258 19.6165 9.3878 19.5188 9.3878 19.4795Z" />
+                <path
+                    d="M22.7215 10.8399L14.742 2.86014C14.5563 2.67457 14.3362 2.58147 14.082 2.58147C13.8277 2.58147 13.6076 2.67457 13.4217 2.86014C13.2359 3.04597 13.1431 3.26622 13.1431 3.52033V7.74483H6.57167C6.31725 7.74483 6.09731 7.83792 5.91148 8.0235C5.72565 8.20933 5.63281 8.42943 5.63281 8.68369V14.3164C5.63281 14.5706 5.72565 14.7907 5.91148 14.9765C6.09751 15.1619 6.31741 15.2553 6.57167 15.2553H13.1431V19.4797C13.1431 19.7338 13.2359 19.9541 13.4218 20.1398C13.6076 20.3256 13.8277 20.4186 14.082 20.4186C14.3362 20.4186 14.5563 20.3256 14.7421 20.1398L22.7215 12.1603C22.9073 11.9744 23.0002 11.7546 23.0002 11.5003C23.0002 11.246 22.9073 11.0257 22.7215 10.8399Z" />
+            </svg>
+
+            <p *ngIf="!isClosed"  class="font-weight-bold text-color-blue-black">Đăng xuất</p>
+        </div>
+    </div>
+</div>
+<div id="delete-options" class="flex justify-content-start">
+    <p-dialog header="Xác nhận xóa" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem' }"
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+        <div class="w-full flex justify-content-center align-item-center justify-content-center">
+            Bạn có chắc chắn muốn xóa cuộc trò chuyện này?
+        </div>
+        <div class="flex justify-content-center mt-2 gap-2">
+            <div (click)="cancel()" class="cancel flex px-5 py-2 align-item-center gap-2">
+                <div class="flex align-item-center">
+                    <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M3.89951 2.92873C7.80274 -0.974496 14.1384 -0.974496 18.0416 2.92873C21.9449 6.83196 21.9449 13.1676 18.0416 17.0709C14.1384 20.9741 7.80274 20.9741 3.89951 17.0709C-0.00371599 13.1676 -0.00371633 6.83196 3.89951 2.92873ZM10.9706 11.414L13.0919 13.5353C13.4808 13.9242 14.1172 13.9242 14.5061 13.5353C14.895 13.1464 14.895 12.51 14.5061 12.1211L12.3848 9.9998L14.5061 7.87848C14.895 7.48957 14.895 6.85318 14.5061 6.46427C14.1172 6.07536 13.4808 6.07536 13.0919 6.46427L10.9706 8.58559L8.84926 6.46427C8.46035 6.07536 7.82396 6.07536 7.43505 6.46427C7.04614 6.85318 7.04614 7.48957 7.43505 7.87848L9.55637 9.9998L7.43505 12.1211C7.04614 12.51 7.04614 13.1464 7.43505 13.5353C7.82396 13.9242 8.46035 13.9242 8.84926 13.5353L10.9706 11.414Z"
+                            fill="#878A99" />
+                    </svg>
+                </div>
+                <div>Hủy</div>
+            </div>
+            <div (click)="deleteChatSession()" class="delete flex px-5 py-2 align-item-center gap-2">
+                <div class="flex align-item-center">
+                    <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M3.89951 3.89944C7.80274 -0.00379252 14.1384 -0.00379252 18.0416 3.89944C21.9449 7.80267 21.9449 14.1383 18.0416 18.0416C14.1384 21.9448 7.80274 21.9448 3.89951 18.0416C-0.00371599 14.1383 -0.00371633 7.80267 3.89951 3.89944ZM10.9706 12.3847L13.0919 14.506C13.4808 14.8949 14.1172 14.8949 14.5061 14.506C14.895 14.1171 14.895 13.4807 14.5061 13.0918L12.3848 10.9705L14.5061 8.84918C14.895 8.46028 14.895 7.82388 14.5061 7.43497C14.1172 7.04606 13.4808 7.04606 13.0919 7.43497L10.9706 9.55629L8.84926 7.43497C8.46035 7.04606 7.82396 7.04606 7.43505 7.43497C7.04614 7.82388 7.04614 8.46028 7.43505 8.84918L9.55637 10.9705L7.43505 13.0918C7.04614 13.4807 7.04614 14.1171 7.43505 14.506C7.82396 14.8949 8.46035 14.8949 8.84926 14.506L10.9706 12.3847Z"
+                            fill="white" />
+                    </svg>
+                </div>
+                <div>Xóa</div>
+            </div>
+        </div>
+    </p-dialog>
+</div>

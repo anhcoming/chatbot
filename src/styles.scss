@@ -1,0 +1,302 @@
+/* You can add global styles to this file, and also import other style files */
+/* Chủ Đề Sáng (Light Theme) */
+
+
+$gutter: 1rem; //for primeflex grid system
+@import "assets/layout/styles/layout/layout.scss";
+@import "assets/layout/styles/layout/light_dark_theme.scss";
+
+/* PrimeNG */
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+
+/* Demos */
+@import "assets/demo/styles/flags/flags.css";
+@import "assets/demo/styles/badges.scss";
+@import "assets/demo/styles/code.scss";
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+/* Ng-Select */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+.p_float_right {
+  display: flex;
+  justify-content: end;
+}
+
+.text-danger {
+  color: red;
+}
+
+.web-screen {
+  display: block;
+}
+
+.mobile-screen {
+  display: none;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  float: left;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: 'Roboto';
+
+  .disable {
+    pointer-events: none;
+    color: #ccc;
+  }
+
+  .text-red {
+    color: red;
+  }
+
+  .card-title {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ececec;
+  }
+
+  .table-responsive {
+    overflow: auto;
+    max-width: 100% !important;
+
+  }
+
+  .table-responsive td {
+    padding: 8px 10px !important;
+    vertical-align: middle;
+  }
+
+  .modal.fade.show {
+    z-index: 1500;
+  }
+
+  .modal.show .modal-dialog {
+    z-index: 1000;
+  }
+
+  .app-sidebar {
+    z-index: 5;
+  }
+
+  .spinner:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    border-top-color: #000000;
+    animation: spinner .8s linear infinite;
+  }
+
+  .modal-dialog {
+    margin-top: 60px;
+  }
+
+  .text-success {
+    color: #28a745;
+  }
+
+  .p-confirm-dialog .p-confirm-dialog-reject {
+    background: #ff3a4d;
+  }
+
+  .p-confirm-dialog .p-confirm-dialog-reject:hover {
+    background: #7d7878;
+    opacity: .8;
+  }
+
+  .border-left-1 {
+    border-left: 1px solid#dee2e6;
+  }
+
+  .border-right-1 {
+    border-right: 1px solid#dee2e6;
+  }
+
+  .diagonal-header-table {
+    padding: 0;
+    margin: 0;
+    width: 300px !important;
+    height: 50px;
+
+    .line {
+      width: 290px;
+      height: 0px;
+      border-bottom: 1px solid #dee2e6;
+      transform: translateY(10px) translateX(-10px) rotate(8deg);
+      position: absolute;
+      z-index: 0;
+    }
+
+    div {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    .bottom {
+      position: absolute;
+      bottom: 1px;
+      left: 1px;
+    }
+
+    .top {
+      position: absolute;
+      top: 1px;
+      right: 1px;
+    }
+  }
+
+  .btn-digi-login {
+    border-radius: 17px;
+    background: linear-gradient(90deg, #8F61FF 0%, #4756FF 52.9%, #03C6FF 100%);
+    font-size: 1.07rem;
+    font-weight: 700;
+    line-height: 1.42rem;
+    text-align: center;
+    color: #FFFFFF;
+    padding: 1.14rem;
+    border: none;
+  }
+
+  .btn-digi {
+    border-radius: 50px;
+    background: linear-gradient(90deg, rgba(143, 97, 255, 1) 0%, #4756FF 52.9%, #03C6FF 100%);
+    font-size: 1.07rem;
+    font-weight: 700;
+    line-height: 1.42rem;
+    text-align: center;
+    color: #FFFFFF;
+    padding: .65rem .85rem;
+    border: none;
+  }
+
+  .btn-close {
+    border-radius: 50px;
+    background: #DDE0EA;
+    font-size: 1.07rem;
+    font-weight: 700;
+    line-height: 1.42rem;
+    text-align: center;
+    color: #878A99;
+    padding: .65rem 1.5rem;
+  }
+
+  .btn-remove {
+    border-radius: 50px;
+    background: #EB4335;
+    font-size: 1.07rem;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: left;
+    color: #FFFFFF;
+    padding: .65rem 1.5rem;
+  }
+
+  .btn-digi-login:hover {
+    border-radius: 17px;
+    background: linear-gradient(90deg, #8F61FF 0%, #4756FF 52.9%, #03C6FF 100%);
+    font-size: 1.07rem;
+    font-weight: 700;
+    line-height: 1.42rem;
+    text-align: center;
+    color: #FFFFFF;
+    padding: 1.14rem;
+    opacity: 50%;
+  }
+
+  .btn-digi:hover {
+    border-radius: 50px;
+    background: linear-gradient(90deg, rgba(143, 97, 255, 1) 0%, #4756FF 52.9%, #03C6FF 100%);
+    font-size: 1.07rem;
+    font-weight: 700;
+    line-height: 1.42rem;
+    text-align: center;
+    color: #FFFFFF;
+    padding: .65rem .85rem;
+    opacity: 80%;
+  }
+
+  .btn-close:hover {
+    border-radius: 50px;
+    background: #DDE0EA;
+    font-size: 1.07rem;
+    font-weight: 700;
+    line-height: 1.42rem;
+    text-align: center;
+    color: #878A99;
+    padding: .65rem 1.5rem;
+    opacity: 80%;
+  }
+
+  .btn-remove:hover {
+    border-radius: 50px;
+    background: #EB4335;
+    font-size: 1.07rem;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: left;
+    color: #FFFFFF;
+    padding: .65rem 1.5rem;
+    opacity: 80%;
+  }
+
+  .btn-success {
+    border-radius: 50px;
+    background: #34A852;
+    font-size: 1.07rem;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: left;
+    color: #FFFFFF;
+    padding: .65rem 1.5rem;
+  }
+  .btn-image {
+    padding: 0.4rem !important; 
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .web-screen {
+    display: none;
+  }
+
+  .mobile-screen {
+    display: block;
+  }
+}
+
+
+.tag-info, .tag-info-mobile {
+  .p-radiobutton .p-radiobutton-box .p-radiobutton-icon {
+    width: 12px;
+    height: 12px;
+    transition-duration: 0.15s;
+    background-color: var(--bg-radio);
+  }
+
+  .p-radiobutton .p-radiobutton-box.p-highlight {
+    border-color: var(--bg-radio);
+    background: var(--bg-user-info);
+  }
+
+  .p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover {
+    border-color: var(--bg-radio);
+    background: var(--bg-user-info);
+    color: var(--bg-user-info);
+  }
+}

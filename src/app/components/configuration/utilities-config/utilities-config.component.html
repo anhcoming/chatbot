@@ -1,0 +1,129 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Cấu hình người đăng ký dịch vụ</h4>
+            <div class="textFilterProj displayflex">
+                 <div class="allSelectFilter displayflex w-100" [formGroup]="fSearch">
+                    <div class="col-3 pd-0">
+                        <div class="field p-fluid">
+                            <label for="txtDistrict">Người đăng ký</label>
+                            <p-dropdown
+                                [options]="role"
+                                placeholder="Tất cả vai trò" 
+                                emptyMessage="Không có dữ liệu."
+                                [showClear]="true" 
+                                formControlName="Register" 
+                                optionLabel="label"
+                                optionValue="value"
+                                (onChange)="onSelectRegister($event)">
+                            </p-dropdown>                      
+                        </div>
+                    </div>                        
+                    <div class="col-3 pd-0">
+                        <div class="field p-fluid">
+                            <label for="txtDistrict">Tiện ích</label>
+                            <p-dropdown
+                                [options]="listUtilities"
+                                placeholder="Tất cả tiện ích" 
+                                emptyMessage="Không có dữ liệu."
+                                [showClear]="true" 
+                                formControlName="ServiceUtilities" 
+                                optionLabel="Name"
+                                optionValue="Id"
+                                (onChange)="onSelectServiceUtilities($event)">
+                            </p-dropdown>                      
+                        </div>
+                    </div>                        
+                    <div class="col-3">
+                        <div class="field p-fluid">
+                            <label for="txtDistrict">Khu đô thị</label>
+                            <p-dropdown
+                                [options]="lstProject"
+                                placeholder="Tất cả Khu đô thị" 
+                                emptyMessage="Không có dữ liệu."
+                                [showClear]="true" 
+                                formControlName="ProjectId" 
+                                optionLabel="Name"
+                                optionValue="Id"
+                                (onChange)="onSelect($event)">
+                            </p-dropdown>                      
+                        </div>
+                    </div>                       
+                    <div class="col-3">
+                        <div class="field p-fluid">
+                            <label for="txtDistrict">Tòa nhà</label>
+                            <p-dropdown
+                                [options]="lstTower"
+                                placeholder="Tất cả Tòa nhà" 
+                                emptyMessage="Không có dữ liệu."
+                                [showClear]="true" 
+                                formControlName="TowerId" 
+                                optionLabel="Name"
+                                optionValue="Id"
+                                (onChange)="onSelectTower($event)">
+                            </p-dropdown>                      
+                        </div>
+                    </div>                       
+                </div>  
+            </div>
+                  
+            <section class="FilterProject">
+                <div class="textFilterProj">
+                    <div class="addProjectList btn-options">
+                        <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/configuration/utilities-config/create"></button>
+                    </div>
+                    <!-- <div class="addProjectList mr-2 btn-orange absolute-btn">
+                        <button #btn type="button" pButton icon="pi pi-chevron-down" label="Hành động" (click)="menu.toggle($event)" style="width:auto"></button>
+                        <p-tieredMenu #menu [model]="menuItems" [popup]="true"></p-tieredMenu>
+                    </div> -->
+                </div>
+            </section>
+
+            <p-table 
+                [value]="lstUtilities"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable"
+                [(selection)]="selectedItems">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th >Stt</th>
+                        <th class="min-w-180">Khu đô thị</th>
+                        <th >Tòa nhà</th>
+                        <th class="min-w-180">Tiện ích</th>
+                        <th >Người đăng ký</th>
+                        <th class="min-w-90">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                    <tr>
+                        <td class="text-center">{{ rowIndex + 1 }}</td>
+                        <td>{{ item.project?.Name }}</td>
+                        <td>
+                            <span *ngFor="let items of item.listTowerMaps;let last=last">{{items?.TowerName}}<span *ngIf="!last">, </span></span>
+                        </td>
+                        <td>{{ item.ServiceUtilities }}</td>
+                        <td>
+                            <span *ngFor="let items of item.listRegisterMaps;let last=last">{{items?.TypeName}}<span *ngIf="!last">, </span></span>
+                        </td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" routerLink="/configuration/utilities-config/update/{{ item.Id }}" ></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(item.Id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                        <td colspan="6" class="text-center color-i">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

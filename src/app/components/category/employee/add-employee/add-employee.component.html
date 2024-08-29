@@ -1,0 +1,235 @@
+<div class="grid">
+    <div class="col-12">
+            <h3 class="mg-0">
+                {{ !(id > 0) ? 'Thêm mới nhân viên' : 'Cập nhật nhân viên' }}
+            </h3>
+        <div class="card" [formGroup]="fEmployee">
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <h4>Thông tin nhân viên</h4>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Mã nhân viên
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtCode" type="text" pInputText formControlName="Code">
+                        <small *ngIf="fEmployee.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã nhân viên phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fEmployee.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã nhân viên chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fEmployee.controls['Code'].hasError('required') && fEmployee.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập Mã nhân viên.</small>
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtFullName">Tên nhân viên
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtFullName" type="text" pInputText formControlName="FullName">
+                        <small *ngIf="fEmployee.controls['FullName'].hasError('minlength')" class="p-invalid text-danger">Tên nhân viên phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fEmployee.controls['FullName'].hasError('maxlength')" class="p-invalid text-danger">Tên nhân viên chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fEmployee.controls['FullName'].hasError('required') && fEmployee.controls['FullName'].dirty" class="p-invalid text-danger">Vui lòng nhập Tên nhân viên.</small>
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtBirthday">Ngày sinh</label>
+                        <span class=""></span>
+                        <p-calendar id="txtBirthday" [showIcon]="true" inputId="icon" id="txtBirthday" type="date" formControlName="Birthday"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div> 
+                <div class="col-6">
+                    <label for="txtSex">Giới tính:</label>
+                    <div class="form-check">
+                        <div class="form-check form-check-inline mr-2 mt-2">
+                            <p-radioButton formControlName="Sex" class="form-check-input form-check-radio" type="radio" name="Sex" id="male" value="0"></p-radioButton>
+                            <label class="form-check-label" for="male">Nam</label>
+                        </div>
+                        <div class="form-check form-check-inline ml-4">
+                            <p-radioButton formControlName="Sex"  class="form-check-input form-check-radio" type="radio" name="Sex" id="female" value="1"></p-radioButton>
+                            <label class="form-check-label" for="female">Nữ</label>
+                        </div>
+                        <div class="form-check form-check-inline ml-4">
+                            <p-radioButton formControlName="Sex"  class="form-check-input form-check-radio" type="radio" name="Sex" id="other" value="2"></p-radioButton>
+                            <label class="form-check-label" for="other">Khác</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Số điện thoại
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtPhone" type="tel" pattern="[0-9\s]*" minlength="10" maxlength="12" required pInputText formControlName="Phone">
+                        <small *ngIf="fEmployee.controls['Phone'].hasError('pattern')" class="p-invalid text-danger">Số điện thoại không được nhập chữ</small>
+                        <small *ngIf="fEmployee.controls['Phone'].hasError('minlength')" class="p-invalid text-danger">Số điện thoại không được nhỏ hơn 10 số.</small>
+                        <small *ngIf="fEmployee.controls['Phone'].hasError('maxlength')" class="p-invalid text-danger">Số điện thoại không được quá 12 số.</small>
+                        <small *ngIf="fEmployee.controls['Phone'].hasError('required') && fEmployee.controls['Phone'].dirty" class="p-invalid text-danger">Vui lòng nhập số điện thoại.</small>
+                    </div>
+                </div> 
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCardId">Số CCCD/Hộ chiếu
+                        </label>
+                        <input id="txtCardId" type="text" pInputText formControlName="CardId">
+                    </div>
+                </div> 
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtAddressId">Nơi cấp</label>
+                        <span class=""></span>
+                        <input type="text" id="txtAddressId" pInputText formControlName="AddressId">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateId">Ngày cấp</label>
+                        <span class=""></span>
+                        <p-calendar id="txtDateId" [showIcon]="true" inputId="icon" id="txtDateId" type="date" formControlName="DateId"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateStartJob">Ngày bắt đầu làm viêc</label>
+                        <span class=""></span>
+                        <p-calendar id="txtDateStartJob" [showIcon]="true" inputId="icon" id="txtDateStartJob" type="date" formControlName="DateStartJob"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div> 
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateEndJob">Ngày kết thúc làm viêc</label>
+                        <span class=""></span>
+                        <p-calendar id="txtDateEndJob" [showIcon]="true" inputId="icon" id="txtDateEndJob" type="date" formControlName="DateEndJob"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div> 
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtAdress">Địa chỉ
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAdress" type="text" pInputText formControlName="Address">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtEmail">Email
+                            <span class=""></span>
+                        </label>
+                        <input id="txtEmail" type="text" pInputText formControlName="Email">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtNote">Ghi chú</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="txtattactments" class="form-label">Tài liệu đính kèm</label>
+                    <input #fileInput formControlName="listAttactments" class="form-control no-bor" type="file" multiple (change)="onFileSelected($event)">
+                    <a *ngFor="let file of listAttactments; let i = index" class="list-group-item list-group-item-success a-att"
+                      href="https://i-apigw.cnttvietnam.com.vn/uploads/files/{{file.Name}}" target="_blank">{{file.Name}}<span
+                        (click)="RemoveAttactment(file)" class="span-attactment">×</span><br></a>
+                  </div>
+                <!-- <div class="col-12">
+                    <h4>Phân quyền nhân viên</h4>
+                </div> 
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPositionId">Chức vụ </label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstPosition" 
+                            placeholder="Chọn chức vụ" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="PositionId" 
+                            optionLabel="Name" 
+                            optionValue="Id">
+                        </p-dropdown>
+                        <small *ngIf="fEmployee.controls['PositionId'].hasError('required') && fEmployee.controls['PositionId'].dirty" class="p-invalid text-danger">Vui lòng chọn Chức vụ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDepartmentId">Phòng ban </label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstDepartment" 
+                            placeholder="Chọn phòng ban" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="DepartmentId" 
+                            optionLabel="Name" 
+                            optionValue="Id">
+                        </p-dropdown>
+                        <small *ngIf="fEmployee.controls['DepartmentId'].hasError('required') && fEmployee.controls['DepartmentId'].dirty" class="p-invalid text-danger">Vui lòng chọn Phòng ban.</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div class="displayflex">
+                            <label for="txtDistrict" class="w-15">Khu đô thị  <span class="text-danger"> *</span></label>
+                            <div class="displayflex">
+                                <div class="checkbox">
+                                    <input type="checkbox" [(ngModel)]="allChecked" (change)="toggleAll()" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> Chọn tất cả</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="displayflex" >
+                            <div *ngFor="let Project of lstProject" class="checkbox">
+                                <input type="checkbox" [value]="Project.name" [(ngModel)]="Project.checked"  (change)="checkAll()" [ngModelOptions]="{standalone: true}">
+                                <div>
+                                    <span> {{ Project.Name }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <small *ngIf="fEmployee.controls['ProjectId'].hasError('required') && fEmployee.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn Tòa nhà.</small>                        
+                    </div>
+                </div> -->
+                <!-- <div class="col-12">
+                    <div class="field p-fluid">
+                        <div class="displayflex">
+                            <label for="txtDistrict" class="w-15">Tòa nhà  <span class="text-danger"> *</span></label>
+                            <i class="color-i" *ngIf="!fEmployee.get('ProjectId').value">Vui lòng chọn Khu đô thị</i>
+                            <div class="displayflex" *ngIf="fEmployee.get('ProjectId').value">
+                                <div class="checkbox">
+                                    <input type="checkbox" [(ngModel)]="allChecked" (change)="toggleAll()" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> Chọn tất cả</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="displayflex" >
+                            <div *ngFor="let tower of lstTower" class="checkbox">
+                                <input type="checkbox" [value]="tower.name" [(ngModel)]="tower.checked"  (change)="checkAll()" [ngModelOptions]="{standalone: true}">
+                                <div>
+                                    <span> {{ tower.Name }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <small *ngIf="fEmployee.controls['TowerId'].hasError('required') && fEmployee.controls['TowerId'].dirty" class="p-invalid text-danger">Vui lòng chọn Tòa nhà.</small>                        
+                    </div>
+                </div> -->
+            </div>
+                <div class="col-12 p_float_right">
+                    <p-toast></p-toast>
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label= 'Xác nhận' icon= 'pi pi-check' 
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+
+
+

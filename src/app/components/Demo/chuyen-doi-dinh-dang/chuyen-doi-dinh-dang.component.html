@@ -1,0 +1,24 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h4>Chuyển đổi định dạng File</h4>
+            </div>
+            <div class="textFilterProj">
+                <p-fileUpload name="file" url="/api/demo/convertWord" [multiple]="false" 
+                    accept=".pdf" (onUpload)="onUpload($event)">
+                    <ng-template pTemplate="content">
+                        <ul *ngIf="uploadedFiles?.length">
+                            <li *ngFor="let file of uploadedFiles">
+                                {{ file.file.name }} - {{file.status}}
+                            </li>
+                        </ul>
+                    </ng-template>
+                </p-fileUpload>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-toast />

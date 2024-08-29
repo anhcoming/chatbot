@@ -1,0 +1,200 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fPayment">
+            <h3 class="mg-0">
+                {{ !(id > 0) ? 'Thêm mới cấu hình thanh toán' : 'Cập nhật cấu hình thanh toán' }}
+            </h3>
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="lstProject" 
+                            placeholder="Chọn Khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ProjectId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            (onChange)="getListTower($event)">
+                        </p-dropdown>
+                        <small *ngIf="fPayment.controls['ProjectId'].hasError('required') && fPayment.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn khu đô thị.</small>                   
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Trạng thái  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="isStatus" 
+                            placeholder="Chọn trạng thái" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="Status" 
+                            optionLabel="label" 
+                            optionValue="value">
+                        </p-dropdown>
+                        <small *ngIf="fPayment.controls['Status'].hasError('required') && fPayment.controls['Status'].dirty" class="p-invalid text-danger">Vui lòng chọn khu đô thị.</small>                   
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div class="displayflex">
+                            <label for="txtDistrict" class="w-15">Tòa nhà  <span class="text-danger"> *</span></label>
+                            <i class="color-i" *ngIf="!fPayment.get('ProjectId').value">Vui lòng chọn Khu đô thị</i>
+                            <div class="displayflex" *ngIf="fPayment.get('ProjectId').value">
+                                <div class="checkbox">
+                                    <input type="checkbox" [(ngModel)]="allChecked" (change)="toggleAll()" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> Chọn tất cả</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="displayflex" >
+                            <div *ngFor="let tower of lstTower" class="checkbox">
+                                <input type="checkbox" [value]="tower.Id" [(ngModel)]="tower.checked"  (change)="checkAll()" [ngModelOptions]="{standalone: true}">
+                                <div>
+                                    <span> {{ tower.Name }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <small *ngIf="fPayment.controls['listTowerMaps'].dirty" class="p-invalid text-danger">Vui lòng chọn tòa nhà.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="txtImage" class="form-label">Logo cổng thành toán</label>
+                    <div class="displayflex">
+                        <div class="col-6">
+                            <input  formControlName="Image"  class="form-control no-bor" type="file" (change)="onImageSelected($event)">
+                        </div>
+                        <div class="col-6" *ngIf="fPayment.get('Image').value || this.lstPayment.Image">
+                            <img [src]="uploadedImageUrl" class="img-thumbnail" [style.display]="isImageSelected ? 'block' : 'none'">
+                            <i class="fa fa-times-circle del-img" aria-hidden="true" (click)="Imagenull()"[style.display]="isImageSelected ? 'block' : 'none'"></i>
+                        </div>
+                    </div>
+                </div>            
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên cấu hình thanh toán
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name" placeholder="Tên cấu hình thanh toán">
+                        <small *ngIf="fPayment.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên dự án phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fPayment.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên dự án chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fPayment.controls['Name'].hasError('required') && fPayment.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên tầng.</small> 
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtNote">Mô tả chi tiết  <span class="text-danger"> *</span></label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note" placeholder="Mô tả chi tiết"></textarea>
+                        <small *ngIf="fPayment.controls['Note'].hasError('required') && fPayment.controls['Note'].dirty" class="p-invalid text-danger">Vui lòng nhập Mô tả.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtUrlPay">UrlPay  <span class="text-danger"> *</span></label>
+                        </div>
+                        <input id="txtUrlPay" type="text" pInputText formControlName="UrlPay" placeholder="Nhập UrlPay">
+                        <small *ngIf="fPayment.controls['UrlPay'].hasError('required') && fPayment.controls['UrlPay'].dirty" class="p-invalid text-danger">Vui lòng nhập UrlPay.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtUrlQuery">UrlQuery  <span class="text-danger"> *</span></label>
+                        </div>
+                        <input id="txtUrlQuery" type="text" pInputText formControlName="UrlQuery" placeholder="Nhập UrlQuery">
+                        <small *ngIf="fPayment.controls['UrlQuery'].hasError('required') && fPayment.controls['UrlQuery'].dirty" class="p-invalid text-danger">Vui lòng nhập UrlQuery.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtMerchant">Merchant  <span class="text-danger"> *</span></label>
+                        </div>
+                        <input id="txtMerchant" type="text" pInputText formControlName="Merchant" placeholder="Nhập Merchant">
+                        <small *ngIf="fPayment.controls['Merchant'].hasError('required') && fPayment.controls['Merchant'].dirty" class="p-invalid text-danger">Vui lòng nhập Merchant.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAccessCode">AccessName  <span class="text-danger"> *</span></label>
+                        </div>
+                        <input id="txtAccessCode" type="text" pInputText formControlName="AccessCode" placeholder="Nhập AccessCode">
+                        <small *ngIf="fPayment.controls['AccessCode'].hasError('required') && fPayment.controls['AccessCode'].dirty" class="p-invalid text-danger">Vui lòng nhập AccessCode.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAccessKey">AccessKey  <span class="text-danger"> *</span></label>
+                        </div>
+                        <input id="txtAccessKey" type="text" pInputText formControlName="AccessKey" placeholder="Nhập AccessKey">
+                        <small *ngIf="fPayment.controls['AccessKey'].hasError('required') && fPayment.controls['AccessKey'].dirty" class="p-invalid text-danger">Vui lòng nhập AccessKey.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtPriceFee">PriceFee  <span class="text-danger"> *</span></label>
+                        </div>
+                        <input id="txtPriceFee" type="number" pInputText formControlName="PriceFee" placeholder="Nhập PriceFee">
+                        <small *ngIf="fPayment.controls['PriceFee'].hasError('required') && fPayment.controls['PriceFee'].dirty" class="p-invalid text-danger">Vui lòng nhập PriceFee.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtUserName">UserName  <span class="text-danger"> *</span></label>
+                        </div>
+                        <input id="txtUserName" type="text" pInputText formControlName="UserName" placeholder="Nhập UserName">
+                        <small *ngIf="fPayment.controls['UserName'].hasError('required') && fPayment.controls['UserName'].dirty" class="p-invalid text-danger">Vui lòng nhập UserName.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtPassword">Password  <span class="text-danger"> *</span></label>
+                        </div>
+                        <input id="txtPassword" type="password" pInputText formControlName="Password" placeholder="Nhập Password">
+                        <small *ngIf="fPayment.controls['Password'].hasError('required') && fPayment.controls['Password'].dirty" class="p-invalid text-danger">Vui lòng nhập Password.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtExchangeRate">ExchangeRate  <span class="text-danger"> *</span></label>
+                        </div>
+                        <input id="txtExchangeRate" type="text" pInputText formControlName="ExchangRate" placeholder="Nhập ExchangeRate">
+                        <small *ngIf="fPayment.controls['ExchangRate'].hasError('required') && fPayment.controls['ExchangRate'].dirty" class="p-invalid text-danger">Vui lòng nhập ExchangeRate.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtCardList">CardList  <span class="text-danger"> *</span></label>
+                        </div>
+                        <input id="txtCardList" type="text" pInputText formControlName="CardList" placeholder="Nhập CardList">
+                        <small *ngIf="fPayment.controls['CardList'].hasError('required') && fPayment.controls['CardList'].dirty" class="p-invalid text-danger">Vui lòng nhập CardList.</small>                        
+                    </div>
+                </div>
+
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+
+

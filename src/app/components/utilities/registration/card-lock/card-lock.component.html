@@ -1,0 +1,293 @@
+<div class="grid">
+    <div class="col-12">
+        <h3>
+            Đăng ký khóa thẻ
+        </h3>
+        <div class="card" [formGroup]="fCancelCard">
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <h3 class="mg-0">Thông tin căn hộ</h3>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị</label>
+                        <span class="text-danger"> *</span>
+                        <ng-select 
+                            [items]="Project"
+                            [virtualScroll]="true" 
+                            [loading]="false" 
+                            formControlName="ProjectId"
+                            placeholder="Khu đô thị"
+                            bindLabel="Name" 
+                            bindValue="Id"
+                            #selectTower
+                            pDropdown
+                            (change)="onSelectTower($event)">
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                <span [ngOptionHighlight]="search">{{item.Name}}</span>
+                            </ng-template>
+                        </ng-select>
+                        <small *ngIf="fCancelCard.controls['ProjectId'].hasError('required') && fCancelCard.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn Khu đô thị</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Tòa nhà</label>
+                        <span class="text-danger"> *</span>
+                        <ng-select 
+                            [items]="lstTower"
+                            [virtualScroll]="true" 
+                            [loading]="false" 
+                            formControlName="TowerId"
+                            placeholder="Tòa nhà"
+                            bindLabel="Name" 
+                            bindValue="Id"
+                            (scrollToEnd)="fetchMoreTower()"
+                            #selectTower
+                            pDropdown
+                            (change)="onSelectFloor($event)">
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                <span [ngOptionHighlight]="search">{{item.Name}}</span>
+                            </ng-template>
+                        </ng-select>
+                        <small *ngIf="fCancelCard.controls['TowerId'].hasError('required') && fCancelCard.controls['TowerId'].dirty" class="p-invalid text-danger">Vui lòng chọn Tòa nhà</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Tầng</label>
+                        <span class="text-danger"> *</span>
+                        <ng-select 
+                            [items]="lstFloor"
+                            [virtualScroll]="true" 
+                            [loading]="false" 
+                            formControlName="FloorId"
+                            placeholder="Tầng"
+                            bindLabel="Name" 
+                            bindValue="Id"
+                            (scrollToEnd)="fetchMoreFloor()"
+                            #selectFloor
+                            pDropdown
+                            (change)="onSelectApartment($event)">
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                <span [ngOptionHighlight]="search">{{item.Name}}</span>
+                            </ng-template>
+                        </ng-select>
+                        <small *ngIf="fCancelCard.controls['FloorId'].hasError('required') && fCancelCard.controls['FloorId'].dirty" class="p-invalid text-danger">Vui lòng chọn Tầng</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Căn hộ</label>
+                        <span class="text-danger"> *</span>
+                        <ng-select 
+                            [items]="lstApartment"
+                            [virtualScroll]="true" 
+                            [loading]="false" 
+                            formControlName="ApartmentId"
+                            placeholder="Căn hộ"
+                            bindLabel="Name" 
+                            bindValue="Id"
+                            (scrollToEnd)="fetchMore()"
+                            #selectApartment
+                            (change)="onSelect($event)"
+                            pDropdown>
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                <span [ngOptionHighlight]="search">{{item.Name}}</span>
+                            </ng-template>
+                        </ng-select>
+                        <small *ngIf="fCancelCard.controls['ApartmentId'].hasError('required') && fCancelCard.controls['ApartmentId'].dirty" class="p-invalid text-danger">Vui lòng chọn Căn hộ</small>
+                    </div>
+                </div>
+                <div class="col-6" formGroupName="infoApartmentOwner">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Tên chủ hộ
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="FullName" disabled="true">
+                        <small *ngIf="fCancelCard.controls.infoApartmentOwner.controls['FullName'].hasError('required') && fCancelCard.controls.infoApartmentOwner.controls['FullName'].dirty" class="p-invalid text-danger">Tên chủ hộ không được để chống</small>
+                    </div>
+                </div>
+                <div class="col-6" formGroupName="infoApartmentOwner">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Số điện thoại </label>
+                        <span class="text-danger"> *</span>
+                        <input id="txtPhone" placeholder="VD:0321642644" type="text" pInputText
+                            formControlName="Phone">
+                            <small *ngIf="fCancelCard.controls.infoApartmentOwner.controls['Phone'].hasError('required') && fCancelCard.controls.infoApartmentOwner.controls['Phone'].dirty" class="p-invalid text-danger">Số điện thoại chủ hộ không được để chống</small>
+                        </div>
+                </div>
+                <div class="col-6" formGroupName="InfoResidentRegistration">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Người đăng ký 
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="FullName" disabled="true" placeholder="Người đăng ký">
+                        <small *ngIf="fCancelCard.controls.InfoResidentRegistration.controls['FullName'].hasError('required') && fCancelCard.controls.InfoResidentRegistration.controls['FullName'].dirty" class="p-invalid text-danger">Vui lòng chọn Người đăng ký</small>
+                    </div>
+                </div>
+                <div class="col-6" formGroupName="InfoResidentRegistration">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Số điện thoại người đăng ký</label>
+                        <span class="text-danger"> *</span>
+                        <input id="txtPhone" type="text" pInputText formControlName="Phone"  placeholder="Số điện thoại người đăng ký"/>
+                        <small *ngIf="fCancelCard.controls.InfoResidentRegistration.controls['Phone'].hasError('required') && fCancelCard.controls.InfoResidentRegistration.controls['Phone'].dirty" class="p-invalid text-danger">Vui lòng nhập Số điện thoại người đăng ký</small>
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h3>Thẻ cư dân</h3>
+                </div>
+                <div class="col-12">
+                    <p-table 
+                        [value]="lstResidentCards" 
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        [loading]="isLoadingTable"
+                        [(selection)]="selectedCardResident">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th></th>
+                                <th >STT</th>
+                                <th >Mã số thẻ</th>
+                                <th >Họ tên</th>
+                                <th >Ngày sinh</th>
+                                <th >Giới tính</th>
+                                <th >Quan hệ với chủ hộ</th>
+                                <th >Điện thoại</th>
+                                <th >Số giấy tờ</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                            <tr [ngClass]="{'bg-change': item.change}">
+                                <td>
+                                    <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                                </td>
+                                <td>
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td>{{ item.CardNumber }}</td>
+                                <td>{{ item.FullName }}</td>
+                                <td>{{ item.DateOfBirth | date:'dd/MM/yyyy' }}</td>
+                                <td>{{ item.genderName }}</td>
+                                <td>{{ item.statusOptionName }}</td>
+                                <td>{{ item.Phone }}</td>
+                                <td>{{ item.IdentityNumber }}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="12" class="text-center text-danger">
+                                    Không có dữ liệu.
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h3>Thẻ xe</h3>
+                </div>
+                <div class="col-12">
+                    <p-table 
+                        class="mg-t-2" 
+                        [value]="lstCarCards"
+                        [tableStyle]="{ 'min-width': '50rem' }" 
+                        [loading]="isLoadingTable"
+                        [(selection)]="selectedCardCar">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th></th>
+                                <th >STT</th>
+                                <th >Mã số thẻ</th>
+                                <th >Chủ phương tiện</th>
+                                <th >Biển kiểm soát</th>
+                                <th >Nhãn hiệu</th>
+                                <th >Màu xe</th>
+                                <th >Loại xe</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                            <tr [ngClass]="{'bg-change': item.change}">
+                                <td>
+                                    <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                                </td>
+                                <td>
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td>{{ item.CardNumber }}</td>
+                                <td>{{ item.VehicleOwner }}</td>
+                                <td>{{ item.VehiclePlate }}</td>
+                                <td>{{ item.VehicleName }}</td>
+                                <td>{{ item.VehicleColor }}</td>
+                                <td>{{ item.VehicleType }}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="10" class="text-center text-danger">
+                                    Không có dữ liệu.
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h3>Phản hồi từ BQL</h3>
+                    <div class="displayflex">
+                        <div class="w-15 time-input">
+                            <span>Trạng thái</span>
+                        </div>
+                        <div class="w-25 droplist-item">
+                            <p-dropdown 
+                                [options]="ProcessStatus" 
+                                placeholder="Trạng thái đăng ký" 
+                                emptyMessage="Không có dữ liệu." 
+                                [showClear]="true"
+                                formControlName="ProcessStatus" 
+                                optionLabel="name" 
+                                optionValue="id" 
+                                (onChange)="onSetProcessStatus($event)">
+                                <ng-template let-item pTemplate="item">
+                                    <li [ngClass]="{'disabled': item.disable}">
+                                        <option [value]="item.id" [disabled]="item.disable">{{item.name}}</option>
+                                    </li>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="displayflex mt-4" formGroupName="messageResponse">
+                        <div class="w-15 time-input">
+                            <span>BQL phản hồi</span>
+                        </div>
+                        <div class="w-85">
+                            <textarea id="txtNote" rows="5" class="w-100" pInputTextarea formControlName="Message"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h3>Đánh giá của cư dân</h3>
+                    <div class="displayflex">
+                        <div class="w-15 time-input">
+                            <span>Trạng thái</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid mt-4">
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

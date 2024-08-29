@@ -1,0 +1,30 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - build
+  - deploy
+
+build:
+  image: node:16.18.0
+  stage: build
+  script:
+    - npm install
+    - ng build
+deploy:
+  stage: deploy
+  image:
+    name: docker
+    entrypoint: [""]
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - npm install
+    - ng build --prod
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+    -  kubectl apply -f "$CI_DEPLOYMENT_FILE_NAME"
+  only:
+    - dev

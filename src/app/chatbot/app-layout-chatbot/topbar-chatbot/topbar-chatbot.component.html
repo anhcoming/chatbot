@@ -1,0 +1,103 @@
+<div class="top-bar flex align-items-center">
+    <div class="w-full mx-3 justify-content-between flex">
+        <div id="img-toggle" class="flex gap-3 align-items-center">
+            <img class="cursor-pointer " (click)="toggleSidebar()" src="assets/imgs-chatbot/svg/collapse.svg" alt="">
+        </div>
+        <div class="flex align-items-center" [routerLink]="['/chat-bot']">
+            <img height="35px" src="assets/imgs-chatbot/svg/logo{{theme === ChatbotTheme.light?'':'-dark'}}.svg" alt="">
+        </div>
+        <div class="flex gap-3 align-items-center">
+            <span *ngIf="this.theme === ChatbotTheme.light" class="theme text-color-black">Sáng</span>
+            <span *ngIf="this.theme === ChatbotTheme.dark" class="theme text-white">Tối</span>
+            <div class="theme">
+                <img (click)="switchTheme()" src="assets/imgs-chatbot/svg/{{theme}}-mode.svg" alt="">
+            </div>
+            <div class="theme-mobile">
+                <img (click)="switchTheme()" src="assets/imgs-chatbot/svg/{{theme}}-mode-mobile.svg" alt="">
+            </div>
+            <div ngbDropdown class="d-inline-block " id="top-popup">
+                <img class="cursor-pointer" id="dropdownBasic1" ngbDropdownToggle
+                    src="assets/imgs-chatbot/svg/avatar.svg" alt="">
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <div [routerLink]="['/chat-bot/user-info']" class="flex align-item-center p-3 gap-3 info cursor-pointer">
+                        <div>
+                            <img class="cursor-pointer" id="dropdownBasic1" ngbDropdownToggle
+                                 src="assets/imgs-chatbot/svg/user-avt.svg" alt="">
+                        </div>
+                        <div class="flex flex-column pr-8">
+                            <span id="username" class=" font-bold text-xl">Mr.Lam</span>
+                            <span id="gmail">lam@gmail.com</span>
+                        </div>
+                    </div>
+                    <button [routerLink]="['/chat-bot/user-info']" class="flex align-item-center" ngbDropdownItem>
+                        <img width="24px" height="24px" class="cursor-pointer"
+                             src="assets/imgs-chatbot/svg/user-info{{theme == ChatbotTheme.light?'':'-dark'}}.svg" alt="">
+                        <span class="ml-2">Thông tin tài khoản </span></button>
+                    <div class="web-screen">
+                        <button (click)="openModal()" class="flex align-item-center " ngbDropdownItem>
+                            <img width="24px" height="24px" class="cursor-pointer" src="assets/imgs-chatbot/svg/user-change-pass{{theme == ChatbotTheme.light?'':'-dark'}}.svg"
+                                alt="">
+                            <span class="ml-2">Đổi mật khẩu</span></button>
+                    </div>
+                    <div class="mobile-screen">
+                        <button [routerLink]="['/chat-bot/change-password']" class="flex align-item-center mobile-screen" ngbDropdownItem>
+                            <img width="24px" height="24px" class="cursor-pointer" src="assets/imgs-chatbot/svg/user-change-pass{{theme == ChatbotTheme.light?'':'-dark'}}.svg"
+                                alt="">
+                            <span class="ml-2">Đổi mật khẩu</span></button>
+                    </div>
+                    <button [routerLink]="['/chat-bot/history']" class="flex align-item-center" ngbDropdownItem>
+                        <img width="24px" height="24px" class="cursor-pointer"
+                             src="assets/imgs-chatbot/svg/user-history{{theme == ChatbotTheme.light?'':'-dark'}}.svg" alt="">
+                        <span class="ml-2">Lịch sử cuộc trò chuyện</span></button>
+                    <button [routerLink]="['/chat-bot/saved']" class="flex align-item-center" ngbDropdownItem>
+                        <img width="24px" height="24px" class="cursor-pointer"
+                             src="assets/imgs-chatbot/svg/user-saved{{theme == ChatbotTheme.light?'':'-dark'}}.svg" alt="">
+                        <span class="ml-2">Đã lưu</span></button>
+                    <div [routerLink]="['/auth/login']" class="flex align-item-center p-3 gap-2 justify-content-center">
+                        <div class="flex gap-2 align-items-center logout cursor-pointer">
+                            <div class="text-lg font-weight-bold">Đăng xuất</div>
+                            <i class="pi pi-arrow-right font-weight-bold"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-sidebar [(visible)]="sidebarVisible3" position="top">
+    <h3>Top Sidebar</h3>
+</p-sidebar>
+
+
+<p-dialog header="Đổi mật khẩu" [modal]="true" [(visible)]="openModalChangePass"
+    [style]="{ width: '40rem',padding:'1rem 0 0 0', background: 'var(--bg-modal)' }">
+    <div class="py-3 px-4">
+        <div class="flex align-items-center gap-3 mb-4 position-relative">
+            <input [type]="hideCurrentPass ? 'password' : 'text'" pInputText id="username" class="input-form w-full"
+                placeholder="Nhập mật khẩu hiện tại" autocomplete="off" />
+            <div class="icon-eye" (click)="this.hideCurrentPass = !this.hideCurrentPass"></div>
+        </div>
+        <div class="flex align-items-center gap-3 mb-4 position-relative">
+            <input [type]="hideNewPass ? 'password' : 'text'" pInputText id="username" class="input-form w-full"
+                placeholder="Nhập mật khẩu mới" autocomplete="off" />
+            <div class="icon-eye" (click)="this.hideNewPass = !this.hideNewPass"></div>
+
+        </div>
+        <div class="flex align-items-center gap-3 mb-4 position-relative">
+            <input [type]="hideConfirmPass ? 'password' : 'text'" pInputText id="username" class="input-form w-full"
+                placeholder="Nhập lại mật khẩu" autocomplete="off" />
+            <div class="icon-eye" (click)="this.hideConfirmPass = !this.hideConfirmPass"></div>
+        </div>
+        <div class="flex justify-content-end">
+            <button class="btn btn-digi flex align-items-center gap-2">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M14.59 0.59C14.21 0.21 13.7 0 13.17 0H2C0.89 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H16C17.1 18 18 17.1 18 16V4.83C18 4.3 17.79 3.79 17.41 3.42L14.59 0.59ZM9 16C7.34 16 6 14.66 6 13C6 11.34 7.34 10 9 10C10.66 10 12 11.34 12 13C12 14.66 10.66 16 9 16ZM4 6H10C11.1 6 12 5.1 12 4C12 2.9 11.1 2 10 2H4C2.9 2 2 2.9 2 4C2 5.1 2.9 6 4 6Z"
+                        fill="white" />
+                </svg>
+                <div>Lưu thông tin</div>
+            </button>
+        </div>
+    </div>
+</p-dialog>

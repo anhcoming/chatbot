@@ -1,0 +1,41 @@
+<div class="grid container-change-password">
+    <div class="col-12">
+        <div [formGroup]="fPassword">
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <!-- <p-password formControlName="passwordOld" id="txtPassword" autocomplete="off" placeholder="Nhập mật khẩu" [toggleMask]="true" styleClass="mb-5 input-pass"></p-password> -->
+                        <input type="password" placeholder="Nhập mật khẩu hiện tại" formControlName="passwordOld" id="txtPassword" autocomplete="off" class="input-form w-full" />
+                    </div>
+                </div>
+                <div class="col-12 mt-2">
+                    <div class="field p-fluid">
+                        <input type="password" placeholder="Nhập mật khẩu mới" formControlName="PasswordNew" id="txtPassword" autocomplete="off" class="input-form w-full" (input)="matchingPasswords()" />
+                        <small *ngIf="fPassword.controls['PasswordNew'].hasError('minlength')" class="p-invalid text-danger">Mật khẩu phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fPassword.controls['PasswordNew'].hasError('maxlength')" class="p-invalid text-danger">Mật khẩu chỉ được tối đa 15 kí tự.</small>
+                        <small *ngIf="fPassword.controls['PasswordNew'].hasError('required') && fPassword.controls['PasswordNew'].dirty" class="p-invalid text-danger">Vui lòng nhập Mật khẩu.</small>
+                    </div>
+                </div>
+                <div class="col-12 mt-2">
+                    <div class="field p-fluid">
+                        <input type="password" placeholder="Nhập lại mật khẩu" formControlName="NewPassword" id="txtPassword" autocomplete="off" class="input-form w-full" (input)="matchingPasswords()" />
+                        <small *ngIf="fPassword.controls['NewPassword'].hasError('mismatchedPasswords')" class="p-invalid text-danger">Mật khẩu nhập lại không khớp.</small>
+                    </div>
+                </div>
+
+                <div class="col-12 p_float_right mt-3">
+                    <!-- <p-confirmDialog class="custom-toast"></p-confirmDialog> -->
+                        <button class="btn btn-digi" (click)="onSubmit()"><img src="assets/imgs/svg/ic-save.svg"
+                                class="mr-3" />Lưu thông tin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+
+
+
+

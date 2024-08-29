@@ -1,0 +1,25 @@
+<div class="layout-chatbot h-screen flex">
+    <div class="side-bar">
+        <app-sidebar-chatbot (toggleSidebarEvent)="onSidebarToggled($event)"></app-sidebar-chatbot>
+    </div>
+    <div class="main-content flex-grow-1" [ngClass]="{'expanded': !isSidebarClosed}">
+        <div class="main-content flex-grow-1">
+            <div class="topbar">
+                <app-topbar-chatbot (toggle)="toggleSideBar($event)"></app-topbar-chatbot>
+            </div>
+            <hr>
+            <div class="content h-full">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+    <p-sidebar [(visible)]="sidebarVisible">
+        <ng-template pTemplate="header">
+            <div class="custom-sidebar-header">
+                <img src="assets/imgs-chatbot/svg/logo.svg" alt="">
+            </div>
+        </ng-template>
+        <app-sidebar-chatbot (toggleSidebarEvent)="onSidebarToggled($event)" (toggleSidebarMobileEvent)="onSidebarMobileToggled($event)"></app-sidebar-chatbot>
+    </p-sidebar>
+</div>
+

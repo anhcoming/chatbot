@@ -1,0 +1,77 @@
+<div class="web-screen">
+    <div
+        class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden bgr-login">
+        <form [formGroup]="fLogin" (ngSubmit)="onSubmit()">
+            <div class="flex flex-column justify-content-center form-login">
+                <img src="../../../../assets/imgs/svg/ic-logo-digi.svg"
+                    style="margin-top: 1.4rem; width: 222px; margin-left: auto; margin-right: auto;" />
+                <span class="title">Xin chào mừng bạn</span>
+                <div class="container-input">
+                    <img src="../../../../assets/imgs/svg/ic-mail.svg" class="ic-input" />
+                    <input formControlName="email" id="email1" type="text" placeholder="Email hoặc tài khoản"
+                        class="w-full mb-5 form-input" style="padding:1rem 2.8rem;"
+                        [ngClass]="{'is-valid': isLoginFailed || isEmptyValue}" (input)="changeText()">
+                </div>
+                <div class="container-input">
+                    <img src="../../../../assets/imgs/icons/ic-lock.png" class="ic-input" />
+                    <input formControlName="password" id="password" [type]="isShowPass ? 'text' : 'password'"
+                        placeholder="Mật khẩu" [ngClass]="{'is-valid': isLoginFailed || isEmptyValue}"
+                        class="w-full mb-3 form-input" style="padding:1rem 2.8rem" (input)="changeText()" />
+                    <img src="assets/imgs/svg/{{iconEye}}.svg" class="ic-eye" style="padding: 5px"
+                        (click)="showPass()" />
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="mx-3">
+                        <i *ngIf="isLoginFailed" class="p-invalid text-danger">
+                            <img src="../../../../assets/imgs/icons/ic-error.png" />
+                            Email, tài khoản hoặc mật khẩu sai
+                        </i>
+                        <i *ngIf="isEmptyValue" class="p-invalid text-danger">
+                            <img src="../../../../assets/imgs/icons/ic-error.png" />
+                            Vui lòng nhập đầy đủ thông tin!
+                        </i>
+                    </div>
+                    <a class="font-medium no-underline text-right cursor-pointer text-forgot-pasword"
+                        (click)="forgotPass()">Quên mật khẩu</a>
+                </div>
+                <button class="btn btn-digi-login w-full">Đăng nhập</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="mobile-screen">
+    <form [formGroup]="fLogin" (ngSubmit)="onSubmit()">
+        <div
+            class="container-login surface-ground flex flex-column justify-content-center min-w-screen overflow-hidden">
+            <img src="../../../../assets/imgs/svg/ic-logo-digi.svg"
+                style="margin-top: 1.4rem; width: 222px; margin-left: auto; margin-right: auto;" />
+            <span class="title">Xin chào mừng bạn</span>
+            <div class="container-input">
+                <img src="../../../../assets/imgs/svg/ic-mail.svg" class="ic-input" />
+                <input formControlName="email" id="email1" type="text" placeholder="Email hoặc tài khoản" pInputText
+                    class="w-full mb-5 form-input" style="padding:1rem 2.8rem;" [ngClass]="{'is-valid': isLoginFailed}">
+            </div>
+            <div class="container-input">
+                <img src="../../../../assets/imgs/icons/ic-lock.png" class="ic-input" />
+                <input formControlName="password" id="password" [type]="isShowPass ? 'text' : 'password'"
+                    placeholder="Mật khẩu" pInputText [ngClass]="{'is-valid': isLoginFailed}"
+                    class="w-full mb-3 form-input" style="padding:1rem 2.8rem" />
+                <img src="../../../../assets/imgs/icons/ic-eye-show.png" class="ic-eye" style="padding: 5px;"
+                    (click)="showPass()" />
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="mx-3">
+                    <i *ngIf="isLoginFailed" class="p-invalid text-danger">
+                        <img src="../../../../assets/imgs/icons/ic-error.png" />
+                        Email, tài khoản hoặc mật khẩu sai
+                    </i>
+                </div>
+                <a class="font-medium no-underline text-right cursor-pointer text-forgot-pasword"
+                    (click)="forgotPass()">Quên mật khẩu</a>
+            </div>
+            <button class="btn btn-digi-login w-full">Đăng nhập</button>
+        </div>
+    </form>
+</div>

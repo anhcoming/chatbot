@@ -1,0 +1,11 @@
+<div>
+    <span class="p-text-secondary block text-center title-modal" *ngIf="!contentModal.isModalRemove">{{contentModal.content}} <b *ngIf="contentModal.name">"{{contentModal.name}}"</b></span>
+    <span class="p-text-secondary block text-center title-modal" *ngIf="contentModal.isModalRemove">{{contentModal.content}} <b>"{{contentModal.nameRemove}}"</b> không?</span>
+    <div class="d-flex justify-content-center align-items-center">
+        <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="closeModal()">
+            <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy bỏ
+        </button>
+        <button class="btn btn-remove" (click)="accept()"><img src="assets/imgs/svg/ic-remove-circle.svg"
+                class="mr-3" />Xác nhận</button>
+    </div>
+</div>

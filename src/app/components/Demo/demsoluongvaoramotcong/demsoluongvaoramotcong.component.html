@@ -1,0 +1,24 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Trình xử lý PDF</h4>
+            <div class="textFilterProj">
+                <div>
+                    <button class="btn btn-primary mr-2" (click)="openDialogFile()">Chọn tệp tin</button> 
+                </div>
+                <input #SelectFile (change)="onInputFileChange($event)" style="display: none;" type="file" id="myfile" name="myfile" accept="application/pdf">
+                <div class="row my-2">
+                    <div class="col-sm-12">
+                        <div *ngIf="pdfPath">
+                            <embed [src]="pdfPath" width="100%" height="600px" type="application/pdf">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-success mr-2" (click)="processPDF()">Xử lý PDF</button>
+                    <button class="btn btn-danger mr-2" (click)="deletePDF()">Xóa dữ liệu PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

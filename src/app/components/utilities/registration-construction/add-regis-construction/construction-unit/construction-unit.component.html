@@ -1,0 +1,63 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fDepositAdditional">
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateAppointmentResponse">Ngày đặt cọc
+                            <span class="text-dan">*</span>
+                        </label>
+                        <p-calendar id="txtDateAppointmentResponse" [showIcon]="true" inputId="icon" type="date"
+                            formControlName="Code"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-12"></div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Số tiền đặt cọc
+                            <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group mb-3">
+                            <input type="text" formControlName="Code" class="form-control"
+                                aria-label="Amount (to the nearest dollar)" />
+                            <div class="input-group-append">
+                                <span class="input-group-text">VNĐ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Trạng thái hồ sơ</label>
+                         <span class="text-danger">*</span>
+                        <p-dropdown
+                            [options]="methodPayment"
+                            placeholder="Phương thức thanh toán"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="Code"
+                            optionLabel="Name"
+                            optionValue="Code">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtFeedback">Ghi chú</label>
+                        </div>
+                        <textarea id="txtFeedback" class="w-100" rows="5" pInputTextarea formControlName="Code"></textarea>
+                    </div>
+                </div>     
+            </div>    
+        </div>
+        <div class="col-12 p_float_right">
+            <p-toast></p-toast>
+            <button pButton pRipple type="button" label="Hủy bỏ" class="p-button-outlined p-button-secondary mr-2" (click)="onBack()">
+                <span class="pi pi-times-circle"></span>
+            </button>
+            <p-button [label]=" !(id > 0) ? 'Xác nhận' : 'Xác nhận'" [icon]="!(id > 0) ? 'pi pi-plus' : 'pi pi-check'"  
+                [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+        </div>
+    </div>        
+</div>

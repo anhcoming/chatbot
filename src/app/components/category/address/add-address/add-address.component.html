@@ -1,0 +1,89 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fZone">
+            <h5>
+                {{ !zoneId ? 'Thêm mới vị trí' : 'Sửa vị trí' }}
+            </h5>
+
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProjectId">Khu đô thị</label>
+                        <span class="text-danger">*</span>
+                        <p-dropdown
+                            [options]="lstProject" 
+                            placeholder="Khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ProjectId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            [filter]="true"
+                            (onChange)="getListTower($event)">
+                        </p-dropdown>
+                        <small *ngIf="fZone.controls['ProjectId'].hasError('required') && fZone.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn Khu đô thị</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtTowerId">Tòa nhà</label>
+                        <p-dropdown
+                            [options]="lstTower"
+                            placeholder="Chọn tòa nhà"
+                            emptyMessage="Không có dữ liệu"
+                            [showClear]="true"
+                            formControlName="TowerId"
+                            optionLabel="Name"
+                            optionValue="Id"
+                            [filter]="true"
+                          >
+                        </p-dropdown>
+                        <small *ngIf="fZone.controls['TowerId'].hasError('required') && fZone.controls['TowerId'].dirty" class="p-invalid text-danger">Vui lòng chọn Tòa nhà</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Mã vị trí</label>
+                        <span class="text-danger"> *</span>
+                        <input id="txtCode" type="text" pInputText formControlName="Code" minlength="3" maxlength="50" required>
+                        <small *ngIf="fZone.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã vị trí phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fZone.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã vị trí chỉ được tối đa 50 kí tự.</small>
+                        <small *ngIf="fZone.controls['Code'].hasError('required') && fZone.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập mã vị trí.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên vị trí
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name" minlength="6" maxlength="150" required>
+                        <small *ngIf="fZone.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên vị trí phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fZone.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên vị trí chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fZone.controls['Name'].hasError('required') && fZone.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên vị trí.</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAddress">Mô tả</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                        <small *ngIf="fZone.controls['Note'].hasError('minlength')" class="p-invalid text-danger">Mô tả phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fZone.controls['Note'].hasError('maxlength')" class="p-invalid text-danger">Mô tả chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fZone.controls['Note'].hasError('required') && fZone.controls['Note'].dirty" class="p-invalid text-danger">Vui lòng nhập mô tả.</small>
+                    </div>
+                </div>
+
+                <div class="col-12 p_float_right">
+                    <p-confirmDialog class="custom-toast"></p-confirmDialog>
+                    <button pButton pRipple type="button" (click)="onBack($event)" label="Hủy" class="p-button-outlined p-button-secondary mr-2">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'
+                    [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<!-- <p-confirmDialog class="custom-toast"></p-confirmDialog> -->

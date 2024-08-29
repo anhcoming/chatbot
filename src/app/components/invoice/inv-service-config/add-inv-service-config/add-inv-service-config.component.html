@@ -1,0 +1,171 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="dataFormInvServiceGroup">
+            <h3 class="mg-0">
+                {{ !id ? 'Thêm mới vị tí' : 'Cập nhật' }}
+            </h3>
+
+            <div class="grid formgrid">
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Từ ngày</label>
+                        <p-calendar id="txtFromDate" [showIcon]="true" inputId="icon" type="fromDate"
+                            formControlName="fromDate"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtCode">Đến ngày</label>
+                        <p-calendar id="txtToDate" [showIcon]="true" inputId="icon" type="toDate"
+                            formControlName="toDate"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtType">Loại dịch vụ</label>
+                        <p-dropdown [options]="invService_Type" placeholder="Chọn loại dịch vụ"
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="type"
+                            optionLabel="label" optionValue="value" (onChange)="getServiceType($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtInvServiceGroupId">Nhóm dịch vụ</label>
+                        <p-dropdown [options]="dataServiceGroup" placeholder="Chọn nhóm dịch vụ"
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="invServiceGroupId"
+                            optionLabel="Name" optionValue="Id" (onChange)="getServiceGroup($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtInvServiceId">Dịch vụ</label>
+                        <p-dropdown [options]="dataService" placeholder="Chọn dịch vụ" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="invServiceId" optionLabel="Name" optionValue="Id"
+                            (onChange)="getService($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Dự án</label>
+                        <p-dropdown [options]="dataProject" placeholder="Chọn dự án" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="projectId" optionLabel="Name" optionValue="Id"
+                            (onChange)="getProject($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Khu vực</label>
+                        <p-dropdown [options]="dataZone" placeholder="Chọn khu vực" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="zoneId" optionLabel="Name" optionValue="Id"
+                            (onChange)="getZone($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label>Toà nhà</label>
+                        <p-dropdown [options]="dataTower" placeholder="Chọn toà nhà" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="towerId" optionLabel="Name" optionValue="Id"
+                            (onChange)="getTower($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Ghi chú</label>
+                        <textarea id="txtCode" type="text" pInputText formControlName="note"></textarea>
+                    </div>
+                </div>
+                <!-- <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtType">Loại dịch vụ</label>
+                        <p-dropdown
+                            [options]="invService_Type"
+                            placeholder="Loại dịch vụ" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="Type" 
+                            optionLabel="label"
+                            optionValue="value">
+                        </p-dropdown>                      
+                    </div>
+                </div>        -->
+                <div class="col-6">
+                    <label for="txtTypeService">Trạng thái:</label>
+                    <div class="form-check">
+                        <div class="form-check form-check-inline mr-2 mt-2">
+                            <input type="checkbox" id="checkbox" formControlName="typeServiceConfig"
+                                [(ngModel)]="TypeServiceConfigCheck" />
+                            <label class="form-check-label">Hoạt động/ Không hoạt động</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 p_float_right">
+                    <div class="field p-fluid">
+                        <p-button label="Thêm mới" icon='pi pi-plus' [loading]="loading[0]"
+                            (onClick)="onOpenConfigDialog(-1)">
+                        </p-button>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <p-table [value]="listServiceConfigDetail" [paginator]="true" [rows]="10"
+                        [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                        [rowsPerPageOptions]="[10, 25, 50]">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 5%">Stt</th>
+                                <th style="width: 15%">Tính một giá/Tính bậc thang</th>
+                                <th style="width: 10%">Diễn giải</th>
+                                <th style="width: 10%">Định mức</th>
+                                <th style="width: 10%">Giá dịch vụ</th>
+                                <th style="width: 10%">% phụ phí</th>
+                                <th style="width: 15%">Tiền phụ phí</th>
+                                <th style="width: 15%">Thao tác</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                            <tr>
+                                <td>
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td>{{ item.isOnePrice }}</td>
+                                <td>{{ item.des }}</td>
+                                <td>{{ item.quota }}</td>
+                                <td>{{ item.price }}</td>
+                                <td>{{ item.surchargePer }}</td>
+                                <td>{{ item.surchargeValue }}</td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2"
+                                        (click)="onOpenConfigDialog(rowIndex)"></button>
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                        (click)="onDelete(rowIndex)"></button>
+                                    <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(apartment.Id)"></button> -->
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'  
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

@@ -1,0 +1,218 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fResidentMoveIn">
+            <!-- <h5>
+                {{ !id ? 'Đăng ký cư dân về ở' : 'Cập nhật cư dân về ở' }}
+            </h5> -->
+            <div class="grid formgrid">
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtFullName">Họ và tên</label>
+                        <span class="text-danger"> *</span>
+                        <input id="txtFullName" type="text" pInputText formControlName="FullName">
+                        <small *ngIf="fResidentMoveIn.controls['FullName'].hasError('minlength')" class="p-invalid text-danger">Họ và tên phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fResidentMoveIn.controls['FullName'].hasError('maxlength')" class="p-invalid text-danger">Họ và tên chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fResidentMoveIn.controls['FullName'].hasError('required') && fResidentMoveIn.controls['FullName'].dirty" class="p-invalid text-danger">Vui lòng nhập Họ và tên.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateOfBirth">Ngày sinh
+                            <span class=""></span>
+                        </label>
+                        <p-calendar id="txtDateOfBirth" [showIcon]="true" inputId="icon" type="DateOfBirth"
+                            formControlName="DateOfBirth"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid mt-2">
+                        <label>Giới tính</label>
+                        <div class="form-check">
+                            <div *ngFor="let item of gender" class="form-check form-check-inline mr-6">
+                                <p-radioButton formControlName="Gender" class="form-check-input form-check-radio"
+                                    type="radio" name="Gender" [id]="item.Id" [id]="item" [value]="item.Code" (onClick)="checkGender($event)"></p-radioButton>
+                                <label class="form-check-label" [for]="item.Id">{{item.Name}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtNationalId">Quốc tịch</label>
+                        <span class=""></span>
+                        <ng-select 
+                            [items]="lstCountry"
+                            [virtualScroll]="true" 
+                            [loading]="false" 
+                            formControlName="NationalId"
+                            placeholder="Chọn quốc tịch" 
+                            emptyMessage="Không có dữ liệu."
+                            bindLabel="Name" 
+                            bindValue="Id"
+                            (scrollToEnd)="fetchMore()"
+                            #selectFloor
+                            pDropdown>
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                <span [ngOptionHighlight]="search">{{item.Name}}</span>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtIdentityNumber">Số CCCD/HC/Visa</label>
+                        <input id="txtIdentityNumber" type="text" pInputText formControlName="IdentityNumber">
+                        <small *ngIf="fResidentMoveIn.controls['IdentityNumber'].hasError('required') && fResidentMoveIn.controls['IdentityNumber'].dirty" class="p-invalid text-danger">Vui lòng nhập Số CCCD/HC/Visa.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtIdentityPlace">Nơi cấp</label>
+                        <span class=""></span>
+                        <input id="txtIdentityPlace" type="text" pInputText formControlName="IdentityPlace">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtIdentityDateSign">Ngày cấp
+                            <span class=""></span>
+                        </label>
+                        <p-calendar id="txtIdentityDateSign" [showIcon]="true" inputId="icon" type="DateId"
+                            formControlName="IdentityDateSign"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtIdentityDateExpired">Ngày hết hạn
+                            <span class=""></span>
+                        </label>
+                        <p-calendar id="txtIdentityDateExpired" [showIcon]="true" inputId="icon" type="DateId"
+                            formControlName="IdentityDateExpired"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Số điện thoại
+                        </label>
+                        <input id="txtPhone" type="text" pattern="[0-9\s]*" pInputText formControlName="Phone">
+                        <small *ngIf="fResidentMoveIn.controls['Phone'].errors?.pattern" class="p-invalid text-danger">Số điện thoại không hợp lệ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtEmail">Email
+                            <span class=""></span>
+                        </label>
+                        <input id="txtEmail" type="email" pInputText formControlName="Email">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateArrival">Ngày đến
+                            <span class=""></span>
+                        </label>
+                        <p-calendar placeholder="dd/mm/yyyy" id="txtDateArrival" [showIcon]="true" inputId="icon"
+                            type="DateArrival" formControlName="DateArrival"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateLeave">Ngày đi
+                            <span class=""></span>
+                        </label>
+                        <p-calendar placeholder="dd/mm/yyyy" id="txtDateLeave" [showIcon]="true" inputId="icon"
+                            type="DateLeave" formControlName="DateLeave"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtRelationId">Quan hệ với chủ hộ</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown 
+                            [options]="relationshipOption" 
+                            placeholder="Vai trò trong căn hộ"
+                            emptyMessage="Không có dữ liệu." 
+                            [showClear]="true" 
+                            formControlName="RelationId"
+                            optionLabel="label" 
+                            optionValue="value">
+                        </p-dropdown>
+                        <small *ngIf="fResidentMoveIn.controls['RelationId'].hasError('required') && fResidentMoveIn.controls['RelationId'].dirty" class="p-invalid text-danger">Vui lòng chọn Quan hệ với chủ hộ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatusResident">Trạng thái</label>
+                        <span class="text-danger"></span>
+                        <p-dropdown [options]="statusOption" placeholder="Chọn trạng thái"
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="StatusResident"
+                            optionLabel="label" optionValue="code">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatusTemporaty">Tình trạng nhân khẩu</label>
+                        <span class=""></span>
+                        <p-dropdown 
+                            [options]="staying" 
+                            placeholder="Chọn tình trạng nhân khẩu"
+                            emptyMessage="Không có dữ liệu." 
+                            [showClear]="true" 
+                            formControlName="StatusTemporaty"
+                            optionLabel="label" 
+                            optionValue="value">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6" *ngIf="fResidentMoveIn.get('StatusTemporaty').value == 2">
+                    <div class="field p-fluid">
+                        <label for="txtTemporatyNumber">Số đăng ký tạm trú</label>
+                        <span class=""></span>
+                        <input id="txtTemporatyNumber" placeholder="VD:0321642644" type="text" pInputText
+                            formControlName="TemporatyNumber">
+                    </div>
+                </div>
+                <div class="col-6" *ngIf="fResidentMoveIn.get('StatusTemporaty').value == 2">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateStayFrom">ĐK tạm trú từ ngày
+                            <span class=""></span>
+                        </label>
+                        <p-calendar id="txtDateStayFrom" [showIcon]="true" inputId="icon" type="DateStayFrom"
+                            formControlName="DateStayFrom"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6" *ngIf="fResidentMoveIn.get('StatusTemporaty').value == 2">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateStayTo">ĐK tạm trú đến ngày
+                            <span class=""></span>
+                        </label>
+                        <p-calendar id="txtDateStayTo" [showIcon]="true" inputId="icon" type="DateStayTo"
+                            formControlName="DateStayTo"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="txtImage" class="form-label">Ảnh đính kèm</label>
+                    <div class="displayflex">
+                        <input  formControlName="Image"  class="form-control no-bor" type="file" (change)="onImageSelected($event)">
+                        <div *ngIf="fResidentMoveIn.get('Image')?.value">
+                            <img [src]="uploadedImageUrl" class="img-thumbnail">
+                            <i class="fa fa-times-circle del-img" aria-hidden="true" (click)="Imagenull()"></i> 
+                        </div>
+                    </div>
+                    <span class="text-danger">Bản photo CMND, CCCD có hiệu lực, Giấy giới thiệu/Hợp đồng thuê nhà
+                        (Trường hợp khách thuê)</span>
+                </div>
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" (click)="onBack()" label="Hủy"
+                        class="p-button-outlined p-button-secondary mr-2">
+                    </button>
+                    <p-button *ngIf="isLoading == true" class="p-button-outlined p-button-primary"
+                        [icon]="!(id > 0) ? 'pi pi-plus' : 'pi pi-check'" [label]="!(id > 0) ? 'Xác nhận' : 'Xác nhận'"
+                        [loading]="loading[0]" (onClick)="onSubmit()">
+                    </p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

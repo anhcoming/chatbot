@@ -1,0 +1,144 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fOrderAcceptance">
+            <h4>
+                {{ !id ? 'Thêm mới ' : 'Cập nhật' }} đơn đăng ký nghiệm thu thi công
+            </h4>
+
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateStart">Ngày nghiệm thu đăng ký</label><span class="text-danger"> *</span>
+                        <p-calendar id="txtDateStart" [showIcon]="true" inputId="icon" type="date" formControlName="DateReg" dateFormat="dd.mm.yy"></p-calendar>
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateStart">Ngày nghiệm thu thực tế</label><span class="text-danger"> *</span>
+                        <p-calendar id="txtDateStart" [showIcon]="true" inputId="icon" type="date" formControlName="DateReal" dateFormat="dd.mm.yy"></p-calendar>
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProjectId">Trạng thái nghiệm thu</label>
+                        <span class="text-danger">*</span>
+                        <p-dropdown
+                            [options]="lstStatusPayment" 
+                            placeholder="Trạng thái nghiệm thu" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="PaymentStatus" 
+                            optionLabel="label" 
+                            optionValue="value"
+                        >
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtFeedback">Phản hồi từ BQL tới cư dân</label>
+                        </div>
+                        <textarea id="txtFeedback" class="w-100" rows="5" pInputTextarea formControlName="NoteConfirm"></textarea>
+                    </div>
+                </div>      
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Số tiền đặt cọc
+                             <span class="text-danger"></span>
+                        </label>
+                        <div class="input-group mb-3">
+                            <input formControlName="PriceDeposit" type="text" class="form-control" aria-label="VNĐ">
+                            <div class="input-group-append">
+                              <span class="input-group-text">VNĐ</span>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Phí thi công
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <div class="input-group mb-3">
+                            <input formControlName="PriceFee" type="text" class="form-control" aria-label="VNĐ">
+                            <div class="input-group-append">
+                              <span class="input-group-text">VNĐ</span>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Phí phát sinh
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <div class="input-group mb-3">
+                            <input formControlName="PriceExtra" type="text" class="form-control" aria-label="VNĐ">
+                            <div class="input-group-append">
+                              <span class="input-group-text">VNĐ</span>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Còn lại
+                             <span class="text-danger"></span>
+                        </label>
+                        <div class="input-group mb-3">
+                            <input formControlName="PricePay" type="text" class="form-control" aria-label="VNĐ">
+                            <div class="input-group-append">
+                              <span class="input-group-text">VNĐ</span>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProjectId">Trạng thái hoàn cọc</label>
+                        <span class="text-danger">*</span>
+                        <p-dropdown
+                            [options]="lstStatusMethod" 
+                            placeholder="Trạng thái hoàn cọc" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="PaymentMethod" 
+                            optionLabel="label" 
+                            optionValue="value"
+                        >
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAddress">Ghi chú</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="txtattactments" class="form-label">Tài liệu đính kèm</label><span class="text-danger">*</span>
+                    <input  formControlName="listAttactments"  class="form-control no-bor" type="file" multiple (change)="onFileSelected($event)">
+                    <a *ngFor="let file of listAttactment;  let i = index"
+                        class="list-group-item list-group-item-success a-att"
+
+                        href="http://i-category.cnttvietnam.com.vn/uploads/files/{{file.Name}}" target="_blank">{{file.Name}}<span
+                          (click)="RemoveAttactment(file)"
+                          class="span-attactment">x</span><br></a>
+               </div>
+                <div class="col-12 p_float_right">
+                    <p-confirmDialog class="custom-toast"></p-confirmDialog>
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'
+                    [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<!-- <p-confirmDialog class="custom-toast"></p-confirmDialog> -->

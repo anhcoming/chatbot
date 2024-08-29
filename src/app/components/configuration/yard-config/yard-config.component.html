@@ -1,0 +1,109 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Cấu hình đặt sân</h4>
+            <div class="textFilterProj displayflex">
+                <div class="col-4">
+                    <label>Tìm kiếm</label>
+                    <div class="formSearch w-100">
+                        <input type="text" placeholder="Tên cấu hình đặt sân... " name="searchProject" [(ngModel)]="search" 
+                        (keyup.Enter)="onSearch($event)" (keyup)="isInputEmpty = search === ''" value="" class="StextSingle_Project">
+                        <button class="iconbtnSearch clear-text"  *ngIf="!isInputEmpty"><span class="pi pi-times" style="font-size: 1rem" (click)="onClearInput()"></span></button>
+                    </div>
+                </div>
+                 <div class="allSelectFilter displayflex w-65" [formGroup]="fSearch">
+                    <div class="col-6 pd-0">
+                        <div class="field p-fluid">
+                            <label for="txtDistrict">Khu đô thị</label>
+                            <p-dropdown
+                                [options]="lstProject"
+                                placeholder="Tất cả Khu đô thị" 
+                                emptyMessage="Không có dữ liệu."
+                                [showClear]="true" 
+                                formControlName="ProjectId" 
+                                optionLabel="Name"
+                                optionValue="Id"
+                                (onChange)="onSelect($event)">
+                            </p-dropdown>                      
+                        </div>
+                    </div>                        
+                    <div class="col-6">
+                        <div class="field p-fluid">
+                            <label for="txtDistrict">Tòa nhà</label>
+                            <p-dropdown
+                                [options]="lstTower"
+                                placeholder="Tất cả Tòa nhà" 
+                                emptyMessage="Không có dữ liệu."
+                                [showClear]="true" 
+                                formControlName="TowerId" 
+                                optionLabel="Name"
+                                optionValue="Id"
+                                (onChange)="onSelectTower($event)">
+                            </p-dropdown>                      
+                        </div>
+                    </div>                       
+                </div>  
+            </div>
+                  
+            <section class="FilterProject">
+                <div class="textFilterProj">
+                    <div class="addProjectList btn-options">
+                        <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/configuration/yard-config/create"></button>
+                    </div>
+                    <!-- <div class="addProjectList mr-2 btn-orange absolute-btn">
+                        <button #btn type="button" pButton icon="pi pi-chevron-down" label="Hành động" (click)="menu.toggle($event)" style="width:auto"></button>
+                        <p-tieredMenu #menu [model]="menuItems" [popup]="true"></p-tieredMenu>
+                    </div> -->
+                </div>
+            </section>
+
+            <p-table 
+                [value]="lstYard"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th >Stt</th>
+                        <th style="width: 15%">Khu đô thị</th>
+                        <th >Tòa nhà</th>
+                        <th style="width: 15%">Tên cấu hình đặt sân</th>
+                        <th style="width: 15%">Trạng thái</th>
+                        <th style="width: 10%">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                    <tr>
+                        <td>{{ rowIndex + 1 }}</td>
+                        <td>{{ item.project?.Name }}</td>
+                        <td>
+                            <span *ngFor="let items of item.listTowerMaps;let last=last">{{items?.TowerName}}<span *ngIf="!last">, </span></span>
+                        </td>
+                        <td>{{ item.Name }}</td>
+                        <td>
+                            <ul class="p-activate">
+                                <li *ngIf="item.Status == 1" class="p-activated"><span>{{ item.isStatus }}</span></li>
+                                <li *ngIf="item.Status == 10" class="p-notactivated"><span>{{ item.isStatus }}</span></li>
+                            </ul>
+                        </td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" routerLink="/configuration/yard-config/update/{{ item.Id }}" ></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(item.Id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                        <td colspan="6" class="text-center color-i">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

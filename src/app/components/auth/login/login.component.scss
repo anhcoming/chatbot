@@ -1,0 +1,87 @@
+:host ::ng-deep .pi-eye,
+:host ::ng-deep .pi-eye-slash {
+    transform: scale(1.6);
+    margin-right: 1rem;
+    color: var(--primary-color) !important;
+}
+
+.bgr-login {
+    background-image: url('/assets/imgs/image/bgr-login-web.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+}
+
+.title {
+    font-size: 2.58rem;
+    font-weight: 700;
+    text-align: center;
+    background: linear-gradient(90deg, #FE030C 0%, #7F36F8 54.4%, #1162FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 36px;
+    margin-bottom: 45px;
+}
+
+.form-login {
+    background-image: url('/assets/imgs/image/bgr-form-login.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 2.7rem;
+    border-radius: 27px;
+    border: 1px solid #4285F4;
+    width: 436px;
+    height: 583px;
+}
+
+.container-input {
+    position: relative;
+}
+
+.ic-input {
+    position: absolute;
+    top: 1rem;
+    left: .85rem;
+}
+
+.ic-eye {
+    position: absolute;
+    top: 1rem;
+    right: .85rem;
+}
+
+.form-input {
+    border-radius: 17px;
+    border: 1px solid #CCCCCC;
+    font-size: 1.05rem;
+}
+
+.form-input.is-valid {
+    border-color: #EB4335;
+}
+
+.btn-digi-login {
+    margin-top: 42px;
+    text-transform: uppercase;
+}
+
+.text-forgot-pasword {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 20px;
+    color: #405189;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .container-login {
+        background-image: url('/assets/imgs/image/bgr-login-mobile.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100vh;
+        padding: 0 24px
+    }
+}

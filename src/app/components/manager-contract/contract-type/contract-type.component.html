@@ -1,0 +1,81 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Danh sách loại hợp đồng</h4>
+            <div class="textFilterProj">
+                <span>Tìm kiếm</span>
+                <div class="formSearchText w-30">
+                    <input (keyup.enter)="onSearch()" type="text" [(ngModel)]="filterText"  placeholder="Tìm kiếm mã,tên loại hợp đồng... " name="searchProject" 
+                    value="" class="StextSingle_Project" #filter [ngModelOptions]="{standalone: true}">
+                    <button class="iconbtnSearch" (click)="onSearch()"><i _ngcontent-wsc-c163="" aria-hidden="true" class="fa fa-search"></i></button>
+                </div>
+                
+            </div>
+            <div class="allSelectFilter displayflex">
+                <div class="itemSelectFilter">
+                     
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">            
+            <section class="FilterProject">
+                <div class="textFilterProj">
+                    <div class="addProjectList">
+                        <a href="#/manager-contract/contract-type/create" class="mg-l-9 addList"><i class="fa fa-plus-circle"
+                            aria-hidden="true"></i> Thêm mới</a>
+                    </div>
+                </div>
+            </section>
+
+            <p-table 
+                [value]="lstContractType"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3%">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th style="width: 15%">STT</th>
+                        <th style="width: 15%">Mã Loại hợp đồng</th>
+                        <th style="width: 40%">Tên loại hợp đồng</th>
+                        <th style="width: 15%">Trạng thái</th>
+                        <th style="width: 15%">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-contracttype let-rowIndex="rowIndex">
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="contracttype"></p-tableCheckbox>
+                        </td>
+                        <td>{{ rowIndex + 1}}</td>
+                        <td>{{ contracttype.Code }}</td>
+                        <td>{{ contracttype.Name }}</td>
+                        <td><input class="hlight-ckb" type="checkbox" id="checkbox" [(ngModel)]="contracttype.State" disabled="true"/></td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" routerLink="/manager-contract/contract-type/update/{{contracttype.Id}}" ></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(contracttype.Id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                                 <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

@@ -1,0 +1,60 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Quản lý gói dịch vụ</h4>
+            <div class="textFilterProj">
+                <span>Tìm kiếm</span>
+                <div class="formSearchText w-30">
+                    <input type="text" placeholder="Tìm kiếm theo mã, tên gói dịch vụ... " name="searchProject" [(ngModel)]="search"
+                    (keyup.Enter)="onSearch($event)" (keyup)="isInputEmpty = search === ''" value="" class="StextSingle_Project">
+                    <button class="iconbtnSearch"  *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10" style="font-size: 1rem" (click)="onClearInput()"></span></button>
+                </div>
+                
+            </div>        
+            <section class="FilterProject mt-4">
+                <div class="textFilterProj">
+                    <div class="addProjectList btn-options">
+                        <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/system/service-pricing/create"></button>
+                    </div>
+                </div>
+            </section>
+
+            <p-table 
+                [value]="lstServicePricing"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 5%">Stt</th>
+                        <th style="width: 25%">Mã gói dịch vụ</th>
+                        <th style="width: 45%">Tên gói dịch vụ</th>
+                        <th style="width: 10%">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                    <tr>
+                        <td>{{ rowIndex + 1}}</td>
+                        <td>{{ item.Code }}</td>
+                        <td>{{ item.Name }}</td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" routerLink="/system/service-pricing/update/{{item.Id }}" ></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(item.Id, rowIndex)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                                 <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

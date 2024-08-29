@@ -1,0 +1,43 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fVehicle">
+            <h5>
+                {{ !(this.itemVehicle.Id > 0) ? 'Thêm mới phương tiện' : 'Xem chi tiết phương tiện' }}
+            </h5>
+
+            <div class="grid formgrid" >         
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên phương tiện
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name">
+                        <small *ngIf="fVehicle.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên dự án phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fVehicle.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên dự án chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fVehicle.controls['Name'].hasError('required') && fVehicle.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên tầng.</small> 
+                    </div>
+                </div>            
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtDescription">Mô tả</label>
+                        </div>
+                        <textarea id="txtDescription" class="w-100" rows="5" pInputTextarea formControlName="Description"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Quay lại" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                        <span class="pi pi-angle-left"></span>
+                    </button>
+                    <p-button [label]=" !(this.itemVehicle.Id > 0) ? 'Thêm mới' : 'Cập nhật'" [icon]="!(this.itemVehicle.Id > 0) ? 'pi pi-plus' : 'pi pi-check'"  
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+
+

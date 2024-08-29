@@ -1,0 +1,166 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Danh sách hợp đồng</h4>
+
+            <div class="allSelectFilter displayflex" [formGroup]="fSearch">
+                <div class="col-3 pd-0">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Nhóm khách hàng(skip)</label>
+                        <p-dropdown [options]="lstCustomerGroup" placeholder="Chọn nhóm khách hàng" 
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="CustomerGroupId"
+                            optionLabel="Name" optionValue="Id" (onChange)="onSelectByCustomerGroupId($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Loại khách hàng(skip)</label>
+                        <p-dropdown [options]="lstCustomerType" placeholder="Chọn loại khách hàng"
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="CustomerTypeId"
+                            optionLabel="Name" optionValue="Id" (onChange)="onSelectByCustomerTypeId($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khách hàng</label>
+                        <p-dropdown [options]="lstCustomer" placeholder="Chọn khách hàng"
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="CustomerId"
+                            optionLabel="FullName" optionValue="Id" (onChange)="onSelectByCustomerId($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị</label>
+                        <p-dropdown [options]="lstProject" placeholder="Khu đô thị" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="ProjectId" optionLabel="Name" optionValue="Id"
+                            (onChange)="onSelectByProject($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-3 pd-0">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Tòa nhà</label>
+                        <p-dropdown [options]="lstTower" placeholder="Tòa nhà" emptyMessage="Không có dữ liệu." [(ngModel)]="TowerIdSelect"
+                            [showClear]="true" formControlName="TowerId" optionLabel="Name" optionValue="Id"
+                            (onChange)="onSelectByTower($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Tầng</label>
+                        <p-dropdown [options]="lstFloor" placeholder="Tầng" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="FloorId" optionLabel="Name" optionValue="Id"
+                            (onChange)="onSelectByFloor($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Căn hộ</label>
+                        <p-dropdown [options]="lstApartment" placeholder="Chọn căn hộ" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="CustomerTypeId" optionLabel="Name" optionValue="Id"
+                            (onChange)="onSelectByCustomerId($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Số hợp đồng (skip)</label>
+                        <p-dropdown [options]="lstContract" placeholder="Chọn hợp đồng" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="ContractId" optionLabel="Name" optionValue="Id"
+                            (onChange)="onSelectContract($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="textFilterProj displayflex">
+                    <div class="formSearchText w-30">
+                        <span>Tìm kiếm</span>
+                        <input type="text" formControlName="Search" placeholder="Tìm kiếm theo số, mã hợp đồng... "
+                            name="searchProject" [(ngModel)]="search" (keyup.Enter)="onSearch()"
+                            (keyup)="isInputEmpty = search === ''" value="" class="StextSingle_Project">
+                        <button class="iconbtnSearch" *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10"
+                                style="font-size: 1rem" (click)="onClearInput()"></span></button>
+                    </div>
+                    <div class="formSearchText w-70">
+
+                        <button style="float: right" type="button" pButton icon="fa-thin fa-magnifying-glass" label="Tìm kiếm"
+                            (click)="onSearch()"></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <section class="FilterProject">
+                <div class="textFilterProj">
+                    <div class="addProjectList btn-options">
+                        <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới"
+                            routerLink="/manager-contract/contracts/create"></button>
+                    </div>
+                    <div class="addProjectList mr-2 btn-options btn-green">
+                        <button type="button" pButton label="Xuất Excel"></button>
+                    </div>
+                </div>
+            </section>
+
+            <p-table [value]="lstContract" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]" [loading]="isLoadingTable">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Stt</th>
+                        <th>Trạng thái</th>
+                        <th>Khu đô thị</th>
+                        <th>Tòa nhà</th>
+                        <th>Tầng</th>
+                        <th>Căn hộ</th>
+                        <th>Tên khách hàng</th>
+                        <th>Mã tài khoản</th>
+                        <th>Số hợp đồng</th>
+                        <th>Loại hợp đồng</th>
+                        <th>Ngày ký hợp đồng</th>
+                        <th class="min-w-90">Thao tác</th>
+                    </tr> 
+                </ng-template>
+                <ng-template pTemplate="body" let-contract let-rowIndex="rowIndex">
+                    <tr>
+                        <td>{{ rowIndex + 1 }}</td>
+                        <td>{{ contract.ContractStatusName}}</td>
+                        <td>{{ contract.ProjectName }}</td>
+                        <td>{{ contract.TowerName}}</td>
+                        <td>{{ contract.FloorName }}</td>
+                        <td>{{ contract.ApartmentName }}</td>
+                        <td>{{ contract.CustomerName }}</td>
+                        <td>{{ contract.CustomerCode }}</td>
+                        <td>{{ contract.Code }}</td>
+                        <td>{{ contract.InvContractTypeName }}</td>
+                        <td>{{ contract.FromDate  | date: 'dd/MM/yyyy'}}</td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                                routerLink="/manager-contract/contracts/update/{{contract.Id}}"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                (click)="onDelete(contract.Id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                        <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

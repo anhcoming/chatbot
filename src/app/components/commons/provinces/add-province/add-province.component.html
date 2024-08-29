@@ -1,0 +1,65 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fProvince">
+            <h3 class="mg-0">
+                {{ !( Id > 0) ? 'Thêm mới Tỉnh/Thành Phố' : 'Cập nhật Tỉnh/Thành Phố' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Mã Tỉnh/Thành Phố</label>
+                        <span class="text-danger"> *</span>
+                        <input id="txtCode" type="text" pInputText formControlName="Code">
+                        <small *ngIf="fProvince.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã Tỉnh/Thành Phố phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fProvince.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã Tỉnh/Thành Phố chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fProvince.controls['Code'].hasError('required') && fProvince.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập Mã Tỉnh/Thành Phố.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên Tỉnh/Thành Phố
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name">
+                        <small *ngIf="fProvince.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên Tỉnh/Thành Phố phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fProvince.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên Tỉnh/Thành Phố chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fProvince.controls['Name'].hasError('required') && fProvince.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập Tên Tỉnh/Thành Phố.</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtProvince">Quốc gia</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown 
+                            [options]="lstCountry" 
+                            placeholder="Quốc gia" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            optionLabel="Name" 
+                            optionValue="Id" 
+                            formControlName="CountryId">
+                        </p-dropdown>
+                        <small *ngIf="fProvince.controls['CountryId'].hasError('required') && fProvince.controls['CountryId'].dirty" class="p-invalid text-danger">Vui lòng chọn Quốc gia.</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAddress">Mô tả</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'  
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

@@ -1,0 +1,65 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fWard">
+            <h3 class="mg-0">
+                {{ !( Id > 0) ? 'Thêm mới Phường/Xã' : 'Cập nhật Phường/Xã' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Mã Phường/Xã</label>
+                        <span class="text-danger"> *</span>
+                        <input id="txtCode" type="text" pInputText formControlName="Code">
+                        <small *ngIf="fWard.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã Phường/Xã phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fWard.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã Phường/Xã chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fWard.controls['Code'].hasError('required') && fWard.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập Mã Phường/Xã.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên Phường/Xã
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name">
+                        <small *ngIf="fWard.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên Phường/Xã phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fWard.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên Phường/Xã chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fWard.controls['Name'].hasError('required') && fWard.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập Tên Phường/Xã.</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Quận/Huyện</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown 
+                            [options]="lstDistrict" 
+                            placeholder="Quận/Huyện" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            optionLabel="Name" 
+                            optionValue="Id" 
+                            formControlName="DistrictId">
+                        </p-dropdown>
+                        <small *ngIf="fWard.controls['DistrictId'].hasError('required') && fWard.controls['DistrictId'].dirty" class="p-invalid text-danger">Vui lòng chọn Quận/Huyện.</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAddress">Mô tả</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'  
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

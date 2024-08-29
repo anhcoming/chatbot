@@ -1,0 +1,116 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div class="textFilterPos">
+                <h4 class="mg-l-9">Danh mục sổ tay cư dân</h4>
+                <section class="FilterProject">
+                    <div class="textFilterProj">
+                        <div class="addProjectList btn-options">
+                            <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/manager-category/notebook-category/create"></button>
+                        </div>
+                        <div class="addProjectList mr-2 btn-orange absolute-btn">
+                            <button #btn type="button" pButton icon="pi pi-chevron-down" label="Hành động" (click)="menu.toggle($event)" style="width:auto"></button>
+                            <p-tieredMenu #menu [model]="menuItems" [popup]="true"></p-tieredMenu>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="grid formgrid center-form-inpos" [formGroup]="fNotebookCate">
+                <!-- <div class="field p-fluid center-text-inpos">
+                    <p-dropdown
+                        [options]="lstProject"
+                        placeholder="Khu đô thị"
+                        emptyMessage="Không có dữ liệu."
+                        [showClear]="true"
+                        formControlName="ProjectId"
+                        optionLabel="Name"
+                        optionValue="Id"
+                        (onChange)="onSelect($event)"
+                    >
+                    </p-dropdown>
+                </div>
+                <div class="formSearchText formsearch-posi">
+                    <input
+                        (keyup.enter)="onSearch()"
+                        type="text"
+                        [(ngModel)]="filterText"
+                        placeholder="Tìm kiếm theo tên sổ tay... "
+                        name="searchnotebook"
+                        value=""
+                        class="StextSingle_Project"
+                        [ngModelOptions]="{standalone: true}"
+                    />
+                </div> -->
+            </div>
+            <p-table
+                [value]="lstNoteBookCate"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable"
+                [(selection)]="selectedCategory">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3%">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>STT</th>
+                        <th>Tên hiển thị</th>
+                        <th>Vị trí sắp xếp</th>
+                        <th>Mô tả</th>
+                        <th style="width: 25%;">Khu đô thị</th>
+                        <th class="min-w-90">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template
+                    pTemplate="body"
+                    let-notebookcate
+                    let-rowIndex="rowIndex"
+                >
+                    <tr>
+                        <td >
+                            <p-tableCheckbox [value]="notebookcate" ></p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{ rowIndex + 1 }}
+                        </td>
+                        <td>{{ notebookcate.Name }}</td>
+                        <td class="mg-l-2">{{ notebookcate.Location }}</td>
+                        <td>{{ notebookcate.Description }}</td>
+                        <td>
+                            <span *ngFor="let items of notebookcate.listProjectMaps;let last=last">{{items?.ProjectName}}<span *ngIf="!last">, </span></span>
+                        </td>
+                        <td>
+                            <button
+                            pTooltip="Sửa sổ tay cư dân"
+                                pButton
+                                pRipple
+                                icon="pi pi-pencil"
+                                class="p-button-rounded p-button-success mr-2"
+                                routerLink="/manager-category/notebook-category/update/{{notebookcate.Id}}"></button>
+                            <button
+                            pTooltip="Xóa sổ tay cư dân"
+                                pButton
+                                pRipple
+                                icon="pi pi-trash"
+                                class="p-button-rounded p-button-warning"
+                                (click)="onDelete(notebookcate)"
+                            ></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                                 <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+

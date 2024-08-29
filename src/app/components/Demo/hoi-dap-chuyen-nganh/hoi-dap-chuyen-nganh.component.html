@@ -1,0 +1,54 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card" style="height: 100vh;">
+      <div class="chat-container">
+        <div class="chat-box">
+          <div class="chat-title">
+            <p-dropdown 
+              [options]="dropdownTopics" 
+              [(ngModel)]="selectedGroupTopic" 
+              optionLabel="name" 
+              optionValue="code"
+              placeholder="Chọn chủ đề" 
+              pAutoFocus 
+              [autofocus]="dropdownFoucs" />
+          </div>
+          <div class="chat-title">{{ currentChatSession?.name || ""}}</div>
+          <div #messagesContainer class="message-container" id="messageContainer">
+            <div *ngFor="let message of messages" class="message-wrapper" [ngClass]="{'user': message.role === 'human'}">
+              <div [ngClass]="{ 'heder-revert': message.role === 'human', 'header': message.role === 'ai' }">
+                <div class="avatar" [ngClass]="{ 'user-avatar': message.role === 'human', 'bot-avatar': message.role === 'ai' }"></div>
+                <span class="name" *ngIf="message.role === 'human'">{{ message.name || "User" }}</span>
+                <span class="name" *ngIf="message.role === 'ai'">{{ "Bot" }}</span>
+              </div>
+              <div class="message" [ngClass]="{'user': message.role === 'human'}"  *ngIf="message.content !== '' && message.content !== null" [innerText]="message.content"></div>
+              <div class="message thinking" *ngIf="message.content === '' || message.content === null"></div>
+              
+            </div> 
+          </div>
+          <div class="input-container">
+            <input type="text" id="messageInput" [(ngModel)]="sendMessage" [readOnly]="readonly"
+            (keyup)="loading = sendMessage !== '' && sendMessage !== null ? false : true"
+            (keyup.enter)="sendMessages()" placeholder="Nhập tin nhắn...">
+            <button id="sendButton" [ngClass]="{'disabled': loading}" [disabled]="loading" (click)="sendMessages()">➤</button>
+          </div>
+        </div>
+        <div class="history-sidebar">
+          <button class="history-button" (click)="newSession()">Cuộc trò chuyện mới</button>
+          <div class="history-container">
+            <div class="history-section" *ngIf="chatSessions.length > 0">
+              <h5>Gần đây</h5>
+              <div class="message" *ngFor="let session of chatSessions" [ngClass]="{'active': session?.id === currentChatSession?.id}">
+                <button (click)="getChatSessionDetail(session)">
+                  <i class="pi pi-comment" style="font-size: 1.2rem"></i>
+                  <span class="button-text">{{ session.name }}</span> 
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast />

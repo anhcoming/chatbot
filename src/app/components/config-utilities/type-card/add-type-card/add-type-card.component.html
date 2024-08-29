@@ -1,0 +1,111 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>
+                {{ itemTypeCard.Id > 0 ? 'Xem chi tiết loại thẻ' : 'Thêm mới loại thẻ' }}
+            </h5>
+
+            <form class="grid formgrid" [formGroup]="fTypeCard">
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên loại thẻ
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name" class="p-invalid">
+                        <small *ngIf="fTypeCard.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên loại thẻ phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fTypeCard.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên loại thẻ chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fTypeCard.controls['Name'].hasError('required') && fTypeCard.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên loại thẻ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtGroupCard">
+                            Loại nhóm thẻ
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <p-dropdown 
+                            [options]="lstGroupCard" 
+                            placeholder="Chọn nhóm thẻ" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            optionLabel="name" 
+                            optionValue="id" 
+                            id="txtGroupCard"
+                            formControlName="GroupCard" 
+                            class="p-invalid">
+                        </p-dropdown>
+                        <small *ngIf="fTypeCard.controls['GroupCard'].hasError('required') && fTypeCard.controls['GroupCard'].dirty" class="p-invalid text-danger">Vui lòng chọn nhóm thẻ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtIsActive">
+                            Trạng thái
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <p-dropdown 
+                            [options]="lstStatus" 
+                            placeholder="Chọn trạng thái" 
+                            emptyMessage="Không có dữ liệu."
+                            optionLabel="name" 
+                            optionValue="id" 
+                            id="txtIsActive"
+                            formControlName="IsActive" 
+                            class="p-invalid">
+                        </p-dropdown>
+                        <small *ngIf="fTypeCard.controls['IsActive'].hasError('required') && fTypeCard.controls['IsActive'].dirty" class="p-invalid text-danger">Vui lòng chọn trạng thái loại thẻ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid" *ngIf="fTypeCard.controls['GroupCard'].value === cardGroupEnum.card_car">
+                        <label for="txtVehicleId">
+                            Loại phương tiện
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <p-dropdown 
+                            [options]="lstVehicle" 
+                            placeholder="Chọn loại phương tiện" 
+                            emptyMessage="Không có dữ liệu."
+                            optionLabel="Name" 
+                            optionValue="Id" 
+                            formControlName="VehicleId" 
+                            id="txtVehicleId"
+                            class="p-invalid">
+                        </p-dropdown>
+                        <!-- <small *ngIf="fTypeCard.controls['VehicleId'].errors.notMatch" class="p-invalid text-danger">
+                            Vui lòng chọn phương tiện.
+                        </small> -->
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtDescription">Mô tả</label>
+                        <textarea id="txtDescription" rows="5" pInputTextarea formControlName="Description" class="w-100"></textarea>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <h5>Chọn khu đô thị</h5>
+                    <div class="grid" formArrayName="ListProject">
+                        <div class="col-3 mt-3" *ngFor="let project of lstProject; let i = index" >
+                            <div class="flex align-items-center">
+                                <p-checkbox name="txtProjectId" [value]="project.Id" label="{{project.Name}}" [formControlName]="i"></p-checkbox>
+                            </div>
+                        </div>
+                        <div *ngIf="fTypeCard.controls['ListProject'].errors && fTypeCard.controls['ListProject'].touched">
+                            Vui lòng chọn ít nhất 1 khu đô thị.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 p_float_right mt-4 card-footer p-5">
+                    <button pButton pRipple type="button" label="Quay lại" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                        <span class="pi pi-angle-left"></span>
+                    </button>
+                    <p-button [label]="itemTypeCard.Id ? 'Cập nhật' : 'Thêm mới'" icon="pi pi-plus" type="submit" [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </form>
+ 
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog> 

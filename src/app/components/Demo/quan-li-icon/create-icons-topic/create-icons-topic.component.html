@@ -1,0 +1,40 @@
+<div class="container-manage">
+    <div [formGroup]="iconForm">
+        <span class="title"><img src="assets/imgs/svg/ic-title-screen.svg" class="mr-3" />{{ !(idTopic > 0) ? 'Thêm mới
+            Icon' : 'Sửa Icon'}}</span>
+        <div class="grid formgrid mt-3">
+            <div class="col-6">
+                <div class="field p-fluid">
+                    <label for="txtCode" class="text-label">Tên icon
+                        <span class="text-danger"> *</span>
+                    </label>
+                    <input id="txtCode" type="text" pInputText formControlName="nameIcon" class="form-input">
+                    <small
+                        *ngIf="iconForm?.controls['nameIcon'].hasError('required') && iconForm?.controls['nameIcon'].dirty"
+                        class="p-invalid text-danger">Vui lòng nhập tên Icon.</small>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="field p-fluid">
+                    <label for="txtCode" class="text-label">icon
+                        <span class="text-danger"> *</span>
+                    </label>
+                    <p-fileUpload mode="basic" chooseLabel="Chọn file" chooseIcon="pi pi-upload" name="demo[]"
+                        accept="image/*" maxFileSize="1000000" (input)="onUpload($event)" />
+                    <small *ngIf="errorFileIcon" class="p-invalid text-danger">Vui lòng thêm file ảnh.</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 p_float_right">
+            <p-toast></p-toast>
+            <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="onBack($event)">
+                <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+            </button>
+            <button class="btn btn-digi" (click)="onSubmit()"><img src="assets/imgs/svg/ic-save.svg" class="mr-3" />Lưu
+                thông tin</button>
+        </div>
+    </div>
+</div>
+<p-toast />
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

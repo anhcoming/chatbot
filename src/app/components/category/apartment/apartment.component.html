@@ -1,0 +1,156 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Danh sách căn hộ</h4>
+            <div class="textFilterProj">
+                <span>Tìm kiếm</span>
+                <div class="formSearchText w-30">
+                    <input type="text" placeholder="Tìm kiếm theo mã, tên tòa nhà... " name="searchProject" [(ngModel)]="search" 
+                    (keyup.Enter)="onSearch($event)" (keyup)="isInputEmpty = search === ''" value="" class="StextSingle_Project">
+                    <button class="iconbtnSearch"  *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10" style="font-size: 1rem" (click)="onClearInput()"></span></button>
+                </div>
+                
+            </div>
+            <div class="allSelectFilter displayflex" [formGroup]="fSearch">
+                <div class="col-3 pd-0">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị</label>
+                        <p-dropdown
+                            [options]="lstProject"
+                            placeholder="Khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ProjectId" 
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="onSelectByProject($event)">
+                        </p-dropdown>                      
+                    </div>
+                </div>                        
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Tòa nhà</label>
+                        <p-dropdown
+                            [options]="lstTower"
+                            placeholder="Tòa nhà" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="TowerId" 
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="onSelectByTower($event)">
+                        </p-dropdown>                      
+                    </div>
+                </div>                        
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Vị trí</label>
+                        <p-dropdown
+                            [options]="lstZone"
+                            placeholder="Vị trí" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ZoneId" 
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="onSelectByAddress($event)">
+                        </p-dropdown>                      
+                    </div>
+                </div>  
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Tầng</label>
+                        <p-dropdown
+                            [options]="lstFloor"
+                            placeholder="Tầng" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="FloorId" 
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="onSelectByFloor($event)">
+                        </p-dropdown>                      
+                    </div>
+                </div>                       
+            </div>           
+            <section class="FilterProject">
+                <div class="textFilterProj">
+                    <div class="addProjectList btn-options">
+                        <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/category/apartment/create"></button>
+                    </div>
+                    <div class="addProjectList mr-2 btn-orange absolute-btn">
+                        <button #btn type="button" pButton icon="pi pi-chevron-down" label="Hành động" (click)="menu.toggle($event)" style="width:auto"></button>
+                        <p-tieredMenu #menu [model]="menuItems" [popup]="true"></p-tieredMenu>
+                    </div>
+                    <div class="addProjectList mr-2 btn-options btn-green">
+                        <button type="button" pButton icon="pi ft-download" label="Tải xuống"></button>
+                    </div>
+                    <div class="addProjectList mr-2 btn-options btn-yellow">
+                        <button type="button" pButton icon="ft-upload" label="Tải lên" routerLink="/category/apartment/upload"></button>
+                    </div>
+                </div>
+            </section>
+
+            <p-table 
+                [value]="lstApartment"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable"
+                [(selection)]="selectedItems">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>Stt</th>
+                        <th>Mã căn hộ</th>
+                        <th>Căn hộ</th>
+                        <th>QrCode</th>
+                        <th>Trạng thái</th>
+                        <th>Chủ sở hữu</th>
+                        <th>Thông tin căn hộ</th>
+                        <th class="min-w-90">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-apartment let-rowIndex="rowIndex">
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="apartment"></p-tableCheckbox>
+                        </td>
+                        <td>{{ rowIndex + 1 }}</td>
+                        <td>{{ apartment.Code}}</td>
+                        <td>{{ apartment.Name }}</td>
+                        <td ><img style="height: 50px;width: 50px;" src="{{ docmainQrcode }}{{ apartment?.QrCodeImage }}">{{ apartment.QrCode }}</td>
+                        <td>
+                            <ul class="p-activate">
+                                <li *ngIf="apartment.Status == 1" class="p-activated"><span>{{ apartment.StatusName }}</span></li>
+                                <li *ngIf="apartment.Status !== 1" class="p-notactivated"><span>{{ apartment.StatusName }}</span></li>
+                            </ul>
+                        </td>
+                        <td>{{ apartment.ResidentMain  }}</td>
+                        <td>
+                            <span>{{ apartment.floor?.Name }}<span *ngIf="apartment.tower?.Name">, </span></span>
+                            <span>{{ apartment.tower?.Name }}<span *ngIf="apartment.project?.Name">, </span></span>
+                            <span>{{ apartment.project?.Name }}</span>
+                        </td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" routerLink="/category/apartment/update/{{apartment.Id}}"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(apartment.Id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                                <td colspan="12" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

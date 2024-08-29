@@ -1,0 +1,96 @@
+<div class="container-manage">
+    <span class="title"><img src="assets/imgs/svg/ic-title-screen.svg" class="mr-3" />Quản lý người dùng hệ thống</span>
+    <div class="textFilterProj  row d-flex align-items-center mt-3">
+        <div class="formSearchText col-md-6">
+            <input type="text" placeholder="Tìm kiếm theo họ và tên, tài khoản..."
+                name="searchProject" [(ngModel)]="search" (keyup.Enter)="onSearch($event)"
+                (keyup)="isInputEmpty = search === ''" value="" class="StextSingle_Project">
+            <button class="iconbtnSearch" *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10"
+                    style="font-size: 1rem" (click)="onClearInput()"></span></button>
+        </div>
+    </div>
+    <div class="container-button mt-4 mb-4">
+        <button class="btn btn-digi" routerLink="/system/user-role/create"><img src="assets/imgs/svg/ic-plus-circle.svg"
+                width="20px" height="20px" class="mr-2" />Thêm mới</button>
+    </div>
+    <p-table [value]="lstUser"
+        [tableStyle]="{ 'min-width': '50rem' }" [loading]="isLoadingTable">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>STT</th>
+                <th>Họ và tên</th>
+                <th>Tài khoản</th>
+                <th>Email</th>
+                <th>Địa chỉ</th>
+                <th class="min-w-90">Thao tác</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+            <tr>
+                <td>{{ rowIndex + 1}}</td>
+                <td>{{ item.fullName || "Đang cập nhât" }}</td>
+                <td>{{ item.userName || "Đang cập nhật" }}</td>
+                <td>{{ item.email || "Đang cập nhật" }}</td>
+                <td>{{ item.address || "Đang cập nhật" }}</td>
+                <td>
+                    <button class="btn" (click)="changePass(item.id)">
+                        <img src="assets/imgs/svg/ic-change-user.svg" />
+                    </button>
+                    <button class="btn" routerLink="/system/user-role/update/{{item.id}}">
+                        <img src="assets/imgs/svg/ic-edit.svg" />
+                    </button>
+                    <button class="btn" (click)="onDelete(item.id)">
+                        <img src="assets/imgs/svg/ic-remove-red.svg" />
+                    </button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr class="text-center">
+                <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <p-paginator (onPageChange)="onPageChange($event)" [rows]="10" [totalRecords]="totalElements"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập" [rowsPerPageOptions]="[10, 25, 50]" />
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+
+
+<p-dialog [(visible)]="isVisible" [style]="{ width: '550px' }" header="Reset mật khẩu tài khoản quản trị hệ thống"
+    [modal]="true" styleClass="p-fluid" (onHide)="hideDialog()">
+    <form [formGroup]="formPassGroup">
+        <div class="field p-fluid">
+            <label for="txtName" class="text-label">Mật khẩu <span class="text-danger">*</span>
+            </label>
+            <p-password formControlName="newPass" autocomplete="off" placeholder="Nhập mật khẩu" [toggleMask]="true"
+                (input)="matchingPasswords()" style="border-radius: 6px;"></p-password>
+            <small *ngIf="formPassGroup.get('newPass')?.hasError('pattern')" class="p-invalid text-danger">
+                Mật khẩu yêu cầu chữ hoa, chữ thường, số và tối thiểu 6 ký tự!
+            </small>
+            <small
+                *ngIf="formPassGroup.controls['newPass'].hasError('required') && formPassGroup.controls['newPass'].dirty"
+                class="p-invalid text-danger">Vui lòng nhập mật khẩu mới.</small>
+        </div>
+        <div class="field p-fluid">
+            <label for="txtName" class="text-label">Xác nhận mật khẩu <span class="text-danger">*</span>
+            </label>
+            <p-password formControlName="confirmPass" autocomplete="off" placeholder="Nhập mật khẩu" [toggleMask]="true"
+                (input)="matchingPasswords()" style="border-radius: 6px;"></p-password>
+            <small *ngIf="formPassGroup.controls['confirmPass'].hasError('mismatchedPasswords')"
+                class="p-invalid text-danger">Mật khẩu nhập lại không khớp.</small>
+            <small
+                *ngIf="formPassGroup.controls['confirmPass'].hasError('required') && formPassGroup.controls['confirmPass'].dirty"
+                class="p-invalid text-danger">Vui lòng nhập lại mật khẩu.</small>
+        </div>
+    </form>
+    <div class="p_float_right">
+        <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="hideDialog()">
+            <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+        </button>
+        <button class="btn btn-digi" (click)="handleChangePass()"><img src="assets/imgs/svg/ic-check.svg"
+                class="mr-3" />Lưu thông tin</button>
+    </div>
+</p-dialog>

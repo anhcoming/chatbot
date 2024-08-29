@@ -1,0 +1,18 @@
+<div class="layout-wrapper" [ngClass]="containerClass">
+    <app-topbar></app-topbar>
+    <div class="layout-sidebar">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="layout-main-container">
+        <!-- <iframe src="http://210.86.230.107:9001" ></iframe>
+        <iframe src="http://210.86.230.107:8000" ></iframe>
+        <iframe src="http://210.86.230.107:9047" ></iframe> -->
+        <div class="layout-main">
+            <!-- <app-app-beadcrumb></app-app-beadcrumb> -->
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <app-footer></app-footer>
+    <app-config></app-config>
+    <div class="layout-mask"></div>
+</div>

@@ -1,0 +1,96 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Danh sách tòa nhà</h4>
+            <div class="grid formgrid" [formGroup]="fProject">
+                <div class="textFilterProj col-4">
+                    <span>Tìm kiếm</span>
+                    <div class="formSearchText w-100">
+                        <input type="text" placeholder="Tìm kiếm theo mã, tên tòa nhà... " name="searchProject" [(ngModel)]="search" 
+                        (keyup.Enter)="onSearch($event)" (keyup)="isInputEmpty = search === ''" value="" class="StextSingle_Project" [ngModelOptions]="{standalone: true}">
+                        <button class="iconbtnSearch"  *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10" style="font-size: 1rem" (click)="onClearInput()"></span></button>
+                    </div>
+                </div>
+                <div class="textFilterProj mg-select col-6">
+                    <p-dropdown
+                        [options]="lstProject"
+                        placeholder="Khu đô thị"
+                        emptyMessage="Không có dữ liệu."
+                        [showClear]="true"
+                        formControlName="ProjectId"
+                        optionLabel="Name"
+                        optionValue="Id"
+                        (onChange)="onSelect($event)">
+                    </p-dropdown>
+                </div>
+            </div>            
+            <section class="FilterProject mt-4">
+                <div class="textFilterProj">
+                    <div class="addProjectList btn-options">
+                        <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/category/tower/create"></button>
+                    </div>
+                    <div class="addProjectList mr-2 btn-orange absolute-btn">
+                        <button #btn type="button" pButton icon="pi pi-chevron-down" label="Hành động" (click)="menu.toggle($event)" style="width:auto"></button>
+                        <p-tieredMenu #menu [model]="menuItems" [popup]="true"></p-tieredMenu>
+                    </div>
+                    <div class="addProjectList mr-2 btn-options btn-green">
+                        <button type="button" pButton icon="pi ft-download" label="Tải xuống" ></button>
+                    </div>
+                    <div class="addProjectList mr-2 btn-options btn-yellow">
+                        <button type="button" pButton icon="ft-upload" label="Tải lên" routerLink="/category/tower/upload"></button>
+                    </div>
+                </div>
+            </section>
+
+            <p-table 
+                [value]="Towers"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable"
+                [(selection)]="selectedItems">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th >
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th >Stt</th>
+                        <th >Mã tòa nhà</th>
+                        <th >Tên hiển thị</th>
+                        <th >Người liên hệ</th>
+                        <th >Số điện thoại liên hệ</th>
+                        <th >Khu đô thị</th>
+                        <th class="min-w-90">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-tower let-rowIndex="rowIndex">
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="tower"></p-tableCheckbox>
+                        </td>
+                        <td>{{ rowIndex + 1}}</td>
+                        <td>{{ tower.Code }}</td>
+                        <td>{{ tower.Name }}</td>
+                        <td>{{ tower.ContactName }}</td>
+                        <td>{{ tower.ContactPhone}}</td>
+                        <td>{{ tower.project.Name }}</td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" routerLink="/category/tower/update/{{ tower.Id }}" ></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(tower.Id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                                 <td colspan="7" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

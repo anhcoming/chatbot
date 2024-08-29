@@ -1,0 +1,189 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fResident">
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtFullName">Họ và tên cư dân
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtFullName" type="text" pInputText formControlName="FullName">
+                        <small *ngIf="fResident.controls['FullName'].hasError('minlength')" class="p-invalid text-danger">Họ và tên cư dân phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fResident.controls['FullName'].hasError('maxlength')" class="p-invalid text-danger">Họ và tên cư dân chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fResident.controls['FullName'].hasError('required') && fResident.controls['FullName'].dirty" class="p-invalid text-danger">Vui lòng nhập Họ và tên cư dân.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtBirthDay">Ngày sinh
+                            <span class=""></span>
+                        </label>
+                        <p-calendar id="txtBirthDay" [showIcon]="true" inputId="icon" type="BirthDay" formControlName="BirthDay"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid mt-2">
+                        <label for="txtSex">Giới tính</label>
+                        <div class="form-check">
+                            <div class="form-check form-check-inline mr-2">
+                                <p-radioButton formControlName="Sex" class="form-check-input form-check-radio" type="radio" name="Sex" id="male" value="0"></p-radioButton>
+                                <label class="form-check-label" for="male">Nam</label>
+                            </div>
+                            <div class="form-check form-check-inline ml-4">
+                                <p-radioButton formControlName="Sex"  class="form-check-input form-check-radio" type="radio" name="Sex" id="female" value="1"></p-radioButton>
+                                <label class="form-check-label" for="female">Nữ</label>
+                            </div>
+                            <div class="form-check form-check-inline ml-4">
+                                <p-radioButton formControlName="Sex"  class="form-check-input form-check-radio" type="radio" name="Sex" id="other" value="2"></p-radioButton>
+                                <label class="form-check-label" for="other">Khác</label>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                <div class="col-6">
+                    <div class="field p-fluid mt-2">
+                        <label for="txtCountryId">Quốc tịch
+                            <span class=""></span>
+                        </label>
+                        <p-dropdown
+                            [options]="lstCountry"
+                            emptyMessage="Không có dữ liệu"
+                            formControlName="CountryId"
+                            optionValue="Id"
+                            optionLabel="Name">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCardId">Số CCCD/Hộ chiếu/Visa
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtCardId" type="text" pInputText formControlName="CardId">
+                        <small *ngIf="fResident.controls['CardId'].hasError('required') && fResident.controls['CardId'].dirty" class="p-invalid text-danger">Vui lòng nhập Số CCCD/Hộ chiếu/Visa.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtAddressId">Nơi cấp
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAddressId" type="text" pInputText formControlName="AddressId">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateId">Ngày cấp
+                            <span class=""></span>
+                        </label>
+                        <p-calendar id="txtDateId" [showIcon]="true" inputId="icon" type="DateId" formControlName="DateId"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateRent">Ngày hết hạn
+                            <span class=""></span>
+                        </label>
+                        <p-calendar id="txtDateRent" [showIcon]="true" inputId="icon" type="DateRent" formControlName="DateRent"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Số điện thoại
+                        </label>
+                        <input id="txtPhone" type="text" pattern="[0-9\s]*" pInputText formControlName="Phone">
+                        <small *ngIf="fResident.controls['Phone'].errors?.pattern" class="p-invalid text-danger">Số điện thoại không hợp lệ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtEmail">Email
+                            <span class=""></span>
+                        </label>
+                        <input id="txtEmail" type="email" pInputText formControlName="Email">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Địa chỉ
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="Address">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtNote">Mô tả</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="col-6">
+                        <label for="txtattactments" class="form-label">Tài liệu đính kèm</label>
+                        <div *ngFor="let file of listAttactments;  let i = index" class="displayflex">
+                            <div class="col-10">
+                                <a class="list-group-item list-group-item-success a-att"
+                                    href="http://i-category.cnttvietnam.com.vn/uploads/files/{{file.Name}}" target="_blank">{{file.Name}}</a>
+                            </div>
+                        </div>
+                   </div>
+                </div>
+                <div class="col-6">
+                    <div class="mg-t-1 p-fluid">
+                        <h4>Danh sách căn hộ</h4>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <p-table 
+                        [value]="listApartmentMaps"
+                        [paginator]="true"
+                        [rows]="10"
+                        [showCurrentPageReport]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }"
+                        currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                        [rowsPerPageOptions]="[10, 25, 50]"
+                        [loading]="isLoadingTable">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Stt</th>
+                                <th>Thông tin căn hộ</th>
+                                <th>Vai trò</th>
+                                <th>Ngày đến</th>
+                                <th>Ngày đi</th>
+                                <th>Ngày bàn giao</th>
+                                <th>Tình trạng nhân khẩu</th>
+                                <th>Trạng thái cư dân</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-apartment let-rowIndex="rowIndex">
+                            <tr>
+                                <td>
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td>{{ apartment.FullName }}</td>
+                                <td>{{ apartment.roleName }}</td>
+                                <td>{{ apartment.DateStart | date:'dd/MM/yyyy' }}</td>
+                                <td>{{ apartment.DateEnd | date:'dd/MM/yyyy' }}</td>
+                                <td>{{ apartment.DateRent | date:'dd/MM/yyyy' }}</td>
+                                <td>{{ apartment.stayingName }}</td>
+                                <td>{{ apartment.statusOptionName }}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+
+

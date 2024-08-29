@@ -1,0 +1,332 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fManagerService">
+            <h2>
+                {{
+                !(id > 0)
+                ? "Thêm mới thông tin dịch vụ hợp đồng"
+                : "Sửa thông tin dịch vụ hợp đồng"
+                }}
+            </h2>
+
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h4>Thông tin hợp đồng</h4>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Loại hợp đồng</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="lstContractType" placeholder="Loại hợp đồng"
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="invContractTypeId"
+                            optionLabel="Name" optionValue="Id" (onChange)="filterContract()">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Nhóm hợp đồng</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="lstContractGroup" placeholder="Nhóm hợp đồng"
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="invContractGroupId"
+                            optionLabel="Name" optionValue="Id" (onChange)="filterContract()">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Hợp đồng</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="lstContract" placeholder="Hợp đồng"
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="invContractId"
+                            optionLabel="Code" optionValue="Id" (onChange)="selectContract($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="customerId">Khách hàng</label>
+                        <span class=""></span>
+                        <input id="customerId" type="text" pInputText formControlName="customerName" />
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Mã tài khoản
+                            <span class=""></span>
+                        </label>
+                        <input id="txtPhone" type="text" pInputText formControlName="customerCode" />
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Số điện thoại
+                            <span class=""></span>
+                        </label>
+                        <input id="txtPhone" type="text" pInputText formControlName="customerPhone" />
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Căn hộ</label>
+                        <span class="text-danger">*</span>
+                        <input id="txtApartment" type="text" pInputText formControlName="apartmentInfo" />
+                    </div>
+                </div>
+                <div class="col-12">
+                    <h4>Thông tin dịch vụ</h4>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Ngày hiệu lực</label>
+                        <span class=""></span>
+                        <div class="input-group date" id="datetimepicker1">
+                            <input formControlName="fromDate" type="date" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="fromDate">Ngày kết thúc</label>
+                        <span class=""></span>
+                        <div class="input-group date" id="datetimepicker1">
+                            <input formControlName="toDate" type="date" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value !== 2"></div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 2">
+                    <div class="field p-fluid">
+                        <label for="endDate">Ngày thanh toán</label>
+                        <span class=""></span>
+                        <div class="input-group date" id="datetimepicker2">
+                            <input formControlName="endDate" type="date" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="serviceType">Loại dịch vụ</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="lstServiceType" placeholder="Chọn loại dịch vụ"
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="serviceType"
+                            optionLabel="label" optionValue="value" (onChange)="selectServiceType($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="invServiceGroupId">Nhóm dịch vụ</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="lstServiceGroup" placeholder="Chọn nhóm dịch vụ"
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="invServiceGroupId"
+                            optionLabel="Name" optionValue="Id" (onChange)="selectServiceGroup($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="invServiceId">Dịch vụ</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="lstService" placeholder="Chọn dịch vụ" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="invServiceId" optionLabel="Name"
+                            optionValue="Id" (onChange)="selectService($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 2">
+                    <div class="field p-fluid">
+                        <label for="qL_Quantity">Số lượng
+                            <span class=""></span>
+                        </label>
+                        <input id="qL_Quantity" type="text" pInputText formControlName="qL_Quantity" />
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 2">
+                    <div class="field p-fluid">
+                        <label for="qL_UnitPrice">Đơn giá
+                            <span class=""></span>
+                        </label>
+                        <input id="qL_UnitPrice" type="text" pInputText formControlName="qL_UnitPrice" />
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 2">
+                    <div class="field p-fluid">
+                        <label for="qL_Price">Thành tiền
+                            <span class=""></span>
+                        </label>
+                        <input id="qL_Price" type="text" pInputText formControlName="qL_Price"/>
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 3">
+                    <div class="field p-fluid">
+                        <label for="hT_Value">Hệ số
+                            <span class=""></span>
+                        </label>
+                        <input id="hT_Value" type="text" pInputText formControlName="hT_Value" />
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 3">
+                    <div class="field p-fluid">
+                        <label for="hT_Tax">Thuế</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="lstTax" placeholder="Chọn thuế" emptyMessage="Không có dữ liệu." [showClear]="true"
+                            formControlName="hT_Tax" optionLabel="label" optionValue="value">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 2">
+                    <div class="field p-fluid">
+                        <label for="qL_Tax">Thuế</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="lstTax" placeholder="Chọn thuế" emptyMessage="Không có dữ liệu." [showClear]="true"
+                            formControlName="qL_Tax" optionLabel="label" optionValue="value">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 2">
+                    <div class="field p-fluid">
+                        <label for="qL_TaxMoney">Tiền sau thuế
+                            <span class=""></span>
+                        </label>
+                        <input id="qL_TaxMoney" type="text" pInputText formControlName="qL_TaxMoney"
+                           />
+                    </div>
+                </div>
+
+                <div class="col-12" *ngIf="fManagerService.get('serviceType').value == 1">
+                    <h4>Thông tin phương tiện</h4>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 1">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Chủ phương tiện
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="invContractCode" />
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 1">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Tên phương tiện
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="invContractCode" />
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 1">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Biển số xe
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="invContractCode" />
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 1">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Là phương tiện số
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="invContractCode" />
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 1">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Giá trước thuế
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="invContractCode" />
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 1">
+                    <div class="field p-fluid">
+                        <label for="txtTower">Thuế</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="[
+                                { label: '5%', value: 1 },
+                                { label: '10%', value: 2 },
+                                { label: '15%', value: 3 },
+                                { label: '20%', value: 4 },
+                                { label: '25%', value: 5 }
+                            ]" placeholder="Chọn thuế" emptyMessage="Không có dữ liệu." [showClear]="true"
+                            formControlName="invContractCode" optionLabel="label" optionValue="value">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 1">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Giảm giá tiền
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="invContractCode" />
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 1">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Giảm giá(%)
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="invContractCode" />
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 1">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Lý do
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="invContractCode" />
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 1">
+                    <div class="checkbox">
+                        <input type="checkbox" formControlName="invContractCode"
+                            [ngModelOptions]="{ standalone: true }" />
+                        <div>
+                            <span>Sạc xe dưới tầng hầm</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12"></div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 1">
+                    <div class="field p-fluid">
+                        <label for="txtTower">Dịch vụ</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="[
+                                { label: 'Sạc xe máy điện', value: 1 },
+                                { label: 'Sạc xe đạp điện', value: 2 },
+                                { label: 'Sạc xe ô tô điện', value: 3 }
+                            ]" placeholder="Chọn dịch vụ" emptyMessage="Không có dữ liệu." [showClear]="true"
+                            formControlName="invContractCode" optionLabel="label" optionValue="value">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 1">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Giá dịch vụ
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="invContractCode" />
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="fManagerService.get('serviceType').value == 1">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Tổng tiền
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="invContractCode" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 p_float_right">
+                <p-confirmDialog></p-confirmDialog>
+                <button pButton pRipple type="button" label="Hủy bỏ" class="p-button-outlined p-button-secondary mr-2"
+                    (click)="onBack($event)">
+                    <span class="pi pi-times-circle"></span>
+                </button>
+                <p-button [label]="!(id > 0) ? 'Xác nhận' : 'Xác nhận'"
+                    [icon]="!(id > 0) ? 'pi pi-plus' : 'pi pi-check'" [loading]="loading[0]" (onClick)="onSubmit()">
+                </p-button>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>

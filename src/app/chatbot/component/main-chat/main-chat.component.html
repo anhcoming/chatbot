@@ -1,0 +1,131 @@
+<div class="flex m-3 options-bot justify-content-between">
+    <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
+        <button class="bot-option p-3 text-white border-0 text-center" (click)="myDrop.open();visible = true">{{
+            currentOption?.name }}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownManual">
+            <button class="w-14rem flex justify-content-between" (click)="changeOption(item);" ngbDropdownItem
+                *ngFor="let item of dataOptions">
+                <div>{{ item?.name }}</div>
+                <div><img width="19px" *ngIf="item.active" src="assets/imgs-chatbot/svg/tick.svg" class="ml-2"></div>
+            </button>
+        </div>
+        <div id="mobile-options" class="flex justify-content-start">
+            <p-dialog header="Chủ đề" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }"
+                [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+                <div class="mobile-bot-option w-full">
+                    <button class="flex justify-content-between p-3 {{item?.active?'bg-gray':''}}"
+                        (click)="changeOption(item);" ngbDropdownItem *ngFor="let item of dataOptions">
+                        <div>{{ item?.name }}</div>
+                        <div><img width="19px" *ngIf="item.active" src="assets/imgs-chatbot/svg/tick.svg" class="ml-2">
+                        </div>
+                    </button>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+    <div>
+        <img id="mini-new-chat" width="35px" src="assets/imgs-chatbot/svg/mini-new-chat.svg" class="ml-2">
+    </div>
+</div>
+<div class="main-chat relative h-full">
+    <ng-container *ngIf="id;else welcome">
+        <div class="chatContainer overflow-y-hidden h-full">
+            <div #scrollContainer class="height-80 px-3 pb-5 overflow-y-auto">
+                <div class="">
+                    <div *ngFor="let message of messages" class="flex message-container mt-3"
+                        [ngClass]="{'justify-content-end': message.sender === 'user', 'justify-content-start': message.sender === 'agent'}">
+                        <ng-container *ngIf="message.sender === 'agent'">
+                            <div class="message-agent flex align-items-center line-height-2 px-3">
+                                <div class="h-full flex py-3 align-items-start">
+                                    <img width="30px" src="assets/imgs-chatbot/svg/agent.svg" class="ml-2">
+                                </div>
+                                <div class="p-3 gap-2 pb-0 flex flex-column">
+                                    <div class="" [innerText]="message.text">
+                                    </div>
+                                    <div class="p-2 flex gap-3 options">
+                                        <div>
+                                            <svg (click)="copyText(message.text)" class="agent-options" width="19"
+                                                height="19" viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M12.2712 0.791656H3.56283C2.69199 0.791656 1.97949 1.50416 1.97949 2.37499V12.6667C1.97949 13.1021 2.33574 13.4583 2.77116 13.4583C3.20658 13.4583 3.56283 13.1021 3.56283 12.6667V3.16666C3.56283 2.73124 3.91908 2.37499 4.35449 2.37499H12.2712C12.7066 2.37499 13.0628 2.01874 13.0628 1.58332C13.0628 1.14791 12.7066 0.791656 12.2712 0.791656ZM12.7382 4.42541L16.562 8.24916C16.8549 8.54207 17.0212 8.94582 17.0212 9.36541V16.625C17.0212 17.4958 16.3087 18.2083 15.4378 18.2083H6.72158C5.85074 18.2083 5.14616 17.4958 5.14616 16.625L5.15408 5.54166C5.15408 4.67082 5.85866 3.95832 6.72949 3.95832H11.6141C12.0337 3.95832 12.4374 4.12457 12.7382 4.42541ZM15.8337 9.49999H12.2712C11.8357 9.49999 11.4795 9.14374 11.4795 8.70832V5.14582L15.8337 9.49999Z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <svg class="agent-options" width="24" height="16" viewBox="0 0 24 16"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M12 0C15.64 0 18.67 2.59 19.35 6.04C21.95 6.22 24 8.36 24 11C24 13.76 21.76 16 19 16H6C2.69 16 0 13.31 0 10C0 6.91 2.34 4.36 5.35 4.04C6.6 1.64 9.11 0 12 0ZM12.35 13.65L17 9H14V5H10V9H7L11.64 13.65C11.84 13.85 12.15 13.85 12.35 13.65Z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <svg class="agent-options" width="18" height="18" viewBox="0 0 18 18"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M11 1.65182V1.45182C11 0.821824 11.63 0.371824 12.21 0.601824C15.6 1.89182 18 5.16182 18 9.00182C18 12.8418 15.6 16.1118 12.21 17.4018C11.63 17.6218 11 17.1818 11 16.5518V16.3518C11 15.9718 11.24 15.6418 11.6 15.5018C14.18 14.4718 16 11.9418 16 9.00182C16 6.06182 14.18 3.53182 11.6 2.50182C11.25 2.36182 11 2.03182 11 1.65182ZM0 7.00182V11.0018C0 11.5518 0.45 12.0018 1 12.0018H4L7.29 15.2918C7.92 15.9218 9 15.4718 9 14.5818V3.41182C9 2.52182 7.92 2.07182 7.29 2.70182L4 6.00182H1C0.45 6.00182 0 6.45182 0 7.00182ZM13.5 9.00183C13.5 7.23182 12.48 5.71182 11 4.97182V13.0218C12.48 12.2918 13.5 10.7718 13.5 9.00183Z" />
+                                            </svg>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="message.sender === 'user'">
+                            <div class="message-user flex align-items-center line-height-2 px-3 max-width-70">
+                                <div class="h-full flex py-3 align-items-start">
+                                    <img width="30px" src="assets/imgs-chatbot/svg/user-chat.svg" class="ml-2">
+                                </div>
+                                <div class="p-3" [innerText]="message.text">
+                                </div>
+                                <div pTooltip="Chỉnh sửa" tooltipPosition="left" class="cursor-pointer hover:text-700 "
+                                    (click)="copyText(message.text)">
+                                    <svg class="icon-edit" width="22" height="22" viewBox="0 0 22 22"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_22_9911)">
+                                            <path
+                                                d="M16.6833 22H3.48333C1.55833 22 0 20.4416 0 18.5166V5.31665C0 3.39165 1.55833 1.83331 3.48333 1.83331H10.0833C10.6333 1.83331 11 2.19998 11 2.74998C11 3.29998 10.6333 3.66665 10.0833 3.66665H3.48333C2.56667 3.66665 1.83333 4.39998 1.83333 5.31665V18.425C1.83333 19.3416 2.56667 20.075 3.48333 20.075H16.5917C17.5083 20.075 18.2417 19.3416 18.2417 18.425V11.9166C18.2417 11.3666 18.6083 11 19.1583 11C19.7083 11 20.075 11.3666 20.075 11.9166V18.5166C20.1667 20.4416 18.6083 22 16.6833 22Z" />
+                                            <path
+                                                d="M5.49967 17.4167C5.22467 17.4167 5.04134 17.325 4.85801 17.1417C4.67467 16.9583 4.58301 16.5917 4.58301 16.3167L5.49967 11.7333C5.49967 11.55 5.59134 11.3667 5.77467 11.275L16.7747 0.275C17.1413 -0.0916667 17.6913 -0.0916667 18.058 0.275L21.7247 3.94167C22.0913 4.30833 22.0913 4.85833 21.7247 5.225L10.7247 16.225C10.633 16.3167 10.4497 16.4083 10.2663 16.5L5.68301 17.4167C5.59134 17.4167 5.59134 17.4167 5.49967 17.4167ZM7.24134 12.375L6.69134 15.3083L9.62467 14.7583L19.7997 4.58333L17.4163 2.2L7.24134 12.375Z" />
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_22_9911">
+                                                <rect width="22" height="22" fill="white" />
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #welcome>
+        <div class="main-chat relative h-full">
+            <div class="chatContainer overflow-y-hidden h-full">
+                <div #scrollContainer class="height-80 px-3 pb-5 overflow-y-auto">
+                    <app-welcom-chat></app-welcom-chat>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <div class="height-15 px-5 sticky flex align-items-center">
+        <div class="gap-2 w-full bg-message flex align-items-center justify-content-{{!isCollapse?'between':'center'}}">
+            <div class="{{isCollapse?'width-70':'w-full'}}">
+                <div class="w-full text-input p-3 flex justify-content-between ">
+                    <input class="input-message border-0 w-full" type="text" placeholder="Nhập câu lệnh tại đây">
+                    <div class="svg-icon-ghim"></div>
+                </div>
+            </div>
+            <div (click)="sendMessage('abc')" class="send-message p-3">
+                <img src="assets/imgs-chatbot/svg/send.svg" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-toast></p-toast>

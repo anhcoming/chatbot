@@ -1,0 +1,315 @@
+<div class="grid">
+    <div class="col-12">
+        <h2>
+            {{ !( id > 0) ? 'Thêm mới khách hàng' : 'Cập nhật khách hàng' }}
+        </h2>
+        <div class="card" [formGroup]="fCompany">
+            
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <h3 class="mg-0"><p class="pi pi-briefcase"></p> Thông tin khách hàng</h3>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Mã khách hàng  <span class="text-danger"> *</span></label>
+                        <input id="txtCode" type="text" pInputText formControlName="Code">
+                        <small *ngIf="fCompany.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã khác hàng phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fCompany.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã khác hàng chỉ được tối đa 15 kí tự.</small>
+                        <small *ngIf="fCompany.controls['Code'].hasError('required') && fCompany.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập Mã khách hàng.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên khách hàng
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name">
+                        <small *ngIf="fCompany.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên khác hàng phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fCompany.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên khác hàng chỉ được tối đa 15 kí tự.</small>
+                        <small *ngIf="fCompany.controls['Name'].hasError('required') && fCompany.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập Tên khách hàng.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Điện thoại  <span class="text-danger"> *</span></label>
+                        <input id="txtPhone" type="text" pattern="[0-9\s]*" pInputText formControlName="Phone">
+                        <small *ngIf="fCompany.controls['Phone'].errors?.pattern" class="p-invalid text-danger">Số điện thoại không hợp lệ.</small>
+                        <small *ngIf="fCompany.controls['Phone'].hasError('required') && fCompany.controls['Phone'].dirty" class="p-invalid text-danger">Vui lòng nhập số điện thoại.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="formFile" class="form-label">Logo</label>
+                        <div class="displayflex">
+                            <div class="col-6">
+                                <input  formControlName="Logo"  class="form-control no-bor" type="file" (change)="onImageSelected($event)">
+                            </div>
+                            <div class="col-6" *ngIf="fCompany.get('Logo').value || this.listCompany.Logo">
+                                <img [src]="uploadedImageUrl" class="img-thumbnail" [style.display]="isImageSelected ? 'block' : 'none'">
+                                <i class="fa fa-times-circle del-img proj-img" aria-hidden="true" (click)="Imagenull()"[style.display]="isImageSelected ? 'block' : 'none'"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtTaxCode">Mã số thuế  <span class="text-danger"> *</span></label>
+                        <input id="txtTaxCode" type="text" pInputText formControlName="TaxCode">
+                        <small *ngIf="fCompany.controls['TaxCode'].hasError('required') && fCompany.controls['TaxCode'].dirty" class="p-invalid text-danger">Vui lòng nhập mã số thuế.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtRegistrationNumber">Số ĐKKD</label>
+                        <input id="txtRegistrationNumber" type="text" pInputText formControlName="RegistrationNumber">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtRegistrationDate">Ngày ĐKKD</label>
+                        <p-calendar id="txtRegistrationDate" [showIcon]="true" inputId="icon" type="RegistrationDate" formControlName="RegistrationDate"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtEmail">Email</label>
+                        <input id="txtEmail" type="email" pInputText formControlName="Email">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCountryId">Quốc gia  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="lstCountry"
+                            placeholder="Quốc gia"
+                            emptyMessage="Không có dữ liệu"
+                            [showClear]="true"
+                            formControlName="CountryId"
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="onCountry($event)">
+                        </p-dropdown>
+                        <small *ngIf="fCompany.controls['CountryId'].hasError('required') && fCompany.controls['CountryId'].dirty" class="p-invalid text-danger">Vui lòng chọn Quốc gia.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProvince">Tỉnh/Thành Phố  <span class="text-danger"> *</span></label>
+                        <p-dropdown 
+                            [options]="lstProvince" 
+                            placeholder="Tỉnh/Thành Phố" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            optionLabel="Name" 
+                            optionValue="Id" 
+                            formControlName="ProvinceId">
+                        </p-dropdown>
+                        <small *ngIf="fCompany.controls['ProvinceId'].hasError('required') && fCompany.controls['ProvinceId'].dirty" class="p-invalid text-danger">Vui lòng chọn Tỉnh/Thành Phố.</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Địa chỉ  <span class="text-danger"> *</span></label>
+                        <input id="txtAddress" type="text" pInputText formControlName="Address">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtWebsite">Website</label>
+                        <input type="text" id="txtWebsite" pInputText formControlName="Website">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="formFile" class="form-label">File đính kèm</label>
+                        <input  formControlName="listAttactments"  class="form-control no-bor" type="file" multiple (change)="onFileSelected($event)">
+                        <div *ngFor="let file of listAttactments;  let i = index" class="displayflex">
+                            <div class="col-10">
+                                <a class="list-group-item list-group-item-success a-att"
+                                    href="http://i-category.cnttvietnam.com.vn/uploads/files/{{file.Name}}" target="_blank">{{file.Name}}</a>
+                            </div>
+                            <div class="col-2">
+                                <button class="iconbtnSearch clear-text"><span class="pi pi-times span-attactment" style="font-size: 1rem" (click)="RemoveAttactment(file)"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h3><p class="pi pi-briefcase"></p> Thông tin khác</h3>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtContactName">Người liên hệ</label>
+                        <input type="text" id="txtContactName" pInputText formControlName="ContactName">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtContactSex">Giới tính</label>
+                        <div class="form-check">
+                            <div class="form-check form-check-inline mr-2 mt-2">
+                                <p-radioButton formControlName="ContactSex" class="form-check-input form-check-radio" type="radio" name="ContactSex" id="male" value="0"></p-radioButton>
+                                <label class="form-check-label" for="male">Nam</label>
+                            </div>
+                            <div class="form-check form-check-inline ml-4">
+                                <p-radioButton formControlName="ContactSex"  class="form-check-input form-check-radio" type="radio" name="ContactSex" id="female" value="1"></p-radioButton>
+                                <label class="form-check-label" for="female">Nữ</label>
+                            </div>
+                            <div class="form-check form-check-inline ml-4">
+                                <p-radioButton formControlName="ContactSex"  class="form-check-input form-check-radio" type="radio" name="ContactSex" id="other" value="2"></p-radioButton>
+                                <label class="form-check-label" for="other">Khác</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtContactBrithday">Ngày sinh</label>
+                        <p-calendar id="txtContactBrithday" type="ContactBrithday" [showIcon]="true" inputId="icon" formControlName="ContactBrithday"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtContactPhone">Điện thoại</label>
+                        <input type="text" pattern="[0-9\s]*" id="txtContactPhone" pInputText formControlName="ContactPhone">
+                        <small *ngIf="fCompany.controls['ContactPhone'].errors?.pattern" class="p-invalid text-danger">Số điện thoại không hợp lệ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtContactEmail">Email</label>
+                        <input type="email" id="txtContactEmail" pInputText formControlName="ContactEmail">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtContactIdNo">CCCD/Hộ chiếu</label>
+                        <input type="text" id="txtContactIdNo" pInputText formControlName="ContactIdNo">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtContactIdAdress">Nơi cấp</label>
+                        <input type="text" id="txtContactIdAdress" pInputText formControlName="ContactIdAdress">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtContactIdDate">Ngày cấp</label>
+                        <p-calendar type="text" id="txtContactIdDate" [showIcon]="true" inputId="icon"  formControlName="ContactIdDate"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Địa chỉ</label>
+                        <input type="text" id="txtAddress" pInputText formControlName="Address">
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h3><p class="pi pi-briefcase"></p> Gói dịch vụ</h3>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtServicePricingId">Chọn gói dịch vụ  <span class="text-danger"> *</span></label>
+                        <p-selectButton [options]="PricingCompany" formControlName="ServicePricingId" optionValue="Id" optionLabel="Name" class="mt-2 mr-2" (onChange)="onPricingClick($event)"></p-selectButton>
+
+                        <div class="col-6"  *ngIf="isCustom" >
+                            <div class="col-6">
+                                <button pButton pRipple type="button" label="Cấu hình gói dịch vụ" class="p-button-outlined p-button-secondary mr-2" (click)="onOpenConfigDialog()"></button>
+                            </div>
+                        </div>
+                        <small *ngIf="fCompany.controls['ServicePricingId'].hasError('required') && fCompany.controls['ServicePricingId'].dirty" class="p-invalid text-danger">Vui lòng chọn gói dịch vụ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtAppartmentNo">Số căn hộ quản lý  <span class="text-danger"> *</span></label>
+                        <input type="number" id="txtAppartmentNo" pInputText formControlName="AppartmentNo">
+                        <small *ngIf="fCompany.controls['AppartmentNo'].hasError('required') && fCompany.controls['AppartmentNo'].dirty" class="p-invalid text-danger">Vui lòng nhập số căn hộ quản lý.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtRegistrationStart">Ngày đăng ký  <span class="text-danger"> *</span></label>
+                        <p-calendar type="text" id="txtRegistrationStart" [showIcon]="true" inputId="icon"  formControlName="RegistrationStart" (onSelect)="markAsPristineStart()"  dateFormat="dd/mm/yy"></p-calendar>
+                        <small *ngIf="fCompany.controls['RegistrationStart'].hasError('required') && fCompany.controls['RegistrationStart'].dirty" class="p-invalid text-danger">Vui lòng chọn ngày đăng ký.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtRegistrationEnd">Ngày hết hạn  <span class="text-danger"> *</span></label>
+                        <p-calendar type="text" id="txtRegistrationEnd" [showIcon]="true" inputId="icon"  formControlName="RegistrationEnd" (onSelect)="markAsPristineEnd()"  dateFormat="dd/mm/yy"></p-calendar>
+                        <small *ngIf="fCompany.controls['RegistrationEnd'].hasError('required') && fCompany.controls['RegistrationEnd'].dirty" class="p-invalid text-danger">Vui lòng chọn ngày hết hạn.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Trạng thái  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="isStatus" 
+                            placeholder="Chọn trạng thái" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="Status" 
+                            optionLabel="label" 
+                            optionValue="value">
+                        </p-dropdown>
+                        <small *ngIf="fCompany.controls['Status'].hasError('required') && fCompany.controls['Status'].dirty" class="p-invalid text-danger">Vui lòng chọn Trạng thái.</small>                   
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid" *ngIf="!( id > 0)">
+                <div class="col-12">
+                    <h3><p class="pi pi-briefcase"></p> Thông tin tài khoản</h3>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtUserName">Tài khoản khách hàng  <span class="text-danger"> *</span></label>
+                        <i class="float-right">
+                            <small *ngIf="fCompany.controls['UserName'].hasError('minlength')" class="p-invalid text-danger">Tài khoản phải tối thiểu 6 kí tự.</small>
+                            <small *ngIf="fCompany.controls['UserName'].hasError('maxlength')" class="p-invalid text-danger">Tài khoản chỉ được tối đa 15 kí tự.</small>
+                            <small *ngIf="fCompany.controls['UserName'].hasError('required') && fCompany.controls['UserName'].dirty" class="p-invalid text-danger">Vui lòng nhập Tài khoản.</small>
+                        </i>
+                        <input type="text" id="txtUserName" pInputText autocomplete="off" formControlName="UserName" >
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtPassword">Mật khẩu  <span class="text-danger"> *</span></label>
+                        <i class="float-right">
+                            <small *ngIf="fCompany.controls['Password'].hasError('minlength')" class="p-invalid text-danger">Mật khẩu phải tối thiểu 6 kí tự.</small>
+                            <small *ngIf="fCompany.controls['Password'].hasError('maxlength')" class="p-invalid text-danger">Mật khẩu chỉ được tối đa 15 kí tự.</small>
+                            <small *ngIf="fCompany.controls['Password'].hasError('required') && fCompany.controls['Password'].dirty" class="p-invalid text-danger">Vui lòng nhập Mật khẩu.</small>
+                        </i>
+                        <p-password formControlName="Password" id="txtPassword" autocomplete="off" placeholder="Nhập mật khẩu" [toggleMask]="true" (input)="matchingPasswords()" styleClass="mb-5"></p-password>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtPassword">Nhập lại mật khẩu  <span class="text-danger"> *</span></label>
+                        <i class="float-right">
+                            <small *ngIf="fCompany.controls['ConfirmPassword'].hasError('mismatchedPasswords')" class="p-invalid text-danger">Mật khẩu nhập lại không khớp.</small>
+                        <i class="float-right">
+                        </i>
+                            <small *ngIf="fCompany.controls['ConfirmPassword'].hasError('required') && fCompany.controls['ConfirmPassword'].dirty" class="p-invalid text-danger">Vui lòng nhập lại Mật khẩu.</small>
+                        </i>
+                        <p-password formControlName="ConfirmPassword" id="txtPassword" autocomplete="off" placeholder="Nhập lại mật khẩu" [toggleMask]="true" (input)="matchingPasswords()" styleClass="mb-5"></p-password>
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

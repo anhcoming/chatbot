@@ -1,0 +1,97 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Quản lý loại thẻ</h4>
+            <div class="textFilterProj">
+                <span>Tìm kiếm</span>
+                <div class="formSearchText w-30">
+                    <input type="text" placeholder="Tìm kiếm theo tên loại thẻ... " name="searchProject" [(ngModel)]="filterParrams.query" 
+                    (keyup.Enter)="onSearch($event)" value="" class="StextSingle_Project" [ngModelOptions]="{standalone: true}">
+                    <button class="iconbtnSearch" (onClick)="onSearch($event)"><i _ngcontent-wsc-c163="" aria-hidden="true" class="fa fa-search"></i></button>
+                </div>
+                <!-- <div class="formSearchText w-30">
+                    <input type="text" placeholder="Tìm kiếm theo tên loại thẻ... " name="searchProject" [(ngModel)]="filterText" 
+                    (keyup.Enter)="onSearch($event)" value="" class="StextSingle_Project" [ngModelOptions]="{standalone: true}">
+                    <button class="iconbtnSearch" (onClick)="onSearch($event)"><i _ngcontent-wsc-c163="" aria-hidden="true" class="fa fa-search"></i></button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">            
+            <!-- <section class="FilterProject">
+                <div class="textFilterProj">
+                    <div class="addProjectList btn-options">
+                        <a href="#/config-utilities/type-card/create" class="mg-l-9"><i class="fa fa-plus-circle"
+                            aria-hidden="true"></i> Thêm mới</a>
+                    </div>
+                </div>
+            </section> -->
+            <section class="FilterProject mb-2">
+                <div class="addProjectList btn-options">
+                    <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/config-utilities/type-card/create"></button>
+                </div>
+            </section>
+            <p-table 
+                [value]="lstTypeCard"
+                [paginator]="true"
+                [rows]="filterParrams.page_size"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th style="width: 3%">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th> -->
+                        <th style="width: 5%">Stt</th>
+                        <th style="width: 15%">Tên loại thẻ</th>
+                        <th style="width: 10%">Nhóm thẻ</th>
+                        <th style="width: 10%">Phương tiện</th>
+                        <th style="width: 35%">Khu đô thị</th>
+                        <th style="width: 10%">Trạng thái</th>
+                        <th style="width: 15%">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-typeCard let-rowIndex="rowIndex">
+                    <tr>
+                        <!-- <td>
+                            <p-tableCheckbox [value]="typeCard"></p-tableCheckbox>
+                        </td> -->
+                        <td>{{ rowIndex + 1 }}</td>
+                        <td>{{ typeCard.Name }}</td>
+                        <td>{{ getGroupCardName(typeCard.GroupCard) }}</td>
+                        <td>{{ getVehicleName(typeCard.VehicleId) }}</td>
+                        <td [pTooltip]="getProjectName(typeCard.ListProject)" tooltipPosition="bottom">
+                            {{ getProjectName(typeCard.ListProject) }}
+                        </td>
+                        <td>
+                            <span><i class='pi pi-check text-success' [ngClass]="typeCard.IsActive ? 'pi-check text-success' : 'pi pi-times text-danger'"></i> {{ typeCard.IsActive ? 'Đã kích hoạt' : "Chưa kích hoạt" }}</span>
+                        </td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" routerLink="/config-utilities/type-card/detail/{{ typeCard.Id }}"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(typeCard)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <!-- <ng-template pTemplate="paginatorleft">
+                    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+                </ng-template>
+                <ng-template pTemplate="paginatorright">
+                    <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+                </ng-template> -->
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                         <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

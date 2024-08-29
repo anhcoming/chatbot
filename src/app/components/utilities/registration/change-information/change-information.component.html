@@ -1,0 +1,340 @@
+<div class="grid">
+    <div class="col-12">
+        <h3>
+            Đăng ký thay đổi thông tin cư dân, thẻ cư dân, thẻ xe
+        </h3>
+        <div class="card" [formGroup]="fInfo">
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <h3 class="mg-0">Thông tin căn hộ</h3>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị</label>
+                        <span class="text-danger"> *</span>
+                        <ng-select 
+                            [items]="Project"
+                            [virtualScroll]="true" 
+                            [loading]="false" 
+                            formControlName="ProjectId"
+                            placeholder="Khu đô thị"
+                            bindLabel="Name" 
+                            bindValue="Id"
+                            #selectTower
+                            pDropdown
+                            (change)="onSelectTower($event)">
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                <span [ngOptionHighlight]="search">{{item.Name}}</span>
+                            </ng-template>
+                        </ng-select>
+                        <small *ngIf="fInfo.controls['ProjectId'].hasError('required') && fInfo.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn Khu đô thị</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Tòa nhà</label>
+                        <span class="text-danger"> *</span>
+                        <ng-select 
+                            [items]="lstTower"
+                            [virtualScroll]="true" 
+                            [loading]="false" 
+                            formControlName="TowerId"
+                            placeholder="Tòa nhà"
+                            bindLabel="Name" 
+                            bindValue="Id"
+                            (scrollToEnd)="fetchMoreTower()"
+                            #selectTower
+                            pDropdown
+                            (change)="onSelectFloor($event)">
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                <span [ngOptionHighlight]="search">{{item.Name}}</span>
+                            </ng-template>
+                        </ng-select>
+                        <small *ngIf="fInfo.controls['TowerId'].hasError('required') && fInfo.controls['TowerId'].dirty" class="p-invalid text-danger">Vui lòng chọn Tòa nhà</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Tầng</label>
+                        <span class="text-danger"> *</span>
+                        <ng-select 
+                            [items]="lstFloor"
+                            [virtualScroll]="true" 
+                            [loading]="false" 
+                            formControlName="FloorId"
+                            placeholder="Tầng"
+                            bindLabel="Name" 
+                            bindValue="Id"
+                            (scrollToEnd)="fetchMoreFloor()"
+                            #selectFloor
+                            pDropdown
+                            (change)="onSelectApartment($event)">
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                <span [ngOptionHighlight]="search">{{item.Name}}</span>
+                            </ng-template>
+                        </ng-select>
+                        <small *ngIf="fInfo.controls['FloorId'].hasError('required') && fInfo.controls['FloorId'].dirty" class="p-invalid text-danger">Vui lòng chọn Tầng</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Căn hộ</label>
+                        <span class="text-danger"> *</span>
+                        <ng-select 
+                            [items]="lstApartment"
+                            [virtualScroll]="true" 
+                            [loading]="false" 
+                            formControlName="ApartmentId"
+                            placeholder="Căn hộ"
+                            bindLabel="Name" 
+                            bindValue="Id"
+                            (scrollToEnd)="fetchMore()"
+                            #selectApartment
+                            (change)="onSelect($event)"
+                            pDropdown>
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                <span [ngOptionHighlight]="search">{{item.Name}}</span>
+                            </ng-template>
+                        </ng-select>
+                        <small *ngIf="fInfo.controls['ApartmentId'].hasError('required') && fInfo.controls['ApartmentId'].dirty" class="p-invalid text-danger">Vui lòng chọn Căn hộ</small>
+                    </div>
+                </div>
+                <div class="col-6" formGroupName="infoApartmentOwner">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Tên chủ hộ
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="FullName" disabled="true">
+                        <small *ngIf="fInfo.controls.infoApartmentOwner.controls['FullName'].hasError('required') && fInfo.controls.infoApartmentOwner.controls['FullName'].dirty" class="p-invalid text-danger">Tên chủ hộ không được để chống</small>
+                    </div>
+                </div>
+                <div class="col-6" formGroupName="infoApartmentOwner">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Số điện thoại </label>
+                        <span class="text-danger"> *</span>
+                        <input id="txtPhone" placeholder="VD:0321642644" type="text" pInputText
+                            formControlName="Phone">
+                            <small *ngIf="fInfo.controls.infoApartmentOwner.controls['Phone'].hasError('required') && fInfo.controls.infoApartmentOwner.controls['Phone'].dirty" class="p-invalid text-danger">Số điện thoại chủ hộ không được để chống</small>
+                        </div>
+                </div>
+                <div class="col-6" formGroupName="InfoResidentRegistration">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Người đăng ký 
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="FullName" disabled="true" placeholder="Người đăng ký">
+                        <small *ngIf="fInfo.controls.InfoResidentRegistration.controls['FullName'].hasError('required') && fInfo.controls.InfoResidentRegistration.controls['FullName'].dirty" class="p-invalid text-danger">Vui lòng chọn Người đăng ký</small>
+                    </div>
+                </div>
+                <div class="col-6" formGroupName="InfoResidentRegistration">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Số điện thoại người đăng ký</label>
+                        <span class="text-danger"> *</span>
+                        <input id="txtPhone" type="text" pInputText formControlName="Phone"  placeholder="Số điện thoại người đăng ký"/>
+                        <small *ngIf="fInfo.controls.InfoResidentRegistration.controls['Phone'].hasError('required') && fInfo.controls.InfoResidentRegistration.controls['Phone'].dirty" class="p-invalid text-danger">Vui lòng nhập Số điện thoại người đăng ký</small>
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h3>Cư dân</h3>
+                </div>
+                <div class="col-12">
+                    <p-table [value]="lstResident" [tableStyle]="{ 'min-width': '50rem' }"
+                        [loading]="isLoadingTable">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th >STT</th>
+                                <th >Họ tên</th>
+                                <th >Ngày sinh</th>
+                                <th >Giới tính</th>
+                                <th >Quan hệ với chủ hộ</th>
+                                <th >Điện thoại</th>
+                                <th >Số giấy tờ</th>
+                                <th *ngIf="Card == true" class="text-center">Hành động</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                            <tr [ngClass]="{'bg-change': item.change}">
+                                <td>
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td>{{ item.FullName }}</td>
+                                <td>{{ item.DateOfBirth | date:'dd/MM/yyyy' }}</td>
+                                <td>{{ item.genderName }}</td>
+                                <td>{{ item.statusOptionName }}</td>
+                                <td>{{ item.Phone }}</td>
+                                <td>{{ item.IdentityNumber }}</td>
+                                <td>
+                                    <button *ngIf="Card == true" pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2 mg-l-2" (click)="onOpenConfigDialog(id, item.ResidentId, item)"></button>
+                                    <button *ngIf="isLoading == true && item.change == true" pButton pRipple icon="pi pi-trash"
+                                        class="p-button-rounded p-button-warning" (click)="onDeleteResidentMoveIn(item.ResidentId)"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="10" class="text-center text-danger">
+                                    Không có dữ liệu.
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h3>Thẻ cư dân</h3>
+                </div>
+                <div class="col-12">
+                    <p-table [value]="lstResidentCards" [tableStyle]="{ 'min-width': '50rem' }"
+                        [loading]="isLoadingTable">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th >STT</th>
+                                <th >Mã số thẻ</th>
+                                <th >Họ tên</th>
+                                <th >Ngày sinh</th>
+                                <th >Giới tính</th>
+                                <th >Quan hệ với chủ hộ</th>
+                                <th >Điện thoại</th>
+                                <th >Số giấy tờ</th>
+                                <th *ngIf="Card == true" class="text-center">Hành động</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                            <tr [ngClass]="{'bg-change': item.change}">
+                                <td>
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td>{{ item.CardNumber }}</td>
+                                <td>{{ item.FullName }}</td>
+                                <td>{{ item.DateOfBirth | date:'dd/MM/yyyy' }}</td>
+                                <td>{{ item.genderName }}</td>
+                                <td>{{ item.statusOptionName }}</td>
+                                <td>{{ item.Phone }}</td>
+                                <td>{{ item.IdentityNumber }}</td>
+                                <td>
+                                    <button *ngIf="Card == true" pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2 mg-l-2" (click)="onOpenConfigDialogCard(id, item.CardId, item)"></button>
+                                    <button *ngIf="isLoading == true && item.change == true" pButton pRipple icon="pi pi-trash"
+                                        class="p-button-rounded p-button-warning" (click)="onDeleteResidentCard(item.Id)"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="12" class="text-center text-danger">
+                                    Không có dữ liệu.
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h3>Thẻ xe</h3>
+                </div>
+                <div class="col-12">
+                    <p-table class="mg-t-2" [value]="lstCarCards"
+                        [tableStyle]="{ 'min-width': '50rem' }" [loading]="isLoadingTable">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th >STT</th>
+                                <th >Mã số thẻ</th>
+                                <th >Chủ phương tiện</th>
+                                <th >Biển kiểm soát</th>
+                                <th >Nhãn hiệu</th>
+                                <th >Màu xe</th>
+                                <th >Loại xe</th>
+                                <th *ngIf="Card == true" class="text-center" style="width: 9%">Hành động</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+                            <tr [ngClass]="{'bg-change': item.change}">
+                                <td>
+                                    {{ rowIndex + 1 }}
+                                </td>
+                                <td>{{ item.CardNumber }}</td>
+                                <td>{{ item.VehicleOwner }}</td>
+                                <td>{{ item.VehiclePlate }}</td>
+                                <td>{{ item.VehicleName }}</td>
+                                <td>{{ item.VehicleColor }}</td>
+                                <td>{{ item.VehicleType }}</td>
+                                <td>
+                                    <button *ngIf="Card == true" pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2" (click)="onOpenConfigDialogCar(id, item.CardId, item)"></button>
+                                    <button *ngIf="isLoading == true && item.change == true" pButton pRipple icon="pi pi-trash"
+                                        class="p-button-rounded p-button-warning" (click)="onDeleteCarCard(item.Id)"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="10" class="text-center text-danger">
+                                    Không có dữ liệu.
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h3>Phản hồi từ BQL</h3>
+                    <div class="displayflex">
+                        <div class="w-15 time-input">
+                            <span>Trạng thái</span>
+                        </div>
+                        <div class="w-25 droplist-item">
+                            <p-dropdown 
+                                [options]="ProcessStatus" 
+                                placeholder="Trạng thái đăng ký" 
+                                emptyMessage="Không có dữ liệu." 
+                                [showClear]="true"
+                                formControlName="ProcessStatus" 
+                                optionLabel="name" 
+                                optionValue="id" 
+                                (onChange)="onSetProcessStatus($event)">
+                                <ng-template let-item pTemplate="item">
+                                    <li [ngClass]="{'disabled': item.disable}">
+                                        <option [value]="item.id" [disabled]="item.disable">{{item.name}}</option>
+                                    </li>
+                                </ng-template>
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="displayflex mt-4" formGroupName="messageResponse">
+                        <div class="w-15 time-input">
+                            <span>BQL phản hồi</span>
+                        </div>
+                        <div class="w-85">
+                            <textarea id="txtNote" rows="5" class="w-100" pInputTextarea formControlName="Message"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h3>Đánh giá của cư dân</h3>
+                    <div class="displayflex">
+                        <div class="w-15 time-input">
+                            <span>Trạng thái</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid mt-4">
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button *ngIf="isSubmit == true" label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

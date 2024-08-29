@@ -1,0 +1,246 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fResidentCard">
+            <!-- <h5>
+                {{ !id ? 'Đăng ký cư dân về ở' : 'Cập nhật cư dân về ở' }}
+            </h5> -->
+            <div class="grid formgrid">
+                <div class="col-6" *ngIf="isCard == false && fResidentCard.get('ResidentCardIntegratedId').value == null">
+                    <div class="field p-fluid">
+                        <label for="txtResidentId">Mã số thẻ</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstCardResident"
+                            placeholder="Chọn mã số thẻ"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="CardId"
+                            optionLabel="CardNumber"
+                            optionValue="Id">
+                        </p-dropdown>
+                        <small *ngIf="fResidentCard.controls['CardId'].hasError('required') && fResidentCard.controls['CardId'].dirty" class="p-invalid text-danger">Vui lòng chọn Mã số thẻ.</small>
+                    </div>
+                </div>
+                <div class="col-12" *ngIf="isCard == false && fResidentCard.get('CardId').value == null">
+                    <div class="field p-fluid">
+                        <label for="txtResidentId">Tích hợp vào thẻ</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstCardActive"
+                            placeholder="Chọn thẻ tích hợp"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="ResidentCardIntegratedId"
+                            optionLabel="CardNumber"
+                            optionValue="Id">
+                        </p-dropdown>
+                        <small *ngIf="fResidentCard.controls['ResidentCardIntegratedId'].hasError('required') && fResidentCard.controls['ResidentCardIntegratedId'].dirty" class="p-invalid text-danger">Vui lòng chọn Tích hợp vào thẻ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtFullName">Họ và tên</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstResident"
+                            placeholder="Chọn cư dân"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="ResidentId"
+                            optionLabel="FullName"
+                            optionValue="ResidentId"
+                            (onChange)="setFormGroup($event)">
+                        </p-dropdown>
+                        <small *ngIf="fResidentCard.controls['ResidentId'].hasError('required') && fResidentCard.controls['ResidentId'].dirty" class="p-invalid text-danger">Vui lòng chọn Cư dân cần thêm thẻ cư dân.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateOfBirth">Ngày sinh
+                            <span class=""></span>
+                        </label>
+                        <p-calendar id="txtDateOfBirth" [showIcon]="true" inputId="icon" type="DateOfBirth"
+                            formControlName="DateOfBirth" [disabled]="true"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid mt-2">
+                        <label>Giới tính</label>
+                        <div class="form-check">
+                            <div *ngFor="let item of Gender" class="form-check form-check-inline mr-6">
+                                <p-radioButton formControlName="Gender" class="form-check-input form-check-radio"
+                                    type="radio" name="Gender" [id]="item.Id" [id]="item" [value]="item.Code" (onClick)="checkGender($event)"></p-radioButton>
+                                <label class="form-check-label" [for]="item.Id">{{item.Name}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtNationalId">Quốc tịch</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="lstCountry" placeholder="Chọn quốc tịch" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="NationalId" optionLabel="Name" optionValue="Id" [disabled]="true">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtIdentityNumber">Số CCCD/HC/Visa</label>
+                        <input id="txtIdentityNumber" type="text" pInputText formControlName="IdentityNumber" disabled="true">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtIdentityPlace">Nơi cấp</label>
+                        <span class=""></span>
+                        <input id="txtIdentityPlace" type="text" pInputText formControlName="IdentityPlace">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtIdentityDateSign">Ngày cấp
+                            <span class=""></span>
+                        </label>
+                        <p-calendar id="txtIdentityDateSign" [showIcon]="true" inputId="icon" type="DateId"
+                            formControlName="IdentityDateSign" disabled="true"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtIdentityDateExpired">Ngày hết hạn
+                            <span class=""></span>
+                        </label>
+                        <p-calendar id="txtIdentityDateExpired" [showIcon]="true" inputId="icon" type="DateId"
+                            formControlName="IdentityDateExpired" disabled="true"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Số điện thoại</label>
+                        <input id="txtPhone" type="text" pattern="[0-9\s]*" pInputText formControlName="Phone" disabled="true">
+                        <small *ngIf="fResidentCard.controls['Phone'].errors?.pattern" class="p-invalid text-danger">Số điện thoại không hợp lệ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtEmail">Email
+                            <span class=""></span>
+                        </label>
+                        <input id="txtEmail" type="email" pInputText formControlName="Email" disabled="true">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateArrival">Ngày đến
+                            <span class=""></span>
+                        </label>
+                        <p-calendar placeholder="dd/mm/yyyy" id="txtDateArrival" [showIcon]="true" inputId="icon"
+                            type="DateArrival" formControlName="DateArrival" disabled="true"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateLeave">Ngày đi
+                            <span class=""></span>
+                        </label>
+                        <p-calendar placeholder="dd/mm/yyyy" id="txtDateLeave" [showIcon]="true" inputId="icon"
+                            type="DateLeave" formControlName="DateLeave" disabled="true"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtRelationId">Quan hệ với chủ hộ</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown 
+                            [options]="relationshipOption" 
+                            placeholder="Vai trò trong căn hộ"
+                            emptyMessage="Không có dữ liệu." 
+                            [showClear]="true" 
+                            formControlName="RelationId"
+                            optionLabel="label" 
+                            optionValue="value"
+                            [disabled]="true">
+                        </p-dropdown>
+                        <small *ngIf="fResidentCard.controls['RelationId'].hasError('required') && fResidentCard.controls['RelationId'].dirty" class="p-invalid text-danger">Vui lòng chọn Quan hệ với chủ hộ</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatusResident">Trạng thái</label>
+                        <span class="text-danger"></span>
+                        <p-dropdown 
+                            [options]="statusOption" 
+                            placeholder="Chọn trạng thái"
+                            emptyMessage="Không có dữ liệu." 
+                            [showClear]="true" 
+                            formControlName="StatusResident"
+                            optionLabel="label" 
+                            optionValue="code" 
+                            [disabled]="true">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatusTemporaty">Tình trạng nhân khẩu</label>
+                        <span class=""></span>
+                        <p-dropdown 
+                            [options]="staying" 
+                            placeholder="Chọn tình trạng nhân khẩu"
+                            emptyMessage="Không có dữ liệu." 
+                            [showClear]="true" 
+                            formControlName="StatusTemporaty"
+                            optionLabel="label" 
+                            optionValue="value"
+                            [disabled]="true">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6" *ngIf="fResidentCard.get('StatusTemporaty').value == 2">
+                    <div class="field p-fluid">
+                        <label for="txtTemporatyNumber">Số đăng ký tạm trú</label>
+                        <span class=""></span>
+                        <input id="txtTemporatyNumber" placeholder="VD:0321642644" type="text" pInputText
+                            formControlName="TemporatyNumber" disabled="true">
+                    </div>
+                </div>
+                <div class="col-6" *ngIf="fResidentCard.get('StatusTemporaty').value == 2">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateStayFrom">ĐK tạm trú từ ngày
+                            <span class=""></span>
+                        </label>
+                        <p-calendar id="txtDateStayFrom" [showIcon]="true" inputId="icon" type="DateStayFrom"
+                            formControlName="DateStayFrom" disabled="true"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6" *ngIf="fResidentCard.get('StatusTemporaty').value == 2">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateStayTo">ĐK tạm trú đến ngày
+                            <span class=""></span>
+                        </label>
+                        <p-calendar id="txtDateStayTo" [showIcon]="true" inputId="icon" type="DateStayTo"
+                            formControlName="DateStayTo" disabled="true"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="txtImage" class="form-label">Ảnh đính kèm</label>
+                    <input formControlName="Image"  class="form-control no-bor" type="file" (change)="onFileSelected($event)" disabled="true">
+                    <div>
+                        <img [src]="uploadedImageUrl" class="img-thumbnail" [style.display]="isImageSelected ? 'block' : 'none'">
+                        <i class="fa fa-times-circle del-img" aria-hidden="true" (click)="Imagenull()" [style.display]="isImageSelected ? 'block' : 'none'" disabled="true"></i>
+                      </div>
+                    <span class="text-danger">Bản photo CMND, CCCD có hiệu lực, Giấy giới thiệu/Hợp đồng thuê nhà (Trường hợp khách thuê)</span>
+                </div>
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" (click)="onBack()" label="Hủy" class="p-button-outlined p-button-secondary mr-2">
+                    </button>
+                    <p-button class="p-button-outlined p-button-primary" [icon]="!(id > 0) ? 'pi pi-plus' : 'pi pi-check'" 
+                        [label]="!(id > 0) ? 'Xác nhận' : 'Xác nhận'" [loading]="loading[0]" (onClick)="onSubmit()">  
+                    </p-button>
+                </div>
+            </div>
+        </div>
+    </div>        
+</div>
+

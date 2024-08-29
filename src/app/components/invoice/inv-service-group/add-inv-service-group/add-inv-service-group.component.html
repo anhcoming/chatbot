@@ -1,0 +1,63 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="dataFormInvServiceGroup">
+            <h3 class="mg-0">
+                {{ !id ? 'Thêm mới nhóm dịch vụ' : 'Cập nhật' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Mã nhóm dịch vụ</label>
+                        <input id="txtCode" type="text" pInputText formControlName="Code">
+                        <small *ngIf="dataFormInvServiceGroup.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã vị trí phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="dataFormInvServiceGroup.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã vị trí chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="dataFormInvServiceGroup.controls['Code'].hasError('required') && dataFormInvServiceGroup.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập mã vị trí.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên nhóm dịch vụ
+                            <span class=""></span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name">
+                        <small *ngIf="dataFormInvServiceGroup.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên vị trí phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="dataFormInvServiceGroup.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên vị trí chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="dataFormInvServiceGroup.controls['Name'].hasError('required') && dataFormInvServiceGroup.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên vị trí.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtType">Loại dịch vụ</label>
+                        <p-dropdown
+                            [options]="invService_Type"
+                            placeholder="Loại dịch vụ" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="Type" 
+                            optionLabel="label"
+                            optionValue="value">
+                        </p-dropdown>                      
+                    </div>
+                </div>       
+                <div class="col-6">
+                    <label for="txtTypeService">Trạng thái:</label>
+                    <div class="form-check">
+                        <div class="form-check form-check-inline mr-2 mt-2">
+                            <input type="checkbox" id="checkbox" formControlName="TypeServiceGroup" [(ngModel)]="TypeServiceGroupCheck" />
+                            <label class="form-check-label">Hoạt động/ Không hoạt động</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'  
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

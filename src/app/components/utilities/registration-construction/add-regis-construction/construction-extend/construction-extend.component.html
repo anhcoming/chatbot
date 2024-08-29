@@ -1,0 +1,106 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fConstructionExtend">
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Đơn vị thi công</label>
+                         <span class="text-danger">*</span>
+                        <p-dropdown
+                            [options]="lstUnitContruction"
+                            placeholder="Đơn vị thi công"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="UnitName"
+                            optionLabel="UnitName"
+                            optionValue="UnitName"
+                            (onChange)="onSelectUnitName($event)">
+                        </p-dropdown>
+                    </div>
+                    <small *ngIf="fConstructionExtend.controls['UnitName'].hasError('required') && fConstructionExtend.controls['UnitName'].dirty" class="p-invalid text-danger">Vui lòng chọn đơn vị thi công</small>
+                    <small *ngIf="fConstructionExtend.get('ContactName').value == ''" class="p-invalid text-danger">Đơn vị thi công chưa có người đại diện,vui lòng chọn đơn vị thi công khác</small>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Trạng thái đơn gia hạn</label>
+                         <span class="text-danger">*</span>
+                        <p-dropdown
+                            [options]="DocumentStatus"
+                            placeholder="Trạng thái hồ sơ"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="StatusProcess"
+                            optionLabel="label"
+                            optionValue="value">
+                        </p-dropdown>
+                    </div>
+                    <small *ngIf="fConstructionExtend.controls['StatusProcess'].hasError('required') && fConstructionExtend.controls['StatusProcess'].dirty" class="p-invalid text-danger">Vui lòng chọn trạng thái đơn gia hạn</small>
+                </div>
+                 <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Người đại diện liên hệ
+                             <span class="text-danger">*</span>
+                        </label>
+                        <input class="disable-input" id="txtCode" type="text" pInputText formControlName="ContactName" readonly>
+                    </div>
+                    <small *ngIf="fConstructionExtend.controls['ContactName'].hasError('required') && fConstructionExtend.controls['ContactName'].dirty" class="p-invalid text-danger">Vui lòng chọn gia hạn từ ngày.</small>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Số điện thoại liên hệ
+                             <span class="text-danger">*</span>
+                        </label>
+                        <input class="disable-input" id="txtCode" type="text" pInputText formControlName="ContactPhone" readonly>
+                    </div>
+                    <small *ngIf="fConstructionExtend.controls['ContactPhone'].hasError('required') && fConstructionExtend.controls['ContactPhone'].dirty" class="p-invalid text-danger">Vui lòng chọn gia hạn từ ngày.</small>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateStart">Gia hạn từ ngày</label>
+                        <span class="text-danger">*</span>
+                        <p-calendar id="txtDateStart" [showIcon]="true" inputId="icon" type="date" formControlName="DateStart" dateFormat="dd.mm.yy"></p-calendar>
+                    </div>
+                    <small *ngIf="fConstructionExtend.controls['DateStart'].hasError('required') && fConstructionExtend.controls['DateStart'].dirty" class="p-invalid text-danger">Vui lòng chọn gia hạn từ ngày.</small>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateStart">Gia hạn đến ngày</label>
+                        <span class="text-danger">*</span>
+                        <p-calendar id="txtDateStart" [showIcon]="true" inputId="icon" type="date" formControlName="DateEnd" dateFormat="dd.mm.yy"></p-calendar>
+                    </div>
+                    <small *ngIf="fConstructionExtend.controls['DateEnd'].hasError('required') && fConstructionExtend.controls['DateEnd'].dirty" class="p-invalid text-danger">Vui lòng chọn gia hạn đến ngày.</small>
+                </div>  
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtFeedback">Lý do đăng ký gia hạn</label>
+                            <span class="text-danger">*</span>
+                        </div>
+                        <textarea id="txtFeedback" class="w-100" rows="5" pInputTextarea formControlName="Name"></textarea>
+                    </div>
+                </div>     
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtFeedback">Phản hồi từ BQL đến cư dân</label>
+                        </div>
+                        <textarea id="txtFeedback" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                    </div>
+                </div>     
+            </div>    
+        </div>
+        <div class="col-12 p_float_right">
+            <p-toast></p-toast>
+            <button pButton pRipple type="button" label="Hủy bỏ" class="p-button-outlined p-button-secondary mr-2" (click)="onBack()">
+                <span class="pi pi-times-circle"></span>
+            </button>
+            <p-button [label]=" !(id > 0) ? 'Xác nhận' : 'Xác nhận'" [icon]="!(id > 0) ? 'pi pi-plus' : 'pi pi-check'"  
+                [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+        </div>
+    </div>        
+</div>
+<p-toast></p-toast>
+
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog> 
+
+

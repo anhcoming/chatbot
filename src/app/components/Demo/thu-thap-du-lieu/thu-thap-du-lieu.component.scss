@@ -1,0 +1,40 @@
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+
+.file-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.5rem;
+    margin: 1rem 0; /* Increased top and bottom margin */
+    border: 1px solid #ccc; /* Thin border */
+    border-radius: 4px; /* Optional: add a slight rounding to the corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+    background-color: #fff; /* Background color to make the shadow stand out */
+}
+
+.file-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-middle {
+    width: 20%;
+    text-align: center;
+}
+
+.file-right {
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
+}

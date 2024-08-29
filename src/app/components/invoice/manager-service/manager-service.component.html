@@ -1,0 +1,212 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>DANH SÁCH DỊCH VỤ QUẢN LÝ</h4>
+       
+            <div class="allSelectFilter displayflex" [formGroup]="fSearch">
+                <div class="col-3 pd-0">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Nhóm khách hàng</label>
+                        <p-dropdown
+                            [options]="lstCustomerGroup"
+                            placeholder="Chọn nhóm khách hàng" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="CustomerGroupId" 
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="onSelectByCustomerGroupId($event)">
+                        </p-dropdown>                      
+                    </div>
+                </div> 
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Loại khách hàng</label>
+                        <p-dropdown
+                            [options]="lstCustomerType"
+                            placeholder="Chọn loại khách hàng" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="CustomerTypeId" 
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="onSelectByCustomerTypeId($event)">
+                        </p-dropdown>                      
+                    </div>
+                </div> 
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khách hàng</label>
+                        <p-dropdown
+                            [options]="lstCustomer"
+                            placeholder="Chọn khách hàng" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="CustomerId" 
+                            optionLabel="Name"
+                            optionValue="Id">
+                        </p-dropdown>                      
+                    </div>
+                </div> 
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị</label>
+                        <p-dropdown
+                            [options]="lstProject"
+                            placeholder="Khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ProjectId" 
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="onSelectTower($event)"
+                           >
+                        </p-dropdown>                      
+                    </div>
+                </div>                        
+                <div class="col-3 pd-0">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Tòa nhà</label>
+                        <p-dropdown
+                            [options]="lstTower"
+                            placeholder="Tòa nhà" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="TowerId" 
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="onSelectFloor($event)">
+                        </p-dropdown>                      
+                    </div>
+                </div>                        
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Tầng</label>
+                        <p-dropdown
+                            [options]="lstFloor"
+                            placeholder="Tầng" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="FloorId" 
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="onSelecApartment($event)">
+                        </p-dropdown>                      
+                    </div>
+                </div> 
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Căn hộ</label>
+                        <p-dropdown
+                            [options]="lstApartment"
+                            placeholder="Chọn căn hộ" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ApartmentId" 
+                            optionLabel="Name"
+                            optionValue="Id">
+                        </p-dropdown>                      
+                    </div>
+                </div> 
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Số hợp đồng</label>
+                        <p-dropdown
+                            [options]="lstContract"
+                            placeholder="Chọn hợp đồng" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ContractId" 
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="onSelectContract($event)">
+                        </p-dropdown>                      
+                    </div>
+                </div> 
+                <div class="textFilterProj">
+                    <span>Tìm kiếm</span>
+                    <div class="formSearchText w-30">
+                        <input type="text" formControlName="Search" placeholder="Tìm kiếm theo số, mã hợp đồng... " name="searchProject"  
+                        (keyup.Enter)="onSearch($event)" value="" class="StextSingle_Project">
+                        <button class="iconbtnSearch"  *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10" style="font-size: 1rem" (click)="onClearInput()"></span></button>
+                    </div>
+                </div>                      
+            </div>
+            
+        </div>
+    </div>
+</div>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">            
+            <section class="FilterProject">
+                <div class="textFilterProj">
+                    <div class="addProjectList btn-options">
+                        <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/invoice/manager-service/create"></button>
+                    </div>
+                    <!-- <div class="addProjectList mr-2 btn-options btn-green">
+                        <button type="button" pButton  label="Xuất Excel"></button>
+                    </div>   -->
+                </div>
+            </section>
+
+            <p-table 
+                [value]="lstContractService"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable"
+                >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Stt</th>
+                        <th>Căn hộ</th>
+                        <th>Dịch vụ</th>
+                        <th>Tên khách</th>
+                        <th>Mã tài khoản</th>
+                        <th>Số hợp đồng</th>
+                        <th>Từ ngày</th>
+                        <th>Đến ngày</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá</th>
+                        <th>Thành tiền</th>
+                        <th>Thuế(%)</th>
+                        <th>Tiền sau thuế</th>
+                        <th class="min-w-90">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-managerservice let-rowIndex="rowIndex">
+                    <tr>
+                        <td>{{ rowIndex + 1 }}</td>
+                        <td>{{ managerservice.Status}}</td>
+                        <td>{{ managerservice.ProjectId }}</td>
+                        <td>{{ managerservice.ProjectId }}</td>
+                        <td >{{ managerservice.TowerId}}</td>
+                        <td>{{ managerservice.FloorId }}</td>
+                        <td>{{ managerservice.ApartmentId  }}</td>
+                        <td>{{ managerservice.NameCustomer }}</td>
+                        <td>{{ managerservice.Code }}</td>
+                        <td>{{ managerservice.Type }}</td>
+                        <td>{{ managerservice.Paymentperiod }}</td>
+                        <td>{{ managerservice.ContractId }}</td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" routerLink="/invoice/manager-service/update/{{managerservice.Id}}"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(managerservice.Id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                                <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+

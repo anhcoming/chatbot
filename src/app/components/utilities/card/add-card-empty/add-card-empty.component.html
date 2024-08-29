@@ -1,0 +1,109 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>
+                {{ itemCard.Id ? 'Xem chi tiết thẻ' : 'Thêm mới thẻ' }}
+            </h5>
+
+            <form class="grid formgrid" [formGroup]="fCard">
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Mã thẻ
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="cardNumber" class="p-invalid">
+                        <small *ngIf="fCard.controls['cardNumber'].hasError('minlength')" class="p-invalid text-danger">Mã thẻ phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fCard.controls['cardNumber'].hasError('maxlength')" class="p-invalid text-danger">Mã thẻ chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fCard.controls['cardNumber'].hasError('required') && fCard.controls['cardNumber'].dirty" class="p-invalid text-danger">Vui lòng nhập mã thẻ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtSeri">Seri thẻ
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtSeri" type="text" pInputText formControlName="cardSeri" class="p-invalid">
+                        <small *ngIf="fCard.controls['cardSeri'].hasError('minlength')" class="p-invalid text-danger">Seri thẻ phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fCard.controls['cardSeri'].hasError('maxlength')" class="p-invalid text-danger">Seri thẻ chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fCard.controls['cardSeri'].hasError('required') && fCard.controls['cardSeri'].dirty" class="p-invalid text-danger">Vui lòng nhập seri thẻ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProject">
+                            Khu đô thị
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <p-dropdown 
+                            [options]="lstProject" 
+                            placeholder="Chọn khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            optionLabel="Name" 
+                            optionValue="Id" 
+                            id="txtProject"
+                            formControlName="projectId" 
+                            class="p-invalid"
+                            (onChange)="getListConfigCardByProjectId($event)">
+                        </p-dropdown>
+                        <small *ngIf="fCard.controls['projectId'].hasError('required') && fCard.controls['projectId'].dirty" class="p-invalid text-danger">Vui lòng chọn khu đô thị.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtConfigCard">
+                            Kiểu thẻ
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <p-dropdown 
+                            [options]="lstConfigCard" 
+                            placeholder="Chọn kiểu thẻ" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            optionLabel="Name" 
+                            optionValue="Id" 
+                            id="txtConfigCard"
+                            formControlName="configCardId" 
+                            class="p-invalid">
+                        </p-dropdown>
+                        <small *ngIf="fCard.controls['configCardId'].hasError('required') && fCard.controls['configCardId'].dirty" class="p-invalid text-danger">Vui lòng chọn kiểu thẻ.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">
+                            Trạng thái thẻ
+                        </label>
+                        <p-dropdown 
+                            [options]="lstStatus" 
+                            placeholder="Chọn trạng thái" 
+                            emptyMessage="Không có dữ liệu."
+                            optionLabel="name" 
+                            optionValue="code" 
+                            id="txtStatus"
+                            formControlName="cardStatus" 
+                            class="p-invalid"
+                            [disabled]="!itemCard.Id">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtNoteCard">Mã thẻ khác
+                        </label>
+                        <input id="txtNoteCard" type="text" pInputText formControlName="cardNote" class="p-invalid">
+                    </div>
+                </div>
+                <div class="col-12 p_float_right mt-4 card-footer p-5">
+                    <button pButton pRipple type="button" label="Quay lại" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                        <span class="pi pi-angle-left"></span>
+                    </button>
+                    <p-button [label]="itemCard.Id ? 'Cập nhật' : 'Thêm mới'" icon="pi pi-plus" type="submit" [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </form>
+ 
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog> 

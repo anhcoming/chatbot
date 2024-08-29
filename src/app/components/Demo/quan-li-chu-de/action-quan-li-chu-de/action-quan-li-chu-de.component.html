@@ -1,0 +1,172 @@
+<div class="container-manage">
+    <span class="title"><img src="assets/imgs/svg/ic-title-screen.svg" class="mr-3" />Chi tiết chủ đề</span>
+    <div class="textFilterProj mt-3">
+        <div class="formSearchText w-40">
+            <input type="text" placeholder="Tìm kiếm theo tên file... " name="searchProject" [(ngModel)]="search"
+                (keyup.Enter)="onSearch($event)" (keyup)="isInputEmpty = search === ''" value=""
+                class="StextSingle_Project">
+            <button class="iconbtnSearch" *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10"
+                    style="font-size: 1rem" (click)="onClearInput()"></span></button>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="col-12">
+            <section class="FilterProject">
+                <div class="textFilterProj">
+                    <div class="button-container">
+                        <button type="button" pButton icon="pi pi-chevron-left" class="p-button-link"
+                            routerLink="/demo/quanlichude" label="Quay lại"></button>
+                        <div class="d-flex align-items-center right-buttons">
+                            <button type="button" class="btn btn-remove mr-2 d-flex align-items-center"
+                                [disabled]="selectedTopics.length === 0" (click)="onDeleteCheckBoxFile()"><img
+                                    src="assets/imgs/svg/ic-remove-circle.svg" class="mr-2" />Xóa</button>
+                            <button type="button" (click)="onUploadNewFiles()" [disabled]="!isPermission"
+                                class="btn btn-digi mr-2 d-flex align-items-center"><img
+                                    src="assets/imgs/svg/ic-plus-circle.svg" class="mr-2" />Thêm mới</button>
+                            <button type="button" [disabled]="selectedTopics.length === 0" class="btn btn-success"
+                                (click)="embeddingFiles()"><img src="assets/imgs/svg/ic-resolve-data.svg"
+                                    class="mr-2" /> Xử lí dữ liệu</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <p-table [value]="listDatas" selectionMode="multiple" [(selection)]="selectedTopics" [paginator]="true"
+                [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]" [loading]="isLoadingTable">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>
+                            <p-tableHeaderCheckbox [disabled]="" />
+                        </th>
+                        <th>STT</th>
+                        <th>Tên File</th>
+                        <th>Ngày cập nhật</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-function let-rowIndex="rowIndex">
+                    <tr>
+                        <td>
+                            <p-tableCheckbox *ngIf="!function.Embedding" [value]="function" />
+                            <p-progressSpinner *ngIf="function.Embedding" styleClass="w-2rem h-2rem" strokeWidth="8"
+                                fill="var(--surface-ground)" animationDuration=".5s" />
+                        </td>
+                        <td>{{ rowIndex + 1}}</td>
+                        <td>{{ function.name }}</td>
+                        <td>{{ function.updatedAt | date: 'dd/MM/yyyy hh:mm' }}</td>
+                        <td style="align-items: center;">
+                            <p-tag *ngIf="function.embeddingStatus === 2" severity="danger"
+                                value="Chưa xử lý" />
+                            <p-tag *ngIf="function.embeddingStatus === 1" severity="success"
+                                value="Đã xử lý" />
+                            <p-tag *ngIf="function.embeddingStatus === 0" severity="warning" value="Chờ xử lý" />
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                        <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+
+<p-dialog header="Tải lên file dữ liệu" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }">
+    <p-fileUpload #fileUpload name="topicFile[]" [customUpload]="true" (onUpload)="onUploadComplete($event)"
+        (uploadHandler)="customeUpload($event)" [multiple]="true" accept=".pdf, .docx, .xlsx">
+        <ng-template let-file let-index="index" pTemplate="file">
+            <div class="file-item">
+                <div class="file-left">
+                    <i *ngIf="checkFileExtension(file?.type) === 1" [ngStyle]="{color: 'var(--red-500)'}"
+                        class="pi pi-file-pdf" style="font-size: 1.5rem"></i>
+                    <i *ngIf="checkFileExtension(file?.type) === 0" [ngStyle]="{color: 'var(--blue-500)'}"
+                        class="pi pi-file-word" style="font-size: 1.5rem"></i>
+                    <span>{{ file.name }}</span>
+                </div>
+                <div class="file-middle">
+                    <span>{{ caculateFileSize(file?.size) }}</span>
+                </div>
+                <div class="file-right">
+                    <button class="btn" (click)="removeFile(index)"><img
+                            src="assets/imgs/svg/ic-remove-yellow.svg" /></button>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="content">
+            <div class="file-item" *ngFor="let file of uploadedFiles">
+                <div class="file-left">
+                    <i *ngIf="checkFileExtension(file?.type) === 1" [ngStyle]="{color: 'var(--red-500)'}"
+                        class="pi pi-file-pdf" style="font-size: 1.5rem"></i>
+                    <i *ngIf="checkFileExtension(file?.type) === 0" [ngStyle]="{color: 'var(--blue-500)'}"
+                        class="pi pi-file-word" style="font-size: 1.5rem"></i>
+                    <span>{{ file.name }}</span>
+                </div>
+                <div class="file-middle">
+                    <span>{{ caculateFileSize(file?.size) }}</span>
+                </div>
+                <div class="file-right">
+                    <p-button icon="pi pi-check"
+                        styleClass="p-button-rounded p-button-success p-button-text"></p-button>
+                </div>
+            </div>
+        </ng-template>
+    </p-fileUpload>
+</p-dialog>
+
+
+<p-dialog header="Xóa File" [modal]="true" [(visible)]="deleteVisible" [style]="{ width: '75rem' }">
+    <ng-template pTemplate="body">
+        <small style="color: red;">
+            <i class="pi pi-exclamation-circle"></i>
+            Lưu ý: khi xóa File sẽ xóa hết các dữ liệu Embedding của File vui lòng cân nhắc trước khi thực hiện.</small>
+        <!-- <p-tag icon="pi pi-exclamation-triangle" severity="warning" value="Lưu ý: khi xóa File sẽ xóa hết các dữ liệu Embedding của File vui lòng cân nhắc trước khi thực hiện." /> -->
+        <p-table appendTo="body" [value]="deleteList" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true"
+            [rows]="10" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+            [rowsPerPageOptions]="[10, 25, 50]">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Tên File</th>
+                    <th>Ngày cập nhật</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.updatedAt | date: 'dd/MM/yyyy hh:mm' }}</td>
+                    <td>
+                        <p-tag *ngIf="product.embeddingStatus === 2" severity="danger" value="Xử lý thất bại" />
+                        <p-tag *ngIf="product.embeddingStatus === 1" severity="success" value="Xử lý thành công" />
+                        <p-tag *ngIf="product.embeddingStatus === 0" severity="warning" value="Chưa xử lý" />
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr class="text-center">
+                    <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="flex w-100 justify-content-end">
+            <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="deleteVisible = false; deleteList = []">
+                <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+            </button>
+            <button class="btn btn-remove" (click)="deleteVisible = false; deleteList = []" [disabled]="deleteList.length === 0"><img src="assets/imgs/svg/ic-remove-circle.svg" class="mr-3" />Xoá</button>
+
+        </div>
+    </ng-template>
+
+</p-dialog>

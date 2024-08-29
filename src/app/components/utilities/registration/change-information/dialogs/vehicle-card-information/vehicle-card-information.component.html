@@ -1,0 +1,133 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fCarCard">
+            <!-- <h5>
+                {{ !id ? 'Đăng ký cư dân về ở' : 'Cập nhật cư dân về ở' }}
+            </h5> -->
+            <div class="grid formgrid">
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtResidentId">Chủ thẻ</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstResidentCards"
+                            placeholder="Chọn thẻ cư dân"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="ResidentId"
+                            optionLabel="FullName"
+                            optionValue="ResidentId">
+                        </p-dropdown>
+                        <small *ngIf="fCarCard.controls['ResidentId'].hasError('required') && fCarCard.controls['ResidentId'].dirty" class="p-invalid text-danger">Vui lòng chọn Thẻ cư dân.</small>
+                    </div>
+                </div>
+                <div class="col-6" *ngIf="isCard == false && fCarCard.get('ResidentCardIntegratedId').value == null">
+                    <div class="field p-fluid">
+                        <label for="txtVehicleId">Mã số thẻ</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstCardVehicle"
+                            placeholder="Chọn mã thẻ"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="CardId"
+                            optionLabel="CardNumber"
+                            optionValue="Id">
+                        </p-dropdown>
+                        <small *ngIf="fCarCard.controls['CardId'].hasError('required') && fCarCard.controls['CardId'].dirty" class="p-invalid text-danger">Vui lòng chọn Chọn mã thẻ.</small>
+                    </div>
+                </div>
+                <div class="col-12" *ngIf="isCard == false  && fCarCard.get('CardId').value == null">
+                    <div class="field p-fluid">
+                        <label for="txtResidentId">Tích hợp vào thẻ</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstCardActive"
+                            placeholder="Chọn thẻ cư dân"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="ResidentCardIntegratedId"
+                            optionLabel="CardNumber"
+                            optionValue="Id"
+                            (onChange)="onClick($event)">
+                        </p-dropdown>
+                        <small *ngIf="fCarCard.controls['ResidentCardIntegratedId'].hasError('required') && fCarCard.controls['ResidentCardIntegratedId'].dirty" class="p-invalid text-danger">Vui lòng chọn Thẻ cư dân.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtOwnerName">Chủ phương tiện</label>
+                        <span class="text-danger"> *</span>
+                        <input id="txtOwnerName" placeholder="Nhập tên chủ phương tiện" type="text" pInputText formControlName="VehicleOwner">
+                        <small *ngIf="fCarCard.controls['VehicleOwner'].hasError('required') && fCarCard.controls['VehicleOwner'].dirty" class="p-invalid text-danger">Vui lòng nhập họ và tên Chủ phương tiện.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtVehicleId">Loại phương tiện</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstVehicle"
+                            placeholder="Chọn loại phương tiện"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="VehicleId"
+                            optionLabel="Name"
+                            optionValue="Id">
+                        </p-dropdown>
+                        <small *ngIf="fCarCard.controls['VehicleId'].hasError('required') && fCarCard.controls['VehicleId'].dirty" class="p-invalid text-danger">Vui lòng Chọn loại phương tiện.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtVehiclePlate">Biển kiểm soát</label>
+                        <span class="text-danger"> *</span>
+                        <input id="txtVehiclePlate" placeholder="Nhập biển kiểm soát" type="text" pInputText formControlName="VehiclePlate">
+                        <small *ngIf="fCarCard.controls['VehiclePlate'].hasError('required') && fCarCard.controls['VehiclePlate'].dirty" class="p-invalid text-danger">Vui lòng nhập Biển kiểm soát.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtVehicleName">Nhãn hiệu</label>
+                        <span class="text-danger"></span>
+                        <input id="txtVehicleName" placeholder="Nhập tên nhãn hiệu" type="text" pInputText formControlName="VehicleName">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Màu xe</label>
+                        <span class="text-danger"></span>
+                        <input id="txtName" placeholder="Nhập màu xe" type="text" pInputText formControlName="VehicleColor">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtVehicleDescription">Mô tả</label>
+                        </div>
+                        <textarea id="txtVehicleDescription" class="w-100" rows="5" pInputTextarea formControlName="VehicleDescription"></textarea>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="txtImage" class="form-label">Ảnh đính kèm</label>
+                    <input  formControlName="Image"  class="form-control no-bor" type="file" (change)="onImageSelected($event)">
+                    <div *ngIf="fCarCard.get('Image')?.value">
+                        <img [src]="uploadedImageUrl" class="img-thumbnail">
+                        <i class="fa fa-times-circle del-img" aria-hidden="true" (click)="Imagenull()"></i> 
+                    </div>
+                    <span class="text-danger">Bản photo Đăng ký xe còn hiệu lực</span>
+                  </div>
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" (click)="onBack()" label="Hủy" class="p-button-outlined p-button-secondary mr-2">
+                    </button>
+                    <p-button class="p-button-outlined p-button-primary" [icon]="!(id > 0) ? 'pi pi-plus' : 'pi pi-check'" 
+                        [label]="!(id > 0) ? 'Xác nhận' : 'Xác nhận'" [loading]="loading[0]" (onClick)="onSubmit()">  
+                    </p-button>
+                </div>
+            </div>
+        </div>
+    </div>        
+</div>
+
+
+

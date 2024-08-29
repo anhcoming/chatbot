@@ -1,0 +1,76 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fPayment">
+            <h3 class="mg-0">
+                {{ itemPayment ? 'Thêm mới hàng hóa' : 'Cập nhật' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Hóa đơn</label>
+                         <span class="text-danger"> *</span>
+                        <input id="txtCode" type="text" pInputText formControlName="Name">
+                        <!-- <small *ngIf="fGood.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Mã vị trí phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fGood.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Mã vị trí chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fGood.controls['Name'].hasError('required') && fGood.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập mã vị trí.</small> -->
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPayment">Phương thức thanh toán</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="[
+                            { label: 'Chuyển khoản', value: 0 },
+                            { label: 'Thanh toán trực tiếp', value: 1 },         
+                            ]"
+                            placeholder="Trạng thái thanh toán"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="Payment"
+                            optionLabel="label"
+                            optionValue="value">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Ngày thanh toán</label>
+                         <span class="text-danger"> *</span>
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input formControlName="DatePayment" type='datetime-local' class="form-control"/>
+                            <!-- <span class="input-group-addon\">  
+                              <span class="glyphicon glyphicon-calendar"></span>
+                            </span> -->
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Số tiền công nợ
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <div class="input-group mb-3">
+                            <input formControlName="Debt" type="text" class="form-control" aria-label="VNĐ">
+                            <div class="input-group-append">
+                              <span class="input-group-text">VNĐ</span>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" (click)="onBack()" label="Hủy" class="p-button-outlined p-button-secondary mr-2">
+                        <span class="pi pi-angle-left"></span>
+                    </button>
+                    <p-button class="p-button-outlined p-button-primary" [icon]="!(goodId > 0) ? 'pi pi-plus' : 'pi pi-check'" 
+                        [label]="!(goodId > 0) ? 'Xác nhận' : 'Xác nhận'" [loading]="loading[0]" (onClick)="onSubmit()">  
+                    </p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+
+

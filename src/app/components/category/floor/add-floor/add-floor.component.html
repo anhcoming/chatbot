@@ -1,0 +1,99 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fFloor">
+            <h3 class="mg-0">
+                {{ !(id > 0) ? 'Thêm mới tầng' : 'Cập nhật tầng' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="lstProject" 
+                            placeholder="Khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ProjectId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            (onChange)="getListTower($event)">
+                        </p-dropdown>
+                        <small *ngIf="fFloor.controls['ProjectId'].hasError('required') && fFloor.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn khu đô thị.</small>                   
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Tòa nhà  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="lstTower" 
+                            placeholder="Tòa nhà" 
+                            emptyMessage="Vui lòng chọn Khu đô thị."
+                            [showClear]="true" 
+                            formControlName="TowerId" 
+                            optionLabel="Name" 
+                            optionValue="Id">
+                        </p-dropdown>
+                        <small *ngIf="fFloor.controls['TowerId'].hasError('required') && fFloor.controls['TowerId'].dirty" class="p-invalid text-danger">Vui lòng chọn tòa nhà.</small>                        
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Vị trí  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                                [options]="lstZone" 
+                                placeholder="Vị trí" 
+                                emptyMessage="Không có dữ liệu."
+                                [showClear]="true" 
+                                formControlName="ZoneId" 
+                                optionLabel="Name"
+                                optionValue="Id">
+                        </p-dropdown>
+                        <small *ngIf="fFloor.controls['ZoneId'].hasError('required') && fFloor.controls['ZoneId'].dirty" class="p-invalid text-danger">Vui lòng chọn vị trí.</small>                   
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Mã tầng
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Code">
+                        <small *ngIf="fFloor.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã tầng phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fFloor.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã tầng chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fFloor.controls['Code'].hasError('required') && fFloor.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập mã tầng.</small> 
+                    </div>
+                </div>            
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên hiển thị
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name">
+                        <small *ngIf="fFloor.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên tầng phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fFloor.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên tầng chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fFloor.controls['Name'].hasError('required') && fFloor.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập tên tầng.</small> 
+                    </div>
+                </div>            
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAddress">Mô tả</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+

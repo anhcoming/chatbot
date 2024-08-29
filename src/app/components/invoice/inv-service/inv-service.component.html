@@ -1,0 +1,86 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Danh sách dịch vụ</h4>
+            <div class="textFilterProj">
+                <span>Tìm kiếm</span>
+                <div class="formSearchText w-30">
+                    <input type="text" placeholder="Tìm kiếm theo mã, tên ... " name="searchProject"
+                     value="" class="StextSingle_Project" [(ngModel)]="searchTxt" (keyup.Enter)="onSearch()">
+                    <button class="iconbtnSearch" ><i _ngcontent-wsc-c163="" aria-hidden="true" class="fa fa-search"></i></button>
+                </div>
+                
+            </div>
+            <div class="allSelectFilter displayflex" >
+                <!-- <div class="itemSelectFilter">
+                    <p-dropdown [options]="urbanAreas" [(ngModel)]="selectedUrbanArea" optionLabel="name" placeholder="Chọn khu đô thị" 
+                    (onChange)="getFloorsByUrbanArea()"></p-dropdown>
+                </div>  -->
+                             
+            </div>
+            
+        </div>
+    </div>
+</div>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">            
+            <section class="FilterProject">
+                <div class="textFilterProj">
+                    <div class="addProjectList">
+                        <a href="#/invoice/inv-service/create" class="mg-l-9 addList"><i class="fa fa-plus-circle"
+                            aria-hidden="true"></i> Thêm mới</a>
+                    </div>
+                </div>
+            </section>
+
+            <p-table 
+                [value]="invServiceData"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiện {first} đến {last} của {totalRecords} bản ghi"
+                [rowsPerPageOptions]="[10, 25, 50]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3%">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th style="width: 5%">Stt</th>
+                        <th style="width: 15%">Mã dịch vụ</th>
+                        <th style="width: 20%">Tên dịch vụ</th>
+                        <th style="width: 20%">Nhóm dịch vụ</th>
+                        <th style="width: 15%">Loại dịch vụ</th>
+                        <th style="width: 10%">Trạng thái</th>
+                        <th style="width: 15%">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-inv let-rowIndex="rowIndex">
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="invServiceData"></p-tableCheckbox>
+                        </td>
+                        <td>{{ rowIndex + 1 }}</td>
+                        <td>{{ inv.Code }}</td>
+                        <td>{{ inv.Name }}</td>
+                        <td>{{ inv.InvServiceGroupName}}</td>
+                        <td>{{ inv.TypeName}}</td>
+                        <td><input type="checkbox" id="checkbox" [(ngModel)]="inv.TypeService" disabled="true"/></td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" routerLink="/invoice/inv-service/update/{{inv.Id}}"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(inv.Id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                                 <td colspan="10" class="text-center text-danger">Không có nhóm dịch vụ nào.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

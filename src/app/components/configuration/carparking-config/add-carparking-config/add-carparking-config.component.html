@@ -1,0 +1,129 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fCarparking">
+            <h3 class="mg-0">
+                {{ !(id > 0) ? 'Thêm mới cấu hình Carparking' : 'Cập nhật cấu hình CarParking' }}
+            </h3>
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="lstProject" 
+                            placeholder="Chọn Khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ProjectId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            (onChange)="getListTower($event)">
+                        </p-dropdown>
+                        <small *ngIf="fCarparking.controls['ProjectId'].hasError('required') && fCarparking.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn khu đô thị.</small>                   
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Trạng thái  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="isStatus" 
+                            placeholder="Chọn trạng thái" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="Status" 
+                            optionLabel="label" 
+                            optionValue="value">
+                        </p-dropdown>
+                        <small *ngIf="fCarparking.controls['Status'].hasError('required') && fCarparking.controls['Status'].dirty" class="p-invalid text-danger">Vui lòng chọn khu đô thị.</small>                   
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div class="displayflex">
+                            <label for="txtDistrict" class="w-15">Tòa nhà  <span class="text-danger"> *</span></label>
+                            <i class="color-i" *ngIf="!fCarparking.get('ProjectId').value">Vui lòng chọn Khu đô thị</i>
+                            <div class="displayflex" *ngIf="fCarparking.get('ProjectId').value">
+                                <div class="checkbox">
+                                    <input type="checkbox" [(ngModel)]="allChecked" (change)="toggleAll()" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> Chọn tất cả</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="displayflex" >
+                            <div *ngFor="let tower of lstTower" class="checkbox">
+                                <input type="checkbox" [value]="tower.name" [(ngModel)]="tower.checked"  (change)="checkAll()" [ngModelOptions]="{standalone: true}">
+                                <div>
+                                    <span> {{ tower.Name }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <small *ngIf="fCarparking.controls['listTowerMaps'].dirty" class="p-invalid text-danger">Vui lòng chọn tòa nhà.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên cấu hình Carparking
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name" placeholder="Tên cấu hình Carparking">
+                        <small *ngIf="fCarparking.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên dự án phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fCarparking.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên dự án chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fCarparking.controls['Name'].hasError('required') && fCarparking.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập mã tầng.</small> 
+                    </div>
+                </div>            
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtUrlCar">Đường dẫn API
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtUrlCar" type="text" pInputText formControlName="UrlCar" placeholder="Đường dẫn API">
+                        <small *ngIf="fCarparking.controls['UrlCar'].hasError('required') && fCarparking.controls['UrlCar'].dirty" class="p-invalid text-danger">Vui lòng nhập tên tầng.</small> 
+                    </div>
+                </div> 
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtUserName">UserName  <span class="text-danger"> *</span></label>
+                        </div>
+                        <input id="txtUserName" type="text" pInputText formControlName="UserName" placeholder="Tài khoản">
+                        <small *ngIf="fCarparking.controls['UserName'].hasError('minlength')" class="p-invalid text-danger">Tên dự án phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fCarparking.controls['UserName'].hasError('maxlength')" class="p-invalid text-danger">Tên dự án chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fCarparking.controls['UserName'].hasError('required') && fCarparking.controls['UserName'].dirty" class="p-invalid text-danger">Vui lòng nhập tài khoản.</small> 
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtPassword">Password  <span class="text-danger"> *</span></label>
+                        </div>
+                        <input id="txtPassword" type="password" pInputText formControlName="Password" placeholder="Mật khẩu">
+                        <small *ngIf="fCarparking.controls['Password'].hasError('minlength')" class="p-invalid text-danger">Tên dự án phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fCarparking.controls['Password'].hasError('maxlength')" class="p-invalid text-danger">Tên dự án chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fCarparking.controls['Password'].hasError('required') && fCarparking.controls['Password'].dirty" class="p-invalid text-danger">Vui lòng nhập mật khẩu.</small> 
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAddress">Biểu phí và quy định CarParking <span class="text-danger"> *</span></label>
+                            <small *ngIf="fCarparking.controls['Note'].hasError('required') && fCarparking.controls['Note'].dirty" class="p-invalid text-danger addProjectList">Vui lòng nhập Biểu phí và quy định CarParking.</small> 
+                        </div>
+                        <ckeditor  class="ck-edit-text" [config]="{placeholder: 'Nhập nội dung bài viết'}" [editor]="Editor" formControlName="Note" [ngStyle]="{'height': '120px'}"></ckeditor>
+                    </div>
+                </div>
+
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+
+

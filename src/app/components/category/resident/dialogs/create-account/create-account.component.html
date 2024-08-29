@@ -1,0 +1,47 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fAccount">
+            <div class="grid formgrid" >
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Tài khoản  <span class="text-danger"> *</span></label>
+                        <i class="float-right">
+                            <small *ngIf="fAccount.controls['UserName'].hasError('minlength')" class="p-invalid text-danger">Mật khẩu phải tối thiểu 6 kí tự.</small>
+                            <small *ngIf="fAccount.controls['UserName'].hasError('maxlength')" class="p-invalid text-danger">Mật khẩu chỉ được tối đa 15 kí tự.</small>
+                            <small *ngIf="fAccount.controls['UserName'].hasError('required') && fAccount.controls['UserName'].dirty" class="p-invalid text-danger">Vui lòng nhập Mật khẩu.</small>
+                            <small *ngIf="fAccount.controls['UserName'].errors?.pattern" class="p-invalid text-danger">Số điện thoại không hợp lệ.</small>
+                        </i>
+                        <input id="txtUserName" type="text" pattern="[0-9\s]*" pInputText formControlName="UserName" placeholder="Số điện thoại">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtPassWord">Mật khẩu  <span class="text-danger"> *</span></label>
+                        <i class="float-right">
+                            <small *ngIf="fAccount.controls['Password'].hasError('minlength')" class="p-invalid text-danger">Mật khẩu phải tối thiểu 6 kí tự.</small>
+                            <small *ngIf="fAccount.controls['Password'].hasError('maxlength')" class="p-invalid text-danger">Mật khẩu chỉ được tối đa 15 kí tự.</small>
+                            <small *ngIf="fAccount.controls['Password'].hasError('required') && fAccount.controls['Password'].dirty" class="p-invalid text-danger">Vui lòng nhập Mật khẩu.</small>
+                        </i>
+                        <p-password formControlName="Password" id="txtPassword" autocomplete="off" placeholder="Nhập mật khẩu" [toggleMask]="true" (input)="matchingPasswords()" styleClass="mb-5"></p-password>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtPassWord" >Nhập lại mật khẩu  <span class="text-danger"> *</span></label>
+                        <i class="float-right">
+                            <small *ngIf="fAccount.get('ConfirmPassword').hasError('mismatchedPasswords')" class="p-invalid text-danger">Mật khẩu nhập lại không đúng.</small>
+                            <small *ngIf="fAccount.controls['ConfirmPassword'].hasError('required') && fAccount.controls['ConfirmPassword'].dirty" class="p-invalid text-danger">Vui lòng nhập lại Mật khẩu.</small>
+                        </i>
+                        <p-password formControlName="ConfirmPassword" id="txtPassword" autocomplete="off" placeholder="Nhập lại mật khẩu" [toggleMask]="true" (input)="matchingPasswords()" styleClass="mb-5"></p-password>
+                    </div>
+                </div>
+
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

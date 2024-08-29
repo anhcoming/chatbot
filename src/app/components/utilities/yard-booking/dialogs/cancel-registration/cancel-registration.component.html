@@ -1,0 +1,40 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div class="grid formgrid">
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="">Thời gian hủy đơn 
+                            <span class="text-danger"> *</span>
+                        </label>
+                        <p-calendar [showIcon]="true" inputId="icon" type="DateStart" dateFormat="dd/mm/yy" placeholder="Chọn thời gian hủy đơn"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid p-cancel">
+                        <h4>Cư dân đã đặt cọc</h4>
+                        <p>
+                            Nếu cư dân <i>đồng ý hủy sân </i>cư dân sẽ được hoàn: [ Số % hoàn ] số tiền đã đóng.
+                        </p>
+                        <p>
+                            Số tiền là: [ Số tiền được hoàn ]
+                        </p>
+                        <p>
+                            Cư dân vui lòng liên hệ BQL sau hủy sân để nhận lại tiền hoàn.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtNote">Lý do hủy đơn </label>                
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea placeholder="Nhập lý do hủy đơn"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 p_float_right mt-4">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-3" ></button>
+                    <p-button label='Xác nhận' icon='pi pi-check' ></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

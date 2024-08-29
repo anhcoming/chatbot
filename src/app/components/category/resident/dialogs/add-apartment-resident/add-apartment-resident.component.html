@@ -1,0 +1,154 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fCustomer">
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtTowerId">Tòa nhà</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstTower" 
+                            placeholder="Tòa nhà" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="TowerId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            (onChange)="getApartment($event)">
+                        </p-dropdown>
+                        <small *ngIf="fCustomer.controls['TowerId'].hasError('required') &&  fCustomer.controls['TowerId'].dirty "class="p-invalid text-danger">Vui lòng chọn Tòa nhà.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtApartmentId">Căn hộ</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstApartment" 
+                            placeholder="Chọn căn hộ" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ApartmentId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            (onChange)="onChaneProject()">
+                        </p-dropdown>
+                        <small *ngIf="fCustomer.controls['ApartmentId'].hasError('required') &&  fCustomer.controls['ApartmentId'].dirty "class="p-invalid text-danger">Vui lòng chọn Căn hộ.</small>
+                     </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateStart">Ngày đến</label>
+                        <p-calendar id="txtDateStart" [showIcon]="true" inputId="icon" type="date" formControlName="DateStart" dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateEnd">Ngày đi</label>
+                        <p-calendar id="txtDateEnd" type="date" [showIcon]="true" inputId="icon" formControlName="DateEnd"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtType">Vai trò trong căn hộ</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="role"
+                            placeholder="Vai trò trong căn hộ"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="Type"
+                            optionLabel="label"
+                            optionValue="value"
+                            (onChange)="checkRelationshipOption()">
+                        </p-dropdown>
+                        <small *ngIf="fCustomer.controls['Type'].hasError('required') &&  fCustomer.controls['Type'].dirty" class="p-invalid text-danger">Vui lòng chọn Vai trò trong căn hộ.</small>
+                    </div>
+                </div>  
+                <div class="col-6" *ngIf="fCustomer.get('Type').value == 3">
+                    <div class="field p-fluid">
+                        <label for="txtRelationshipId">Quan hệ với chủ hộ</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="relationshipOption"
+                            placeholder="Vai trò trong căn hộ"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="RelationshipId"
+                            optionLabel="label"
+                            optionValue="value"
+                            (onChange)="setRelationshipOption($event)">
+                        </p-dropdown>
+                        <small *ngIf="fCustomer.controls['RelationshipId'].dirty" class="p-invalid text-danger">Vui lòng chọn Quan hệ với chủ hộ.</small>
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Trạng thái</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="statusOption"
+                            placeholder="Chọn trạng thái"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="Status"
+                            optionLabel="label"
+                            optionValue="value">
+                        </p-dropdown>
+                        <small *ngIf="fCustomer.controls['Status'].hasError('required') &&  fCustomer.controls['Status'].dirty" class="p-invalid text-danger">Vui lòng chọn Trạng thái.</small>
+                    </div>
+                </div> 
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtResidentStatus">Tình trạng nhân khẩu</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="staying"
+                            placeholder="Tình trạng nhân khẩu"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="ResidentStatus"
+                            optionLabel="label"
+                            optionValue="value">
+                        </p-dropdown>
+                        <small *ngIf="fCustomer.controls['ResidentStatus'].hasError('required') &&  fCustomer.controls['ResidentStatus'].dirty" class="p-invalid text-danger">Vui lòng chọn Tình trạng nhân khẩu.</small>
+                    </div>
+                </div>  
+                <div class="col-6" *ngIf="fCustomer.get('Type').value !== 3 && fCustomer.get('Type').value !== 4 ">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateRent">Ngày bàn giao căn hộ</label>
+                        <span class=""></span>
+                        <p-calendar id="txtEmail" type="date" [showIcon]="true" inputId="icon" formControlName="DateRent"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div> 
+                <div class="col-6" *ngIf="fCustomer.get('ResidentStatus').value == 2">
+                    <div class="field p-fluid">
+                        <label for="txtRegistrationNo">Số ĐK tạm trú</label>
+                        <input id="txtEmail" type="text" pInputText formControlName="RegistrationNo">
+                    </div>
+                </div>  
+                <div class="col-6" *ngIf="fCustomer.get('ResidentStatus').value == 2">
+                    <div class="field p-fluid p-date">
+                        <label for="txtRegistrationStart">ĐK tạm trú từ ngày</label>
+                        <span class=""></span>
+                        <p-calendar id="txtRegistrationStart" type="date" [showIcon]="true" inputId="icon" formControlName="RegistrationStart"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div> 
+                <div class="col-6" *ngIf="fCustomer.get('ResidentStatus').value == 2">
+                    <div class="field p-fluid p-date">
+                        <label for="txtRegistrationEnd">ĐK tạm trú đến ngày</label>
+                        <p-calendar id="txtEmail" type="date" [showIcon]="true" inputId="icon" formControlName="RegistrationEnd"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div> 
+            </div>
+        </div> 
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack()">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+    </div>
+</div>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+

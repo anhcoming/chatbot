@@ -1,0 +1,91 @@
+.top-bar {
+    font-size: 1rem;
+    height: 5rem;
+    font-family: Roboto;
+    @media (min-width: 767px) {
+        #img-toggle {
+            display: none !important;
+        }
+
+        .theme-mobile {
+            display: none !important;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .theme {
+            display: none !important;
+        }
+    }
+
+    .dropdown-menu {
+        border-radius: 8px;
+        border-color: var(--tag-info);;
+        box-shadow: 0px 4px 14.2px 0px rgba(65, 84, 154, 0.25);
+        background-color: var(--info-box);
+
+        .dropdown-item:hover {
+            background-color: var(--dropdown-hover);
+        }
+
+        button {
+            padding: 10px 20px;
+            align-items: center;
+            span {
+                color: var(--text-option)
+            }
+        }
+
+        .info {
+            background: var(--info-box-top);
+
+        }
+
+        .logout {
+            padding: 10px 70px;
+            background: #F3F2F7;
+            border-radius: 49px;
+            color: var(--text-logout);
+        }
+
+        .logout {
+            background: var(--logout);
+        }
+    }
+
+        #gmail {
+            color: #878A99;
+            padding-top: 9px;
+            font-family: 'Roboto';
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 20px;
+        }
+
+    #username {
+        color: var(--text-username)
+    }
+}
+
+.input-form {
+    border: 1px solid var(--bd-input);
+    border-radius: 18px;
+    padding: 16px 12px;
+    background: var(--bg-modal);
+    color: var(--text-input);
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.icon-eye {
+    position: absolute;
+    right: 15px;
+    top: 20px;
+    width: 22px;
+    height: 15px;
+    background-color: var(--bg-calendar);
+    /* The color you want the SVG to be */
+    -webkit-mask: url('/assets/imgs-chatbot/svg/ic-eye.svg') no-repeat center;
+    mask: url('/assets/imgs-chatbot/svg/ic-eye.svg') no-repeat center;
+    cursor: pointer;
+}

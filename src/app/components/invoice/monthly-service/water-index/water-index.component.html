@@ -1,0 +1,147 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>DANH SÁCH CẬP NHẬT CHỈ SỐ NƯỚC</h4>
+       
+            <div class="allSelectFilter displayflex" [formGroup]="fSearch">
+                <div class="field p-fluid col-3 p-date mg-l-15">
+                    <label for="txtDate">Ngày thực hiện từ</label>
+                    <p-calendar id="txtDate" [showIcon]="true" inputId="icon" type="Date" formControlName="DateStart"  dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+                <div class="field p-fluid col-3 p-date">
+                    <label for="txtDate">Ngày thực hiện đến</label>
+                    <p-calendar id="txtDate" [showIcon]="true" inputId="icon" type="Date" formControlName="DateEnd"  dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+                <div class="field p-fluid col-3 p-date">
+                    <label for="txtDate">Kỳ thông báo</label>
+                    <p-calendar id="txtDate" [showIcon]="true" inputId="icon" type="Date" formControlName="Notice"  dateFormat="dd/mm/yy"></p-calendar>
+                </div>
+                <div class="field p-fluid col-3 p-date">
+                    <label for="txtDate">Kỳ thông báo mới</label>
+                    <p-calendar id="txtDate" [showIcon]="true" inputId="icon" type="Date" formControlName="NewNotice"  dateFormat="dd/mm/yy"></p-calendar>
+                </div>   
+                <div class="col-3 pd-0">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị</label>
+                        <p-dropdown
+                            [options]="lstProject"
+                            placeholder="Chọn khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ProjectId" 
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="getListTower($event)">
+                        </p-dropdown>                      
+                    </div>
+                </div>                        
+                <div class="col-3 pd-0">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Tòa nhà</label>
+                        <p-dropdown
+                            [options]="lstTower"
+                            placeholder="Chọn tòa nhà" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="TowerId" 
+                            optionLabel="Name"
+                            optionValue="Id"
+                            >
+                        </p-dropdown>                      
+                    </div>
+                </div>      
+                <div class="col-3 mg-t-25">
+                    <button
+                        type="button"
+                        pButton
+                        label="Tìm kiếm"
+                        (click)="Search()"
+                    ></button>
+                </div>
+                <div class="textFilterProj">
+                    <span>Tìm kiếm</span>
+                    <div class="formSearchText w-30">
+                        <input type="text" formControlName="Search" placeholder="Tìm kiếm theo số hợp đồng,mã tài khoản... " name="searchProject" [(ngModel)]="search" 
+                        (keyup.Enter)="onSearch($event)" (keyup)="isInputEmpty = search === ''" value="" class="StextSingle_Project">
+                        <button class="iconbtnSearch"  *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10" style="font-size: 1rem" (click)="onClearInput()"></span></button>
+                    </div>
+                </div>                      
+            </div>
+            
+        </div>
+    </div>
+</div>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">            
+            <section class="FilterProject">
+                <div class="textFilterProj">
+                    <div class="addProjectList btn-options">
+                        <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/invoice/water-index/create"></button>
+                    </div>
+                    <div class="addProjectList mr-2 btn-options btn-green">
+                        <button type="button" pButton  label="Xuất Excel"></button>
+                    </div>  
+                </div>
+            </section>
+
+            <p-table 
+                [value]="lstWaterIndex"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable"
+                >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Stt</th>
+                        <th>Khu đô thị</th>
+                        <th>Tòa nhà</th>
+                        <th>Ngày thực hiện</th>
+                        <th>Kỳ thông báo phí</th>
+                        <th>Từ ngày</th>
+                        <th>Đến ngày</th>
+                        <th>Tên file dữ liệu</th>
+                        <th>Diễn giải</th>
+                        <th>Số bản ghi</th>
+                        <th>Trạng thái</th>
+                        <th class="min-w-90">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-waterindex let-rowIndex="rowIndex">
+                    <tr>
+                        <td>{{ rowIndex + 1 }}</td>
+                        <td>{{ waterindex.Name}}</td>
+                        <td>{{ waterindex.Name }}</td>
+                        <td>{{ waterindex.Name }}</td>
+                        <td>{{ waterindex.Name}}</td>
+                        <td>{{ waterindex.Name }}</td>
+                        <td>{{ waterindex.Name  }}</td>
+                        <td>{{ waterindex.Name  }}</td>
+                        <td>{{ waterindex.Name  }}</td>
+                        <td>{{ waterindex.Name }}</td>
+                        <td>{{ waterindex.Code }}</td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-eye" class="p-button-rounded mr-2"></button>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" routerLink="/invoice/water-index/update/{{waterindex.Id}}"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(waterindex.Id)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                        <td colspan="12" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+
+

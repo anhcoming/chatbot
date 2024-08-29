@@ -1,0 +1,148 @@
+<div class="grid">
+    <div class="col-12">
+        <h3>
+            {{ !(id > 0) ? 'Thêm mới cấu hình Email' : 'Cập nhật cấu hình Email' }}
+        </h3>
+        <div class="card" [formGroup]="fEmail">
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <h3 class=" mg-0"><p class="pi pi-briefcase"></p> Thông tin cấu hình</h3>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="lstProject" 
+                            placeholder="Chọn Khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ProjectId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            (onChange)="getListTower($event)">
+                        </p-dropdown>
+                        <small *ngIf="fEmail.controls['ProjectId'].hasError('required') && fEmail.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn Khu đô thị.</small>                   
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Trạng thái  <span class="text-danger"> *</span></label>
+                        <p-dropdown
+                            [options]="isStatus" 
+                            placeholder="Chọn trạng thái" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="Status" 
+                            optionLabel="label" 
+                            optionValue="value">
+                        </p-dropdown>
+                        <small *ngIf="fEmail.controls['Status'].hasError('required') && fEmail.controls['Status'].dirty" class="p-invalid text-danger">Vui lòng chọn Trạng thái.</small>                   
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div class="displayflex">
+                            <label for="txtDistrict" class="w-15">Tòa nhà  <span class="text-danger"> *</span></label>
+                            <i class="color-i" *ngIf="!fEmail.get('ProjectId').value">Vui lòng chọn Khu đô thị</i>
+                            <div class="displayflex" *ngIf="fEmail.get('ProjectId').value">
+                                <div class="checkbox">
+                                    <input type="checkbox" [(ngModel)]="allChecked" (change)="toggleAll()" [ngModelOptions]="{standalone: true}">
+                                    <div>
+                                        <span> Chọn tất cả</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="displayflex" >
+                            <div *ngFor="let tower of lstTower" class="checkbox">
+                                <input type="checkbox" [value]="tower.name" [(ngModel)]="tower.checked"  (change)="checkAll()" [ngModelOptions]="{standalone: true}">
+                                <div>
+                                    <span> {{ tower.Name }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <small *ngIf="fEmail.controls['listTowerMaps'].dirty" class="p-invalid text-danger">Vui lòng chọn Tòa nhà.</small>                        
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtEmailDisplayName">Tên cấu hình Email
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtEmailDisplayName" type="text" pInputText formControlName="EmailDisplayName" placeholder="Nhập tên cấu hình Email">
+                        <small *ngIf="fEmail.controls['EmailDisplayName'].hasError('minlength')" class="p-invalid text-danger">Tên dự án phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fEmail.controls['EmailDisplayName'].hasError('maxlength')" class="p-invalid text-danger">Tên dự án chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fEmail.controls['EmailDisplayName'].hasError('required') && fEmail.controls['EmailDisplayName'].dirty" class="p-invalid text-danger">Vui lòng nhập Tên cấu hình Email.</small> 
+                    </div>
+                </div>            
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtNote">Mô tả chi tiết
+                            <span class=""></span>
+                        </label>
+                        <input id="txtNote" type="text" pInputText formControlName="Note" placeholder="Nhập mô tả chi tiết">
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h3><p class="pi pi-briefcase"></p>  Cấu hình Email gửi</h3>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtEmailUserName">Địa chỉ Email gửi  <span class="text-danger"> *</span></label>
+                        <input type="email" id="txtEmailUserName" pInputText formControlName="EmailUserName" placeholder="Nhập địa chỉ Email gửi">
+                        <small *ngIf="fEmail.controls['EmailUserName'].hasError('required') && fEmail.controls['EmailUserName'].dirty" class="p-invalid text-danger">Vui lòng nhập Cấu hình Email gửi.</small> 
+                    </div>
+                </div>
+                
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtEmailPasswordHash">Password</label>
+                        <input type="password" id="txtEmailPasswordHash" pInputText formControlName="EmailPasswordHash" placeholder="Nhập Mật khẩu">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtEmailPort">Port</label>
+                        <input type="number" id="txtEmailPort" pInputText formGroupName="EmailPort" placeholder="Nhập Port">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtEmailHost">Host</label>
+                        <input type="text" id="txtEmailHost" pInputText formControlName="EmailHost" placeholder="Nhập Host">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtEmailSender">Name</label>
+                        <input type="text" id="txtEmailSender" pInputText formControlName="EmailSender" placeholder="Nhập tên">
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h3><p class="pi pi-briefcase"></p>  Cấu hình Email nhận</h3>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtEmailReceive">Địa chỉ Email nhận  <span class="text-danger"> *</span></label>
+                        <input type="email" id="txtEmailReceive" pInputText autocomplete="off" formControlName="EmailReceive" placeholder="Nhập địa chỉ Email nhận">
+                        <small *ngIf="fEmail.controls['EmailReceive'].hasError('required') && fEmail.controls['EmailReceive'].dirty" class="p-invalid text-danger">Vui lòng nhập Địa chỉ Email nhận.</small> 
+                    </div>
+                </div>
+                
+            </div>
+            <div class="grid formgrid">
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

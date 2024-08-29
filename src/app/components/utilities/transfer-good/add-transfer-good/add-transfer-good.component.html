@@ -1,0 +1,468 @@
+
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fTransfer">
+            <h2>
+                {{ !(id > 0) ? 'Thêm mới đăng ký chuyển hàng' : 'Cập nhật đăng ký chuyển hàng' }}
+            </h2>
+
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <h4><i class="pi pi-exclamation-circle mr-2"></i>Thông tin cư dân đăng ký</h4>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtTower">Tòa nhà</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstTower" 
+                            placeholder="Tòa nhà" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="TownId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            [filter]="true"
+                            (onChange)="selectedApartment($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Căn hộ</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstApartment" 
+                            placeholder="Căn hộ" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ApartmentId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            [filter]="true"
+                            (onChange)="onSelectTower($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Chủ hộ
+                             <span class="text-danger">*</span>
+                        </label>
+                        <input class="disable-input" id="txtCode" type="text" pInputText formControlName="ResidentName" readonly>
+                    </div>
+                    <small *ngIf="fTransfer.controls['ResidentName'].hasError('minlength')" class="p-invalid text-danger">Tên chủ hộ phải tối thiểu 6 kí tự.</small>
+                    <small *ngIf="fTransfer.controls['ResidentName'].hasError('maxlength')" class="p-invalid text-danger">Tên chủ hộ chỉ được tối đa 150 kí tự.</small>
+                    <small *ngIf="fTransfer.controls['ResidentName'].hasError('required') && fTransfer.controls['ResidentName'].dirty" class="p-invalid text-danger">Vui lòng tên chủ hộ.</small>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Số điện thoại chủ hộ
+                             <span class="text-danger">*</span>
+                        </label>
+                        <input class="disable-input" id="txtCode" type="tel" pInputText formControlName="Phone" readonly>
+                    </div>
+                    <small *ngIf="fTransfer.controls['Phone'].hasError('minlength')" class="p-invalid text-danger">Số điện thoại chủ hộ không hợp lệ.</small>
+                    <small *ngIf="fTransfer.controls['Phone'].hasError('maxlength')" class="p-invalid text-danger">Số điện thoại chủ hộ không được quá 12 số.</small>
+                    <small *ngIf="fTransfer.controls['Phone'].hasError('pattern')" class="p-invalid text-danger">Số điện thoại chủ hộ không được nhập chữ</small>
+                    <small *ngIf="fTransfer.controls['Phone'].hasError('required') && fTransfer.controls['Phone'].dirty" class="p-invalid text-danger">Vui lòng nhập số điện thoại chủ hộ.</small>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Người đăng ký</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstRegister" 
+                            placeholder="Người đăng ký" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="RegisterId" 
+                            optionLabel="ResidentName" 
+                            optionValue="ResidentId"
+                            (onChange)="selectedRegister($event)">
+                        </p-dropdown>
+                    </div>
+                    <small *ngIf="fTransfer.controls['RegisterId'].hasError('required') && fTransfer.controls['RegisterId'].dirty" class="p-invalid text-danger">Vui lòng chọn người đăng ký.</small>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Số điện thoại người đăng ký
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input class="disable-input" id="txtCode" type="tel" pInputText formControlName="RegisterPhone">
+                    </div>
+                    <small *ngIf="fTransfer.controls['RegisterPhone'].hasError('minlength')" class="p-invalid text-danger">Số điện thoại người đăng ký không hợp lệ.</small>
+                    <small *ngIf="fTransfer.controls['RegisterPhone'].hasError('maxlength')" class="p-invalid text-danger">Số điện thoại người đăng ký không được quá 12 số.</small>
+                    <small *ngIf="fTransfer.controls['RegisterPhone'].hasError('pattern')" class="p-invalid text-danger">Số điện thoại người đăng ký không được nhập chữ</small>
+                    <small *ngIf="fTransfer.controls['RegisterPhone'].hasError('required') && fTransfer.controls['RegisterPhone'].dirty" class="p-invalid text-danger">Vui lòng nhập số điện thoại người đăng ký.</small>
+                </div>  
+              
+                <!-- <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Ngày cấp</label>
+                        <span class=""></span>
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input formControlName="DateRange" type='datetime-local' class="form-control"/>
+                        </div>
+                    </div>
+                </div>  -->
+                <div class="col-12">
+                    <h4><i class="pi pi-pencil mr-2"></i>Thông tin đăng ký</h4>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid p-date">
+                        <label for="txtDateStart">Ngày vận chuyển</label><span class="text-danger">*</span>
+                        <p-calendar id="txtDateStart" [showButtonBar]="true"  [showIcon]="true" inputId="icon" type="date" formControlName="DateTransport" dateFormat="dd.mm.yy"></p-calendar>
+                    </div>
+                    <small *ngIf="fTransfer.controls['DateTransport'].hasError('required') && fTransfer.controls['DateTransport'].dirty" class="p-invalid text-danger">Vui lòng chọn ngày vận chuyển.</small>
+                </div>  
+                <div class="col-6">
+                    <label for="txtDateStart">Thời gian chuyển</label><span class="text-danger">*</span>
+                    <div class="dp-flex pd-10">
+                        <input id="txtTimeStart" class="pd-10" type="time" pInputText formControlName="TimeStart" (input)="onTimeChange()">
+                        <span class="pd-10">đến</span>
+                        <input id="txtTimeEnd" type="time" pInputText formControlName="TimeEnd" (input)="onTimeChange()">
+                    </div>   
+                    <small *ngIf="fTransfer.controls['TimeStart'].hasError('required') && fTransfer.controls['TimeStart'].dirty" class="p-invalid text-danger">Vui lòng chọn thời gian bắt đầu chuyển hàng</small> <br>
+                    <small *ngIf="fTransfer.controls['TimeEnd'].hasError('required') && fTransfer.controls['TimeEnd'].dirty" class="p-invalid text-danger">Vui lòng chọn thời gian kết thúc chuyển hàng</small>     
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Loại vận chuyển</label>
+                        <span class=""></span>
+                        <p-dropdown
+                            [options]="lstTypeTransport"
+                            placeholder="Loại vận chuyển"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="Type"
+                            optionLabel="Name"
+                            optionValue="Id">
+                        </p-dropdown>
+                    </div>
+                    <small *ngIf="fTransfer.controls['Type'].hasError('required') && fTransfer.controls['Type'].dirty" class="p-invalid text-danger">Vui lòng chọn loại vận chuyển.</small>
+                </div>
+                <div class="col-6">
+                    <label for="txtSex">Chuyển bằng</label>
+                    <span class="text-danger">*</span>
+                    <div class="form-check">
+                        <div class="form-check form-check-inline mr-2 mt-2 mb-2">
+                            <p-radioButton formControlName="TypeLadder" class="form-check-input form-check-radio" type="radio" name="TypeLadder" value="1"></p-radioButton>
+                            <label class="form-check-label" for="male">Thang máy</label>
+                        </div>
+                        <div class="form-check form-check-inline ml-4">
+                            <p-radioButton formControlName="TypeLadder"  class="form-check-input form-check-radio" type="radio" name="TypeLadder" value="2"></p-radioButton>
+                            <label class="form-check-label" for="female">Thang bộ</label>
+                        </div>
+                    </div>
+                    <small *ngIf="fTransfer.controls['TypeLadder'].hasError('required') && fTransfer.controls['TypeLadder'].dirty" class="p-invalid text-danger">Vui lòng chọn vận chuyển bằng.</small>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Phương tiện vận chuyển
+                            <span class=""></span>
+                        </label>
+                        <input id="txtvehicle" type="text" pInputText formControlName="Vehicle">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Biển số xe
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtCode" type="text" pInputText formControlName="LicensePlates">
+                    </div>
+                    <small *ngIf="fTransfer.controls['LicensePlates'].hasError('minlength')" class="p-invalid text-danger">Biển số xe tối thiểu 6 ký tự.</small>
+                    <small *ngIf="fTransfer.controls['LicensePlates'].hasError('maxlength')" class="p-invalid text-danger">Biển số xe chỉ được tối đa 12 kí tự.</small>
+                    <small *ngIf="fTransfer.controls['LicensePlates'].hasError('required') && fTransfer.controls['LicensePlates'].dirty" class="p-invalid text-danger">Vui lòng nhập biển số xe.</small>
+                </div>
+                <div class="col-6">
+                    <h4><i class="pi pi-car mr-2"></i>Hàng hóa</h4>
+                </div>
+                <div class="col-12 mg-t-2">
+                    <p-table 
+                    [value]="listOrderProducts"
+                    [paginator]="false"
+                    responsiveLayout="stack"
+                    [tableStyle]="{ 'min-width': '50rem' }">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 3%" class="border-right-1">
+                                Stt
+                            </th>
+                            <th class="text-center">Tên hàng hóa</th>
+                            <th class="text-center"> Số lượng</th>
+                            <th class="text-center" style="width: 20%">Ghi chú</th>
+                            <th class="border-left-1" style="width: 15%">File đính kèm</th>
+                            <th class="border-left-1" style="width: 8%">Thao tác</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-ordergood let-rowIndex="rowIndex">
+                        <tr>
+                            <td class="border-right-1">{{ rowIndex + 1 }}</td>
+                            <td class="border-right-1">
+                                <input [disabled]="isInputDisabled" type="text" placeholder="Tên hàng hóa" pInputText class="p-invalid w-100" [(ngModel)]="ordergood.Name"  [ngModelOptions]="{standalone: true}">
+                                <small *ngIf="!ordergood.Name" class="text-danger">Vui lòng nhập tên hàng hóa</small>
+                            </td>
+                            <td class="border-left-1">
+                                <input [disabled]="isInputDisabled" type="number" placeholder="Số lượng" pInputText class="p-invalid w-100" [(ngModel)]="ordergood.Quatity"  [ngModelOptions]="{standalone: true}">
+                            </td>
+                            <td class="border-left-1">
+                                <input [disabled]="isInputDisabled" type="text" placeholder="Ghi chú" pInputText class="p-invalid w-100" [(ngModel)]="ordergood.Note"  [ngModelOptions]="{standalone: true}">
+                            </td>
+                            <td class="border-left-1">
+                                    <input [(ngModel)]="ordergood.listAttactments" [disabled]="isInputDisabled"  [ngModelOptions]="{standalone: true}"  class="form-control no-bor" type="file"  
+                                    multiple (change)="onFileSelected(ordergood.IndexRow,$event)">
+                                    <!-- <a href="{{uploadedFileUrl}}">{{fileName}}</a> -->
+                                    <a *ngFor="let file of ordergood.listAttactments;  let i = index"
+                                       class="list-group-item list-group-item-success a-att"
+                   
+                                       href="http://i-category.cnttvietnam.com.vn/uploads/files/{{file.Name}}" target="_blank">{{file.Name}}<span
+                                         (click)="RemoveAttactment(ordergood,file)"
+                                         class="span-attactment">×</span><br></a>
+                            </td>
+                            <td class="border-left-1  text-center">
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDelete(rowIndex)"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                    <div class="col-12 mg-t-2">       
+                        <button *ngIf="isInputDisabled==false" (click)="onOpenGoodsDialog(id)" type="button" class="btn btn-warning mg-t-2">Thêm hàng hóa</button>
+                    </div>
+                    <div class="col-6 mg-t-2">
+                        <label for="txtattactments" class="form-label">File đính kèm</label>
+                        <input  formControlName="listAttactmentCds"  class="form-control no-bor"  type="file"  multiple (change)="onFileCdsSelected($event)">
+                        <!-- <a href="{{uploadedFileUrl}}">{{fileName}}</a> -->
+                        <a *ngFor="let file of listAttactmentCds;  let i = index"
+                           class="list-group-item list-group-item-success a-att"
+       
+                           href="http://i-category.cnttvietnam.com.vn/uploads/files/{{file.Name}}" target="_blank">{{file.Name}}<span
+                             (click)="RemoveAttactmentCds(file)"
+                             class="span-attactment">×</span><br></a>
+                   </div>
+                    <div class="col-12">
+                        <div class="field p-fluid mg-t-2">
+                            <div>
+                                <label for="txtNote">Ghi chú</label>
+                            </div>
+                            <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <h4><i class="pi pi-user-edit mr-2 mg-t-2"></i>Thông tin phản hồi từ BQL</h4>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Trạng thái xử lý</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstOrderStatus"
+                            placeholder="Trạng thái xử lý"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="OrderStatus"
+                            optionLabel="label"
+                            optionValue="value"
+                            (onChange)="selectStatus($event)">
+                            <ng-template let-item pTemplate="item">
+                                <li [ngClass]="{'disabled': item.disable}">
+                                    <option [value]="item.value" [disabled]="item.disable">{{item.label}}</option>
+                                </li>
+                            </ng-template>
+                        </p-dropdown>
+                        <!-- <ng-select [disabled]="isComplete && !isDisplayButton" [items]="lstOrderStatus" class="w-100" bindLabel="label"
+                        bindValue="value" [multiple]="false"  formControlName="OrderStatus" 
+                        notFoundText="Không có dữ liệu." placeholder="Chọn trạng thái" dropdownPosition="bottom">
+                      </ng-select> -->
+                    </div>
+                    <small *ngIf="fTransfer.controls['OrderStatus'].hasError('required') && fTransfer.controls['OrderStatus'].dirty" class="p-invalid text-danger">Vui lòng chọn trạng thái xử lý</small>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDateStart">Ngày,giờ vận chuyển</label><span class="text-danger">*</span>
+                        <p-calendar formControlName="DateTransportRead" [showTime]="true" [showSeconds]="true"></p-calendar>   
+                    </div>    
+                    <small *ngIf="fTransfer.controls['DateTransportRead'].hasError('required') && fTransfer.controls['DateTransportRead'].dirty" class="p-invalid text-danger">Vui lòng chọn ngày,giờ vận chuyển.</small>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Công nợ chưa thanh toán
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <div class="input-group mb-3">
+                            <!-- <div class="input-group-prepend">
+                              <span class="input-group-text">VNĐ</span>
+                            </div> -->
+                            <input formControlName="PriceDebit" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <div class="input-group-append">
+                              <span class="input-group-text">VNĐ</span>
+                            </div>
+                          </div>
+                    </div>
+                    <small *ngIf="fTransfer.controls['PriceDebit'].hasError('required') && fTransfer.controls['PriceDebit'].dirty" class="p-invalid text-danger">Vui lòng nhập công nợ chưa thanh toán.</small>
+                    <!-- <button (click)="onOpenConfigDialogPayment(id)" type="button" class="btn btn-warning">Thanh toán công nợ</button> -->
+                </div>
+                <!-- <div class="col-6">
+                    <div class="form-check mg-t-2">
+                        <input formControlName="IsConfirm" class="form-check-input" type="checkbox" value="false">
+                        <label class="form-check-label" for="flexCheckDefault" >
+                          Cư dân đã thanh toán công nợ
+                        </label>
+                      </div>
+                </div> -->
+                <div class="col-6">
+                    <label for="txtattactments" class="form-label">File đính kèm</label>
+                    <input  formControlName="listAttactmentBqls"  class="form-control no-bor" type="file"  multiple (change)="onFileBqlSelected($event)">
+                    <!-- <a href="{{uploadedFileUrl}}">{{fileName}}</a> -->
+                    <a *ngFor="let file of listAttactmentBqls;  let i = index"
+                       class="list-group-item list-group-item-success a-att"
+   
+                       href="http://i-category.cnttvietnam.com.vn/uploads/files/{{file.Name}}" target="_blank">{{file.Name}}<span
+                         (click)="RemoveAttactmentBql(file)"
+                         class="span-attactment">×</span><br></a>
+               </div>
+                <!-- <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatusPay">Trạng thanh toán</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="[
+                            { label: 'Đã thanh toán', value: 0 },
+                            { label: 'Chưa thanh toán', value: 1 },         
+                            ]"
+                            placeholder="Trạng thái thanh toán"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="StatusPay"
+                            optionLabel="label"
+                            optionValue="value">
+                        </p-dropdown>
+                    </div>
+                </div> -->
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtFeedback">Phản hồi từ BQL tới cư dân</label>
+                        </div>
+                        <textarea id="txtFeedback" class="w-100" rows="5" pInputTextarea formControlName="NoteConfirm"></textarea>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtFeedback">Dành cho bộ phận an ninh</label>
+                        </div>
+                        <textarea id="txtFeedback" class="w-100" rows="5" pInputTextarea formControlName="NoteSecurity"></textarea>
+                    </div>
+                </div>
+                <!-- <div class="col-6">
+                    <label for="txtattactments" class="form-label">Tài liệu đính kèm</label>
+                    <input  formControlName="listAttactments"  class="form-control no-bor" type="file" multiple (change)="onFileSelected($event)">
+                    <a href="{{uploadedFileUrl}}">{{fileName}}</a>
+                    <a *ngFor="let file of listAttactments;  let i = index"
+                       class="a-attactment"
+                       href="http://i-category.cnttvietnam.com.vn/uploads/files/{{file.Name}}" target="_blank">{{file.Name}}<span
+                         (click)="RemoveAttactment(file)"
+                         class="span-attactment">×</span><br></a>
+               </div> -->
+               <!-- <div class="col-12" *ngIf="fTransfer.get('OrderStatus').value == 6">
+                <h3>Đánh giá của cư dân</h3>
+                <section style="color: #000; background-color: #f3f2f2;">
+                              <div class="d-flex justify-content-center mb-4">
+                                <img src="https://asianwiki.com/images/9/9d/Lee_Min-Ho-p2.jpg"
+                                  class="rounded-circle shadow-1-strong" width="100" height="100" />
+                              </div>
+                              <h5 class="font-weight-bold text-center">Kim Tan</h5>
+                              <h6 class="font-weight-bold my-3 text-center">Cư dân</h6>
+                              <ul class="list-unstyled d-flex justify-content-center">
+                                <li>
+                                <i  class="pi pi-star-fill"></i>
+                                </li>
+                                <li>
+                                <i  class="pi pi-star-fill"></i>
+                                </li>
+                                <li>
+                                <i  class="pi pi-star-fill"></i>
+                                </li>
+                                <li>
+                                <i  class="pi pi-star-fill"></i>
+                                </li>
+                                <li>
+                                <i  class="pi pi-star-fill"></i>
+                                </li>
+                              </ul>
+                              <p class="mb-2">
+                                <b>BQL hỗ trợ nhiệt tình </b>
+                              </p>       
+                </section>
+               </div> -->
+               <div class="col-12" *ngIf="fTransfer.get('OrderStatus').value==6">
+                <h4><i class="pi pi-user-edit mr-2 mg-t-2"></i>Đánh giá của cư dân</h4>
+                <div class="Detail_Packed">
+                    <p> 
+                    <!-- <h:form>
+                        <p:growl id="messages" showDetail="true"/>
+        
+                        <p:rating value="#{ratingView.rating1}"/>
+                    </h:form> -->
+                    <!-- <span>
+                        <i class="pi pi-star-fill"></i>
+                        <i class="pi pi-star-fill"></i>
+                        <i class="pi pi-star-fill"></i>
+                        <i class="pi pi-star-fill"></i>
+                        <i class="pi pi-star"></i>
+                    </span> -->
+                    <p-rating [(ngModel)]="value" [ngModelOptions]="{standalone: true}" [stars]="5"></p-rating>
+                     -  <span>{{ this.ReviewDate ? (this.ReviewDate | date: 'dd/MM/yyyy') : '' }} - {{ this.ReviewDate ? (this.ReviewDate | date:'shortTime') : '' }}</span></p> 
+                    <div class="col-12"></div>
+                    <h5><b>Nội dung đánh giá</b></h5><br>
+                    <div class="form-outline w-100">
+                        <textarea class="form-control" id="textAreaExample" rows="4"
+                          style="background: #fff;">-{{this.NoteReview}}</textarea>
+                    </div>
+                </div>
+               </div>
+               <div class="col-12 mt-2" *ngIf="fTransfer.get('OrderStatus').value==4">
+                <div class="field p-fluid">
+                    <div class="grid-booking">
+                        <h5 for="txtProcessStatus">Chi tiết đơn hủy</h5>
+                        <div class="displayflex gr-re mt-1 mb-1" >
+                                <p class="mg-l-2">Hủy đơn ngày: <span>{{ this.CancelDate ? (this.CancelDate | date: 'dd/MM/yyyy') : '' }} - {{ this.CancelDate ? (this.CancelDate | date:'shortTime') : '' }}</span></p> 
+                                <div class="col-12"></div><br>
+                                <h5><b>Lý do hủy đơn</b></h5><br>
+                                <div class="form-outline w-100">
+                                    <textarea class="form-control" id="textAreaExample" rows="4"
+                                      style="background: #fff;">-{{this.NoteCancel}}</textarea>
+                                 </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            </div>  
+            <div class="col-12 p_float_right">
+                <!-- <p-toast></p-toast> -->
+                <button  pButton pRipple type="button" label="Hủy bỏ" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                    <span class="pi pi-times-circle"></span>
+                </button>
+                <button *ngIf="id" pButton pRipple type="button" label="Lịch sử trao đổi" (click)="onOpenChatHistory()" class="p-button-outlined mr-2">
+                    <span class="pi pi-eye"></span>
+                </button>
+                <button *ngIf="id" pButton pRipple type="button" label="Hủy đơn" (click)="onDialogCancel()" class="p-button-outlined mr-2">
+                    <span></span>
+                </button>
+                <p-button [label]=" !(id) ? 'Xác nhận' : 'Xác nhận'" [icon]="!(id) ? 'pi pi-plus' : 'pi pi-check'"  
+                    [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+            </div>  
+    </div>
+ </div>
+<p-toast></p-toast>
+
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog> 
+
+
+
+

@@ -1,0 +1,64 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fTypeAttribute">
+            <h3 class="mg-0">
+                {{ !( Id > 0) ? 'Thêm mới loại hình' : 'Cập nhật loại hình' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Mã loại hình</label>
+                        <input id="txtCode" type="text" pInputText formControlName="Code">
+                        <small *ngIf="fTypeAttribute.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã thuộc tính phải thiểu 3 kí tự.</small>
+                        <small *ngIf="fTypeAttribute.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã thuộc tính chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fTypeAttribute.controls['Code'].hasError('required') && fTypeAttribute.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập mã thuộc tính.</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên hiển thị
+                            <span class=""></span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name">
+                        <small *ngIf="fTypeAttribute.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Tên dự án phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fTypeAttribute.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Tên dự án chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fTypeAttribute.controls['Code'].hasError('required') && fTypeAttribute.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập tên hiển thị.</small>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtAddress">Vị trí</label>
+                        </div>
+                        <input id="txtName" type="text" pInputText formControlName="Location">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="txtImage" class="form-label">Icon</label>
+                    <input formControlName="Image"  class="form-control no-bor" type="file" (change)="onFileSelected($event)">
+                    <div >
+                        <img [src]="uploadedImageUrl" class="img-thumbnail">
+                        <i class="fa fa-times-circle del-img" aria-hidden="true" (click)="Imagenull()"></i>
+                    </div>
+                </div>
+                <div class="form-check">
+                    <input formControlName="Status" class="form-check-input" type="checkbox" value="false" id="flexCheckIndeterminate">
+                    <!-- <p-toggleButton formControlName="Status" [(ngModel)]="checked" onLabel="Yes" offLabel="No"></p-toggleButton> -->
+                    <label class="form-check-label" for="flexCheckIndeterminate" >
+                      Được sử dụng
+                    </label>
+                  </div>
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)">
+                        <span class="pi pi-angle-left"></span>
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check'  
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<!-- <p-confirmDialog class="custom-toast"></p-confirmDialog> -->

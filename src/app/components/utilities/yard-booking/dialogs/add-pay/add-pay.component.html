@@ -1,0 +1,56 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" >
+            <div class="grid formgrid">
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="">Đơn đặt tiện ích
+                            <span class="text-denger"> *</span>
+                        </label>
+                        <input type="text" pInputText>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="">Hóa đơn
+                            <span class="text-denger"> *</span>
+                        </label>
+                        <input type="text" pInputText placeholder="Mã hóa đơn">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="">Ngày thanh toán
+                            <span class="text-denger"> *</span>
+                        </label>
+                        <p-calendar id="txtDateStart" [showIcon]="true" inputId="icon" type="DateStart" dateFormat="dd/mm/yy" placeholder="Chọn ngày thanh toán"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="">Số tiền thanh toán
+                            <span class="text-denger"> *</span>
+                        </label>
+                        <div class="p-inputgroup input-pay">
+                            <input type="text" pInputText aria-label="Amount (to the nearest dollar)" placeholder="Số tiền thanh toán" currencyMask  
+                                    [options]="{ prefix: '', thousands: '.', precision: 0 }" />
+                            <span class="input-group-text">VNĐ</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <label for="txtNote">Nội dung thanh toán 
+                            <span class="text-danger"> *</span>
+                        </label>                
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea placeholder="Nhập nội dung thanh toán"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 p_float_right mt-4">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-3" ></button>
+                    <p-button label='Xác nhận' icon='pi pi-check' ></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

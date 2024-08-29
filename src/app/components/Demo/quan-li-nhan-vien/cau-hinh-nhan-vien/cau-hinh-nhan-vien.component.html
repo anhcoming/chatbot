@@ -1,0 +1,64 @@
+<div class="container-manage">
+    <span class="title"><img src="assets/imgs/svg/ic-title-screen.svg" class="mr-3" />Cấu hình nhóm chủ đề nhân
+        viên</span>
+    <div class="textFilterProj mt-3">
+        <div class="field p-fluid w-40">
+            <label for="name" class="text-label">Tài khoản <span class="text-danger">*</span></label>
+            <input type="text" [(ngModel)]="userName" pInputText id="name" class="form-input" disabled />
+        </div>
+    </div>
+    <form name="form" class="form-custom" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+        <div>
+            <div class="infoPackage">
+                <div class="inDetailPackage">
+                    <div class="AddForm_Package">
+                        <div class="ColForm_AddPackage">
+                            <label for="" class="text-lab">Nhóm chủ đề áp dụng</label>
+                            <p-table [value]="groupTopics" [tableStyle]="{ 'min-width': '50rem' }"
+                                [loading]="isLoadingTable" [(selection)]="seletecTopic">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th class="w-15">STT</th>
+                                        <th class="w-50">Tên nhóm chủ đề</th>
+                                        <th class="text-center w-15">
+                                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-functionrole let-rowIndex="rowIndex">
+                                    <tr>
+                                        <td>{{ rowIndex + 1 }}</td>
+                                        <td>{{ functionrole.name }}</td>
+                                        <td class="text-center">
+                                            <p-tableCheckbox [value]="functionrole"></p-tableCheckbox>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                            <p-paginator (onPageChange)="onPageChange($event)" [rows]="10"
+                                [totalRecords]="totalElements" [showCurrentPageReport]="true"
+                                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                                [rowsPerPageOptions]="[10, 25, 50]" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="p_float_right">
+        <p-toast></p-toast>
+        <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="onBack($event)">
+            <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+        </button>
+        <button class="btn btn-digi" (click)="onSubmit()"><img src="assets/imgs/svg/ic-save.svg" class="mr-3" />Lưu
+            thông tin</button>
+    </div>
+</div>
+
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>

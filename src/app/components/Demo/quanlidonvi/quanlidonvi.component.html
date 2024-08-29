@@ -1,0 +1,158 @@
+<div class="container-manage">
+    <span class="title"><img src="assets/imgs/svg/ic-title-screen.svg" class="mr-3" />Quản lý đơn vị</span>
+    <div class="textFilterProj">
+        <div class="formSearchText w-40 mt-3">
+            <input type="text" placeholder="Tìm kiếm đơn vị... " name="searchProject" [(ngModel)]="search"
+                (keyup.Enter)="onSearch($event)" (keyup)="isInputEmpty = search === ''" value=""
+                class="StextSingle_Project">
+            <button class="iconbtnSearch" *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10"
+                    style="font-size: 1rem" (click)="onClearInput()"></span></button>
+        </div>
+    </div>
+    <div class="grid">
+        <div class="col-12">
+            <div class="container-button mt-3 mb-4">
+                <button class="btn btn-digi" routerLink="/demo/quanlidonvi/create"><i
+                        class="fa fa-plus-circle mr-2"></i>Thêm
+                    mới</button>
+            </div>
+
+            <p-table [value]="listDatas" [tableStyle]="{ 'min-width': '50rem' }" [loading]="isLoadingTable">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên đơn vị</th>
+                        <th>Tài khoản</th>
+                        <th>Email</th>
+                        <th>Địa chỉ</th>
+                        <th class="min-w-90">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-function let-rowIndex="rowIndex">
+                    <tr>
+                        <td>{{ rowIndex + 1}}</td>
+                        <td>{{ function.name }}</td>
+                        <td>{{ function.userName }}</td>
+                        <td>{{ function.email }}</td>
+                        <td>{{ function.address }}</td>
+                        <td>
+                            <button tooltipPosition="bottom" pTooltip="Reset mật khẩu"
+                                (click)="openTopicDialog(function, rowIndex)" class="btn btn-image">
+                                <img src="assets/imgs/svg/ic-change-user.svg" />
+                            </button>
+                            <button *ngIf="function.status !== 98" tooltipPosition="bottom" pTooltip="Khóa đơn vị"
+                                (click)="onLockOrganization(function)" class="btn btn-image">
+                                <img src="assets/imgs/svg/ic-lock.svg" />
+                            </button>
+                            <button *ngIf="function.status === 98" tooltipPosition="bottom" pTooltip="Mở khóa đơn vị"
+                                (click)="onUnLockOrganization(function)" class="btn btn-image">
+                                <img src="assets/imgs/svg/ic-unlock.svg" />
+                            </button>
+                            <button tooltipPosition="bottom" pTooltip="Cấu hình chủ đề" class="btn btn-image"
+                                routerLink="/demo/quanlidonvi/cauhinh/{{ function.id }}">
+                                <img src="assets/imgs/svg/ic-setting.svg" />
+                            </button>
+                            <button tooltipPosition="bottom" pTooltip="Chỉnh sửa đơn vị" class="btn btn-image"
+                                routerLink="/demo/quanlidonvi/update/{{ function.id }}">
+                                <img src="assets/imgs/svg/ic-edit.svg" />
+                            </button>
+                            <button tooltipPosition="bottom" pTooltip="Xóa đơn vị" icon="pi pi-trash"
+                                class="btn btn-image" (click)="onDelete(function)">
+                                <img src="assets/imgs/svg/ic-remove-red.svg" />
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                        <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <p-paginator (onPageChange)="onPageChange($event)" [rows]="10" [totalRecords]="totalElement"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]" />
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+
+<p-dialog [(visible)]="lockUserVisible" [style]="{ width: '450px' }" header="Khóa tài khoản" [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <span class="p-text-secondary block text-center title-modal">Bạn có muốn khóa tài khoản <span
+                style="font-weight: 700;">"{{setItem.name}}"</span> không?</span>
+        <div class="d-flex justify-content-center align-items-center">
+            <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="hideDialog()">
+                <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+            </button>
+            <button class="btn btn-digi" (click)="handleLockOrganization()"><img src="assets/imgs/svg/ic-check.svg"
+                    class="mr-3" />Xác nhận</button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="unlockUserVisible" [style]="{ width: '450px' }" header="Mở khóa tài khoản" [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <span class="p-text-secondary block text-center title-modal">Bạn có muốn mở khóa tài khoản <span
+                style="font-weight: 700;">"{{setItem.name}}"</span> không?</span>
+        <div class="d-flex justify-content-center align-items-center">
+            <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="hideDialog()">
+                <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+            </button>
+            <button class="btn btn-digi" (click)="handleUnLockOrganization()"><img src="assets/imgs/svg/ic-check.svg"
+                    class="mr-3" />Xác nhận</button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="removeUserVisible" [style]="{ width: '450px' }" header="Xóa tài khoản" [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <span class="p-text-secondary block text-center title-modal">Bạn có muốn xóa tài khoản <span
+                style="font-weight: 700;">"{{setItem.name}}"</span> không?</span>
+        <div class="d-flex justify-content-center align-items-center">
+            <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="hideDialog()">
+                <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+            </button>
+            <button class="btn btn-digi" (click)="handleRemoveOrganization()"><img src="assets/imgs/svg/ic-check.svg"
+                    class="mr-3" />Xác nhận</button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="TopicDialog" [style]="{ width: '550px' }" header="Reset mật khẩu tài khoản đơn vị quản trị"
+    [modal]="true" styleClass="p-fluid">
+    <form [formGroup]="fGroup">
+        <div class="field p-fluid">
+            <label for="txtName" class="text-label">Mật khẩu <span class="text-danger">*</span>
+            </label>
+            <p-password formControlName="Password" autocomplete="off" placeholder="Nhập mật khẩu" [toggleMask]="true" (input)="comparePassword()"
+                style="border-radius: 6px;"></p-password>
+            <small *ngIf="fGroup.controls['Password']?.hasError('required') && fGroup.controls['Password']?.dirty"
+                class="p-invalid text-danger">Vui lòng nhập mật khẩu mới.</small>
+            <small *ngIf="fGroup.get('Password')?.hasError('pattern')" class="p-invalid text-danger">
+                Mật khẩu phải có chữ hoa, chữ thường, số, kí tự đặc biệt và tối thiểu 6 ký tự.
+            </small>
+        </div>
+        <div class="field p-fluid">
+            <label for="txtName" class="text-label">Xác nhận mật khẩu <span class="text-danger">*</span>
+            </label>
+            <p-password formControlName="ConfirmPassWord" autocomplete="off" placeholder="Nhập lại mật khẩu" (input)="comparePassword()"
+                [toggleMask]="true" style="border-radius: 6px;"></p-password>
+            <small
+                *ngIf="fGroup.controls['ConfirmPassWord']?.hasError('required') && fGroup.controls['ConfirmPassWord']?.dirty"
+                class="p-invalid text-danger">Vui lòng nhập lại mật khẩu.</small>
+            <small *ngIf="fGroup.controls['ConfirmPassWord']?.hasError('notSame')" class="p-invalid text-danger">Mật khẩu nhập lại không khớp.</small>
+        </div>
+    </form>
+    <div class="p_float_right">
+        <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="hideDialog()">
+            <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+        </button>
+        <button class="btn btn-digi" (click)="handleChangePass()"><img src="assets/imgs/svg/ic-check.svg"
+                class="mr-3" />Lưu thông tin</button>
+    </div>
+</p-dialog>

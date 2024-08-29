@@ -1,0 +1,200 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fApartment">
+            <h3 class="mg-0">
+                {{ !(id > 0) ? 'Thêm mới căn hộ' : 'Cập nhật căn hộ' }}
+            </h3>
+
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Mã căn hộ
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtCode" type="text" pInputText formControlName="Code">
+                        <small *ngIf="fApartment.controls['Code'].hasError('minlength')" class="p-invalid text-danger">Mã căn hộ phải tối thiểu 3 kí tự.</small>
+                        <small *ngIf="fApartment.controls['Code'].hasError('maxlength')" class="p-invalid text-danger">Mã căn hộ chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fApartment.controls['Code'].hasError('required') && fApartment.controls['Code'].dirty" class="p-invalid text-danger">Vui lòng nhập Mã căn hộ.</small>
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Tên căn hộ
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtName" type="text" pInputText formControlName="Name">
+                        <small *ngIf="fApartment.controls['Name'].hasError('minlength')" class="p-invalid text-danger">Tên căn hộ phải tối thiểu 6 kí tự.</small>
+                        <small *ngIf="fApartment.controls['Name'].hasError('maxlength')" class="p-invalid text-danger">Tên căn hộ chỉ được tối đa 150 kí tự.</small>
+                        <small *ngIf="fApartment.controls['Name'].hasError('required') && fApartment.controls['Name'].dirty" class="p-invalid text-danger">Vui lòng nhập Tên căn hộ.</small>
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Khu đô thị</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstProject" 
+                            placeholder="Khu đô thị" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="ProjectId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            (onChange)="onSelectTower($event)">
+                        </p-dropdown>
+                        <small *ngIf="fApartment.controls['ProjectId'].hasError('required') && fApartment.controls['ProjectId'].dirty" class="p-invalid text-danger">Vui lòng chọn Khu đô thị.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtTower">Tòa nhà</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstTower" 
+                            placeholder="Tòa nhà" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="TowerId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            (onChange)="onSelectFloor($event)">
+                        </p-dropdown>
+                        <small *ngIf="fApartment.controls['TowerId'].hasError('required') && fApartment.controls['TowerId'].dirty" class="p-invalid text-danger">Vui lòng chọn Tòa nhà.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtFloor">Tầng</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstFloor" 
+                            placeholder="Tầng" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="FloorId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            (onChange)="onFilter($event)">
+                        </p-dropdown>
+                        <small *ngIf="fApartment.controls['FloorId'].hasError('required') && fApartment.controls['FloorId'].dirty" class="p-invalid text-danger">Vui lòng chọn Tầng.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtArea">Diện tích
+                            <span class=""></span>
+                        </label>
+                        <input id="txtArea" type="text" pInputText formControlName="Area">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtUsableArea">Diện tích sử dụng
+                            <span class=""></span>
+                        </label>
+                        <input id="txtUsableArea" type="text" pInputText formControlName="UsableArea">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtNumberBedroom">Phòng ngủ
+                            <span class=""></span>
+                        </label>
+                        <input id="txtNumberBedroom" type="text" pInputText formControlName="NumberBedroom">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtNumberBathroom">Phòng tắm
+                            <span class=""></span>
+                        </label>
+                        <input id="txtNumberBathroom" type="text" pInputText formControlName="NumberBathroom">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtNumberWindow">Cửa sổ
+                            <span class=""></span>
+                        </label>
+                        <input id="txtNumberWindow" type="text" pInputText formControlName="NumberWindow">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtNumberBalcony">Ban công
+                            <span class=""></span>
+                        </label>
+                        <input id="txtNumberBalcony" type="text" pInputText formControlName="NumberBalcony">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDirection">Hướng
+                            <span class=""></span>
+                        </label>
+                        <input id="txtDirection" type="text" pInputText formControlName="Direction">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtNumberFloor">Số tầng
+                            <span class=""></span>
+                        </label>
+                        <input id="txtNumberFloor" type="text" pInputText formControlName="NumberFloor">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Trạng thái</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="[
+                            { label: 'Đang sử dụng', value: 1 },
+                            { label: 'Không sử dụng', value: 10 }
+                            ]"
+                            placeholder="Trạng thái căn hộ"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="Status"
+                            optionLabel="label"
+                            optionValue="value">
+                        </p-dropdown>
+                        <small *ngIf="fApartment.controls['Status'].hasError('required') && fApartment.controls['Status'].dirty" class="p-invalid text-danger">Vui lòng chọn Trạng thái.</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="txtattactments" class="form-label">Tài liệu đính kèm</label>
+                    <input  formControlName="listAttactments"  class="form-control no-bor" type="file" multiple (change)="onFileSelected($event)">
+                    <div *ngFor="let file of listAttactments;  let i = index" class="displayflex">
+                        <div class="col-10">
+                            <a class="list-group-item list-group-item-success a-att"
+                                href="http://i-category.cnttvietnam.com.vn/uploads/files/{{file.Name}}" target="_blank">{{file.Name}}</a>
+                        </div>
+                        <div class="col-2">
+                            <button class="iconbtnSearch clear-text"><span class="pi pi-times span-attactment" style="font-size: 1rem" (click)="RemoveAttactment(file)"></span></button>
+                        </div>
+                    </div>
+               </div>
+                <div class="col-12">
+                    <div class="field p-fluid">
+                        <div>
+                            <label for="txtNote">Mô tả</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="Note"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 p_float_right">
+                    <p-toast></p-toast>
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="onBack($event)"></button>
+                    <p-button label='Xác nhận' icon= 'pi pi-check'  
+                        [loading]="loading[0]" (onClick)="onSubmit()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+
+

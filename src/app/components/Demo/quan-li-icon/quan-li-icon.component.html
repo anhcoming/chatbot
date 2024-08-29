@@ -1,0 +1,69 @@
+<div class="container-manage">
+    <div class="col-12">
+        <span class="title"><img src="assets/imgs/svg/ic-title-screen.svg" class="mr-3" />Icon chủ đề</span>
+        <div>
+            <div class="textFilterProj d-flex align-items-center" style="margin-top: 12px;">
+                <div class="formSearchText w-50">
+                    <input type="text" placeholder="Tìm kiếm theo tên icon" name="searchProject" [(ngModel)]="search"
+                        (keyup.Enter)="onSearch($event)" (keyup)="isInputEmpty = search === ''" value=""
+                        class="StextSingle_Project">
+                    <button class="iconbtnSearch" *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10"
+                            style="font-size: 1rem" (click)="onClearInput()"></span></button>
+                </div>
+            </div>
+            <div class="container-button mt-4 mb-4">
+                <button class="btn btn-digi" routerLink="/demo/icon-manage/create"><i
+                        class="fa fa-plus-circle mr-2"></i>Thêm mới</button>
+            </div>
+            <p-table [value]="listIcon" [tableStyle]="{ 'min-width': '50rem' }" [loading]="false">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="w-15">STT</th>
+                        <th>Tên icon</th>
+                        <th class="w-20">Icon</th>
+                        <th class="w-15">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-function let-rowIndex="rowIndex">
+                    <tr>
+                        <td>{{ rowIndex + 1}}</td>
+                        <td>{{ function.name }}</td>
+                        <td>
+                            <img src="{{function.path}}" style="width: 50px; height: 50px;" />
+                        </td>
+                        <td>
+                            <button class="btn" routerLink="/demo/icon-manage/create/{{ function.id }}">
+                                <img src="assets/imgs/svg/ic-edit.svg" />
+                            </button>
+                            <button class="btn" (click)="onDelete(function)">
+                                <img src="assets/imgs/svg/ic-remove-red.svg" />
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                        <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <p-paginator (onPageChange)="onPageChange($event)" [rows]="10" [totalRecords]="totalElements"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]" />
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+
+<p-dialog header="Xác nhận xóa" [modal]="true" [(visible)]="visible" [style]="{ width: '460px'}">
+    <span class="p-text-secondary block text-center title-modal">Bạn có chắc chắn muốn xóa icon <span
+            style="font-weight: 700;">"{{nameIcon}}"</span> không?</span>
+    <div class="d-flex justify-content-center align-items-center">
+        <button class="btn btn-close p-button-outlined p-button-secondary mr-3" (click)="onHideModal()">
+            <img src="assets/imgs/svg/ic-close-circle.svg" class="mr-3" />Hủy
+        </button>
+        <button class="btn btn-remove" (click)="onSubmit()"><img src="assets/imgs/svg/ic-remove-circle.svg"
+                class="mr-3" />Xóa</button>
+    </div>
+</p-dialog>

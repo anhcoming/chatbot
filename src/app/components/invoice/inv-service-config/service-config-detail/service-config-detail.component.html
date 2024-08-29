@@ -1,0 +1,64 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="dataDetail">
+            <div class="grid formgrid" >
+                <div class="col-6">
+                    <label for="txtTypeService">Trạng thái:</label>
+                    <div class="form-check">
+                        <div class="form-check form-check-inline mr-2 mt-2">
+                            <input type="checkbox" id="checkbox" formControlName="isOnePrice" [(ngModel)]="check" />
+                            <label class="form-check-label">Tính một giá/Tính giá bậc thang</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label>Diễn giải</label>
+                        <span class=""> *</span>
+                        <input id="txtdes" type="text" pInputText formControlName="des">
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label>Định mức</label>
+                        <span class=""> *</span>
+                        <input id="txtquota" type="number" pInputText formControlName="quota">
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label>Giá dịch vụ</label>
+                        <span class=""> *</span>
+                        <input id="txtprice" type="number" pInputText formControlName="price">
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label>% phụ phí</label>
+                        <span class=""> *</span>
+                        <input id="txtsurchargePer" type="number" pInputText formControlName="surchargePer">
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label>Tiền phụ phí</label>
+                        <span class=""> *</span>
+                        <input id="txtsurchargeValue" type="number" pInputText formControlName="surchargeValue">
+                    </div>
+                </div>  
+                <div class="col-12 p_float_right">
+                    <p-toast></p-toast>
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2" (click)="ref.close()">
+                        <span class="pi pi-angle-left"></span>
+                    </button>
+                    <p-button label="Xác nhận" icon="pi pi-plus"  
+                        (onClick)="ref.close(dataDetail.value)"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+

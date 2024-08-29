@@ -1,0 +1,328 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fContract">
+            <h2>
+                {{ !(id > 0) ? 'Thêm mới thông tin hợp đồng' : 'Sửa thông tin hợp đồng' }}
+            </h2>
+
+            <div class="grid formgrid">
+                <div class="col-12">
+                    <h4>Thông tin khách hàng</h4>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtTower">Khách hàng</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="lstCustomer" placeholder="Chọn khách hàng"
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="customerId"
+                            optionLabel="FullName" optionValue="Id" (onChange)="selectCustomer($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Mã tài khoản
+                            <span class=""></span>
+                        </label>
+                        <input id="txtPhone" type="text" pInputText formControlName="customerCode" disabled="true">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Số điện thoại
+                            <span class=""></span>
+                        </label>
+                        <input id="txtPhone" type="text" pInputText formControlName="customerPhone">
+                    </div>
+                </div>
+                <!-- <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtTower">Tòa nhà</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="lstTower" 
+                            placeholder="Tòa nhà" 
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true" 
+                            formControlName="TowerId" 
+                            optionLabel="Name" 
+                            optionValue="Id"
+                            (onChange)="getListTower()">
+                        </p-dropdown>
+                    </div>
+                </div> -->
+
+                <!-- <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtName">Người đăng ký
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtCode" type="text" pInputText formControlName="Name">
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtPhone">Số điện thoại
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtPhone" type="text" pInputText formControlName="Phone">
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtEmail">Email
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtEmail" type="text" pInputText formControlName="Email">
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">CMND/Hộ chiếu
+                             <span class="text-danger"> *</span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="CardId">
+                    </div>
+                </div>  
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Nơi cấp
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="Address">
+                    </div>
+                </div>   -->
+                <!-- <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Ngày cấp</label>
+                        <span class=""></span>
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input formControlName="DateRange" type='datetime-local' class="form-control"/>
+                          
+                        </div>
+                    </div>
+                </div>  -->
+                <div class="col-12">
+                    <h4>Thông tin căn hộ</h4>
+                </div>
+                <div class="col-6 ">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Khu đô thị</label>
+                        <p-dropdown [options]="dataProject" placeholder="Khu đô thị" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="projectId" optionLabel="Name" optionValue="Id"
+                            (onChange)="getProjects($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Tòa nhà</label>
+                        <p-dropdown [options]="dataTower" placeholder="Tòa nhà" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="towerId" optionLabel="Name" optionValue="Id"
+                            (onChange)="getTower($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6 ">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Tầng</label>
+                        <p-dropdown [options]="dataFloor" placeholder="Tầng" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="floorId" optionLabel="Name" optionValue="Id"
+                            (onChange)="getFloor($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Căn hộ</label>
+                        <span class="text-danger"> *</span>
+                        <p-dropdown [options]="lstApartment" placeholder="Chọn căn hộ" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="apartmentId" optionLabel="Name" optionValue="Id"
+                            (onChange)="getApartment($event)">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <h4>Thông tin hợp đồng</h4>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtAddress">Số hợp đồng
+                            <span class=""></span>
+                        </label>
+                        <input id="txtAddress" type="text" pInputText formControlName="code">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Loại hợp đồng</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="lstContractType" placeholder="Loại hợp đồng"
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="invContractTypeId"
+                            optionLabel="Name" optionValue="Id">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Nhóm hợp đồng</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="lstContractGroup" placeholder="Nhóm hợp đồng"
+                            emptyMessage="Không có dữ liệu." [showClear]="true" formControlName="invContractGroupId"
+                            optionLabel="Name" optionValue="Id">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Ngày hiệu lực</label>
+                        <span class=""></span>
+                        <p-calendar id="txtFromDate" [showIcon]="true" inputId="icon"
+                            formControlName="fromDate"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtDistrict">Ngày kết thúc</label>
+                        <span class=""></span>
+                        <p-calendar id="txtToDate" [showIcon]="true" inputId="icon"
+                            formControlName="toDate"  dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <!-- <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Kỳ thanh toán</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="[
+                            {label: 'Kỳ thứ nhất', value: 0},
+                            {label: 'Kỳ thứ hai', value: 1},
+                            {label: 'Kỳ thứ ba', value: 2},
+                            {label: 'Kỳ thứ tư', value: 3}
+                            ]" placeholder="Chọn giá trị" emptyMessage="Không có dữ liệu." [showClear]="true"
+                            formControlName="Paymentperiod" optionLabel="label" optionValue="value">
+                        </p-dropdown>
+                    </div>
+                </div> -->
+                <div class="col-4">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Trạng thái</label>
+                        <span class=""></span>
+                        <p-dropdown [options]="lstStatus" placeholder="Chọn trạng thái" emptyMessage="Không có dữ liệu."
+                            [showClear]="true" formControlName="contractStatus" optionLabel="label" optionValue="value">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="field p-fluid mg-t-2">
+                        <div>
+                            <label for="txtNote">Ghi chú</label>
+                        </div>
+                        <textarea id="txtNote" class="w-100" rows="5" pInputTextarea formControlName="note"></textarea>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <h4>Địa chỉ gửi hợp đồng</h4>
+                </div>
+                <div class="col-8">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Người nhận
+                            <span class=""></span>
+                        </label>
+                        <input id="txtvehicle" type="text" pInputText formControlName="receiver">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtCode">Địa chỉ
+                            <span class=""></span>
+                        </label>
+                        <input id="txtvehicle" type="text" pInputText formControlName="receiverAddress">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Số điện thoại người nhận</label>
+                        <span class=""></span>
+                        <input id="txtvehicle" type="text" pInputText formControlName="receiverPhone">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <h4>Thông tin dịch vụ</h4>
+                </div>
+                <div class="col-12">
+                    <p-table [value]="lstService" [tableStyle]="{ 'min-width': '50rem' }" [loading]="isLoadingTable">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Ref hệ thống</th>
+                                <th>Loại dịch vụ</th>
+                                <th>Nhóm dịch vụ</th>
+                                <th>Dịch vụ</th>
+                                <th>Ghi chú</th>
+                                <th>Từ ngày</th>
+                                <th>Đến ngày</th>
+                                <th class="min-w-90">Thao tác</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-service let-rowIndex="rowIndex">
+                            <tr>
+                                <td>
+                                    {{ service.name }}
+                                </td>
+                                <td>{{ service.Name }}</td>
+                                <td>{{ service.Name }}</td>
+                                <td>{{ service.Name }}</td>
+                                <td>{{ service.Name }}</td>
+                                <td>{{ service.Name }}</td>
+                                <td>{{ service.Number }}</td>
+                                <td>{{ service.Note }}</td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-success mr-2 mg-l-2"></button>
+                                    <button pButton pRipple icon="pi pi-trash"
+                                        class="p-button-rounded p-button-warning"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    <!-- <div class="col-6">
+                    <div class="field p-fluid">
+                        <label for="txtStatus">Trạng thái xử lý</label>
+                         <span class="text-danger"> *</span>
+                        <p-dropdown
+                            [options]="[
+                            { label: 'Đăng ký mới', value: 0 },
+                            { label: 'Đăng ký bổ sung', value: 1 },
+                            { label: 'Đang xử lý', value: 2 },
+                            { label: 'Không phê duyệt', value: 3 },
+                            { label: 'Phê duyệt đăng ký', value: 4 },
+                            { label: 'Hoàn thành', value: 5 },
+                            ]"
+                            placeholder="Trạng thái xử lý"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="Status"
+                            optionLabel="label"
+                            optionValue="value">
+                        </p-dropdown>
+                    </div>
+                </div> -->
+
+
+                </div>
+                <div class="col-12 p_float_right">
+                    <button pButton pRipple type="button" label="Hủy" class="p-button-outlined p-button-secondary mr-2"
+                        (click)="onBack($event)">
+                    </button>
+                    <p-button label='Xác nhận' icon='pi pi-check' [loading]="loading[0]" (onClick)="onSubmit()">
+                    </p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-toast></p-toast>
+    <p-confirmDialog class="custom-toast"></p-confirmDialog>

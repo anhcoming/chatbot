@@ -1,0 +1,116 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div class="textFilterPos">
+                <h4 class="mg-l-9">Bài viết thông báo cư dân</h4>
+
+                <section class="FilterProject">
+                    <div class="textFilterProj">
+                        <div class="addProjectList btn-options">
+                            <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/manager-category/notification/create"></button>
+                        </div>
+                        <div class="addProjectList mr-2 btn-orange absolute-btn">
+                            <button #btn type="button" pButton icon="pi pi-chevron-down" label="Hành động" (click)="menu.toggle($event)" style="width:auto"></button>
+                            <p-tieredMenu #menu [model]="menuItems" [popup]="true"></p-tieredMenu>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="grid formgrid center-form-inpos">
+                <div class="formSearchText formsearch-posi">
+                    <input
+                        (keyup.enter)="onSearch()"
+                        type="text"
+                        [(ngModel)]="filterText"
+                        (keyup)="isInputEmpty=filterText==''"
+                        placeholder="Tìm kiếm theo tiêu đề bài viết... "
+                        name="searchnotebook"
+                        value=""
+                        class="StextSingle_Project"
+                        [ngModelOptions]="{standalone: true}"
+                    />
+                    <button class="iconbtnSearch"  *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10" style="font-size: 1rem" (click)="onClearInput()"></span></button>
+                </div>
+                <div class="col-12"></div>
+                <p-toggleButton class="mg-l-2 mg-t-2" [(ngModel)]="idFrozen" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open" [onLabel]="'Thao tác'" 
+                    offLabel="Thao tác" [style]="{'width': '8rem'}"></p-toggleButton>
+            </div>
+            <p-table class="mg-t-2"
+                [value]="lstNotification" 
+                [paginator]="true" 
+                [rows]="10" 
+                [showCurrentPageReport]="true" 
+                [tableStyle]="{ 'min-width': '50rem' }" 
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập" 
+                [rowsPerPageOptions]="[10, 25, 50]" 
+                [loading]="isLoadingTable" 
+                [scrollable]="true"
+                [(selection)]="selectedNotification">
+                <ng-template pTemplate="header">
+                    <tr class="th-table">
+                        <th style="width: 3%">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>STT</th>
+                        <th class="min-w-300">Tiêu đề bài viết</th>
+                        <th class="min-w-300">Mô tả</th>
+                        <th class="min-w-180">Loại bài viết</th>
+                        <th class="min-w-150">Khu đô thị</th>
+                        <th class="min-w-200">Ngày tạo</th>
+                        <th class="min-w-200">Ngày cập nhật</th>
+                        <th class="min-w-150 text-center" alignFrozen="right" pFrozenColumn [frozen]="idFrozen" [ngClass]="{'color-bg': idFrozen}">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template
+                    pTemplate="body"
+                    let-notification
+                    let-rowIndex="rowIndex"
+                >
+                    <tr class="td-table">
+                        <td >
+                            <p-tableCheckbox [value]="notification" ></p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{ rowIndex + 1 }}
+                        </td>
+                        <td>{{ notification.Title }}</td>
+                        <td>{{ notification.Description }}</td>
+                        <td>{{ ShowTypeNotebook(notification.Type)}}</td>
+                        <td>{{ notification.project?.Name }}</td>
+                        <td>{{ notification.CreatedAt ? (notification.CreatedAt | date: 'dd/MM/yyyy') : '' }} - {{ notification.CreatedAt ? (notification.CreatedAt | date:'shortTime') : '' }}</td>
+                        <td>{{ notification.UpdatedAt ? (notification.UpdatedAt | date: 'dd/MM/yyyy') : '' }} - {{ notification.UpdatedAt ? (notification.UpdatedAt | date:'shortTime') : '' }}</td>
+                        <td alignFrozen="right" pFrozenColumn [frozen]="idFrozen" [ngClass]="{'color-bg': idFrozen}">
+                            <button
+                                pTooltip="Sửa bài viết"
+                                pButton
+                                pRipple
+                                icon="pi pi-pencil"
+                                class="p-button-rounded p-button-success mr-2"
+                                routerLink="/manager-category/notification/update/{{notification.Id}}"></button>
+                            <button
+                                pTooltip="Xóa bài viết"
+                                pButton
+                                pRipple
+                                icon="pi pi-trash"
+                                class="p-button-rounded p-button-warning"
+                                (click)="onDelete(notification)"
+                            ></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                                 <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+
+
+
+

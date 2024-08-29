@@ -1,0 +1,152 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div class="textFilterPos">
+                <h4 class="mg-l-9">Quản lý danh bạ khu đô thị</h4>
+
+                <section class="FilterProject">
+                    <div class="textFilterProj">
+                        <div class="addProjectList btn-options">
+                            <button type="button" pButton icon="fa fa-plus-circle" label="Thêm mới" routerLink="/manager-category/contacts/create"></button>
+                        </div>
+                        <div class="addProjectList mr-2 btn-orange absolute-btn">
+                            <button #btn type="button" pButton icon="pi pi-chevron-down" label="Hành động" (click)="menu.toggle($event)" style="width:auto"></button>
+                            <p-tieredMenu #menu [model]="menuItems" [popup]="true"></p-tieredMenu>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="grid formgrid" [formGroup]="fSearch">
+                <div class="field p-fluid center-text-inpos w-22-9">
+                    <p-dropdown
+                        [options]="lstProject"
+                        placeholder="Khu đô thị"
+                        emptyMessage="Không có dữ liệu."
+                        [showClear]="true"
+                        formControlName="ProjectId"
+                        optionLabel="Name"
+                        optionValue="Id"
+                        (onChange)="onSelectProject($event)">
+                    </p-dropdown>
+                </div>
+                <div class="field p-fluid center-text-inpos w-22-9">
+                    <p-dropdown
+                        [options]="lstTower"
+                        placeholder="Tòa nhà"
+                        emptyMessage="Không có dữ liệu."
+                        [showClear]="true"
+                        formControlName="TowerId"
+                        optionLabel="Name"
+                        optionValue="Id"
+                        (onChange)="onFilter($event)">
+                    </p-dropdown>
+                </div>
+                <div class="field p-fluid center-text-inpos w-22-9">
+                    <p-dropdown
+                        [options]="lstZone"
+                        placeholder="Vị trí"
+                        emptyMessage="Không có dữ liệu."
+                        [showClear]="true"
+                        formControlName="ZoneId"
+                        optionLabel="Name"
+                        optionValue="Id">
+                    </p-dropdown>
+                </div>
+                <div class="formSearchText formsearch-innews">
+                    <input
+                        (keyup.enter)="onSearch()"
+                        type="text"
+                        [(ngModel)]="filterText"
+                        (keyup)="isInputEmpty=filterText==''"
+                        placeholder="Tìm kiếm theo tiêu đề bài viết... "
+                        name="searchnotebook"
+                        value=""
+                        class="StextSingle_Project"
+                        #filter
+                        [ngModelOptions]="{standalone: true}"
+                    />
+                    <button class="iconbtnSearch"  *ngIf="!isInputEmpty"><span class="pi pi-times mg-t-10" style="font-size: 1rem" (click)="onClearInput()"></span></button>
+                </div>
+            </div>
+                <section class="FilterProject ml-3 mt-3">
+                    <div class="addProjectList btn-options">
+                        <button type="button" pButton icon="pi pi-filter" label="Lọc" (click)="onSelect()"></button>
+                    </div>
+                </section>
+                <div class="grid formgrid center-form-inpos">
+                    <div class="col-12"></div>
+                    <!-- <p-toggleButton class="mg-l-2 mg-t-2" [(ngModel)]="idFrozen" [onIcon]="'pi pi-lock'" offIcon="pi pi-lock-open" [onLabel]="'Thao tác'" 
+                        offLabel="Thao tác" [style]="{'width': '12rem'}"></p-toggleButton> -->
+                </div>
+            </div>
+            <p-table
+                [value]="lstHotline"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Hiển thị {first} đến {last} của {totalRecords} mục nhập"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [loading]="isLoadingTable"
+                [(selection)]="selectedHotline">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3%">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>STT</th>
+                        <th>Tên hiển thị</th>
+                        <th>Số điện thoại</th>
+                        <th style="width: 40%;">Khu đô thị</th>
+                        <th class="min-w-90">Thao tác</th>
+                    </tr>
+                </ng-template>
+                <ng-template
+                    pTemplate="body"
+                    let-contacts
+                    let-rowIndex="rowIndex"
+                >
+                    <tr>
+                        <td >
+                            <p-tableCheckbox [value]="contacts" ></p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{ rowIndex + 1 }}
+                        </td>
+                        <td>{{ contacts.Name }}</td>
+                        <td>{{ contacts.Phone }}</td>
+                        <td>
+                            <span *ngFor="let items of contacts.listProjectMaps;let last=last">{{items?.ProjectName}}<span *ngIf="!last">, </span></span>
+                        </td>
+                        <td>
+                            <button 
+                                pTooltip="Sửa danh bạ"
+                                pButton
+                                pRipple
+                                icon="pi pi-pencil"
+                                class="p-button-rounded p-button-success mr-2"
+                                routerLink="/manager-category/contacts/update/{{contacts.Id}}"></button>
+                            <button
+                                pTooltip="Xóa danh bạ"
+                                pButton
+                                pRipple
+                                icon="pi pi-trash"
+                                class="p-button-rounded p-button-warning"
+                                (click)="onDelete(contacts)"
+                            ></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr class="text-center">
+                                 <td colspan="10" class="text-center text-danger">Không có dữ liệu.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    <!-- </div> -->
+<!-- </div> -->
+<p-toast></p-toast>
+<p-confirmDialog class="custom-toast"></p-confirmDialog>
+
+

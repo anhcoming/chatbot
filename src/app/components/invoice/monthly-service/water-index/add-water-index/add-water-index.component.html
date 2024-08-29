@@ -1,0 +1,257 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card" [formGroup]="fWaterIndex">
+            <h2>
+                <!-- {{
+                    !(id > 0) ? "Thêm mới chỉ số điện" : "Cập nhật chỉ số điện"
+                }} -->
+                Cập nhật chỉ số nước
+            </h2>
+
+            <div class="grid formgrid">
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDate">Kỳ thông báo</label>
+                        <p-calendar
+                            id="txtDate"
+                            [showIcon]="true"
+                            inputId="icon"
+                            type="Notice"
+                            formControlName="DateStart"
+                          dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDate">Từ ngày</label>
+                        <p-calendar
+                            id="txtDate"
+                            [showIcon]="true"
+                            inputId="icon"
+                            type="DateStart"
+                            formControlName="DateStart"
+                          dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDate">Đến ngày</label>
+                        <p-calendar
+                            id="txtDate"
+                            [showIcon]="true"
+                            inputId="icon"
+                            type="DateEnd"
+                            formControlName="DateStart"
+                          dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Thuế (%)</label>
+                        <span class="text-danger"></span>
+                        <p-dropdown
+                            [options]="[  {label: '5%', value: 0},
+                            {label: '7%', value: 1},
+                            {label: '10%', value: 2},
+                            {label: '15%', value: 3}]"
+                            placeholder="Chọn thuế"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="TaxId"
+                            optionLabel="label"
+                            optionValue="value"
+                        >
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtDate">Đến thanh toán</label>
+                        <p-calendar
+                            id="txtDate"
+                            [showIcon]="true"
+                            inputId="icon"
+                            type="DatePayment"
+                            formControlName="DateStart"
+                          dateFormat="dd/mm/yy"></p-calendar>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Khu đô thị</label>
+                        <span class="text-danger"></span>
+                        <p-dropdown
+                            [options]="lstProject"
+                            placeholder="Chọn khu đô thị"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="ProjectId"
+                            optionLabel="Name"
+                            optionValue="Id"
+                            (onChange)="getListTower($event)"
+                        >
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Tòa nhà</label>
+                        <span class="text-danger"></span>
+                        <p-dropdown
+                            [options]="lstTower"
+                            placeholder="Chọn tòa nhà"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="TowerId"
+                            optionLabel="Name"
+                            optionValue="Id"
+                        >
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="field p-fluid">
+                        <label for="txtProject">Thuế BVMT (%)</label>
+                        <span class="text-danger"></span>
+                        <p-dropdown
+                            [options]="[  {label: '5%', value: 0},
+                            {label: '10%', value: 1},
+                            {label: '15%', value: 2},
+                            {label: '20%', value: 3}]"
+                            placeholder="Chọn thuế"
+                            emptyMessage="Không có dữ liệu."
+                            [showClear]="true"
+                            formControlName="TaxBVMTId"
+                            optionLabel="label"
+                            optionValue="value"
+                        >
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-3 mg-t-2 search-pos-in-wa">
+                    <button
+                        type="button"
+                        pButton
+                        label="Tìm kiếm"
+                        (click)="onSearch()"
+                    ></button>
+                </div>
+                <div class="col-12">
+                    <div class="w-70 displayflex">
+                        <div class="mr-2">
+                            <button
+                                type="button"
+                                pButton
+                                label="Import"
+                            ></button>
+                        </div>
+                        <div class="mr-2">
+                            <button
+                                type="button"
+                                class="btn-info"
+                                pButton
+                                label="Tính toán"
+                            ></button>
+                        </div>
+                        <div class="mr-2">
+                            <button
+                                type="button"
+                                class="btn-secondary"
+                                pButton
+                                label="Export"
+                            ></button>
+                        </div>
+                        <div class="mr-2">
+                            <button
+                                type="button"
+                                class="btn-success"
+                                pButton
+                                label="Lưu thông tin"
+                                (onClick)="onSubmit()"
+                            ></button>
+                        </div>
+                        <div class="mr-2">
+                            <button
+                                type="button"
+                                class="btn-warning"
+                                pButton
+                                label="Post"
+                            ></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mg-t-2">
+                    <div class="card">
+                        <p-table
+                            [value]="lstWaterIndex"
+                            [tableStyle]="{ 'min-width': '50rem' }"
+                            [loading]="isLoadingTable"
+                        >
+                            <ng-template pTemplate="header">
+                                <tr class="th-table">
+                                    <th></th>
+                                    <th>Stt</th>
+                                    <th>Căn hộ</th>
+                                    <th>Chỉ số cũ</th>
+                                    <th>Chỉ số mới</th>
+                                    <th>Hệ số</th>
+                                    <th>Số tiêu thụ</th>
+                                    <th>Tiền trước thuế</th>
+                                    <th>Thuế</th>
+                                    <th>Tiền sau thuế</th>
+                                    <th>Diễn giải</th>
+                                    <th class="min-w-90">Thao tác</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template
+                                pTemplate="body"
+                                let-waterindex
+                                let-rowIndex="rowIndex"
+                            >
+                                <tr class="td-table">
+                                    <td><i class="pi pi-refresh"></i></td>
+                                    <td>{{ rowIndex + 1 }}</td>
+                                    <td>{{ waterindex.Name }}</td>
+                                    <td>{{ waterindex.Name }}</td>
+                                    <td>
+                                        <input
+                                            type="text"
+                                            [(ngModel)]="row.column[i]"
+                                        />
+                                    </td>
+                                    <td>{{ waterindex.Name }}</td>
+                                    <td>{{ waterindex.Name }}</td>
+                                    <td>{{ waterindex.Name }}</td>
+                                    <td>{{ waterindex.Name }}</td>
+                                    <td>{{ waterindex.Name }}</td>
+                                    <td>{{ waterindex.Code }}</td>
+                                    <td>
+                                        <button
+                                            pButton
+                                            pRipple
+                                            icon="pi pi-trash"
+                                            class="p-button-rounded p-button-warning"
+                                            (click)="onDelete(waterindex.Id)"
+                                        ></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr class="text-center">
+                                    <td
+                                        colspan="12"
+                                        class="text-center text-danger"
+                                    >
+                                        Không có dữ liệu.
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-toast></p-toast>
+</div>
+
