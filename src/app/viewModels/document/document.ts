@@ -1,4 +1,3 @@
-import { Tracing } from "trace_events";
 
 export class Document {
     public Id : number;

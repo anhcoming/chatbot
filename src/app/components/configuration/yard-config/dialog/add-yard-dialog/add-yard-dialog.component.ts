@@ -14,7 +14,6 @@ import { Paging } from 'src/app/viewModels/paging';
 import { HttpClient} from '@angular/common/http';
 import { ResApi } from 'src/app/viewModels/res-api';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { time } from 'console';
 import { StorageService } from 'src/app/shared/services/storage.service';
 
 
@@ -35,7 +34,7 @@ export class AddYardDialogComponent {
   public FloorId : any
   public ApartmentName : string | undefined
   public lstCustomer : Array<DbApartment>;
-  public lstResiden: any 
+  public lstResiden: any
   public lstTower: any
   public lstYard: any;
   public uploadedImageUrl: any;
@@ -125,10 +124,10 @@ export class AddYardDialogComponent {
     }
   }
   getUserId() {
-    this.userId = this.storeService.get(StorageData.userId); 
+    this.userId = this.storeService.get(StorageData.userId);
   }
   getCompanyId() {
-    this.Idc = this.storeService.get(StorageData.companyId); 
+    this.Idc = this.storeService.get(StorageData.companyId);
   }
 
   markAllAsDirty() {
@@ -167,7 +166,7 @@ export class AddYardDialogComponent {
             item.Name = `${item.TimeStart}-${item.TimeEnd}`;
             let HourStart = null;
             let HourEnd = null;
-    
+
             if( ( Number(item.NoTimeStart)/10 )% 2 === 0 ) {
               HourStart = ( Number(item.NoTimeStart));
             } else{
@@ -192,7 +191,7 @@ export class AddYardDialogComponent {
             item.Name = `${item.TimeStart}-${item.TimeEnd}`;
             let HourStart = null;
             let HourEnd = null;
-    
+
             if( ( Number(item.NoTimeStart)/10 )% 2 === 0 ) {
               HourStart = ( Number(item.NoTimeStart));
             } else{
@@ -233,7 +232,7 @@ export class AddYardDialogComponent {
             }
             let HourStart = null;
             let HourEnd = null;
-    
+
             if( ( Number(item.NoTimeStart)/10 )% 2 === 0 ) {
               HourStart = ( Number(item.NoTimeStart));
             } else{
@@ -247,7 +246,7 @@ export class AddYardDialogComponent {
             }
             item.NoTimeStart = HourStart;
             item.NoTimeEnd = HourEnd;
-            
+
             this.listYardTypeSettings.push(item) ;
           }
         });
@@ -261,7 +260,7 @@ export class AddYardDialogComponent {
       listYardSettings.listYardCancelSettings = this.listCancelSettings;
       listYardSettings.listYardTypeSettings = this.listYardTypeSettings;
       console.log(listYardSettings);
-      
+
 
       this.ref.close(listYardSettings);
     }
@@ -374,7 +373,7 @@ export class AddYardDialogComponent {
     if (file) {
       const formData: FormData = new FormData();
       formData.append('image', file, file.name); // Gắn file vào FormData
-  
+
       // Gửi yêu cầu POST tới API endpoint hỗ trợ việc upload file
       this.http.post('https://i-apigw.cnttvietnam.com.vn/api/upload/uploadImage', formData)
         .subscribe(
@@ -387,7 +386,7 @@ export class AddYardDialogComponent {
           },
           (error) => {
             // Xử lý lỗi nếu có
-            console.error('Lỗi upload:', error); 
+            console.error('Lỗi upload:', error);
           }
         );
     }
@@ -447,7 +446,7 @@ export class AddYardDialogComponent {
       this.fBooking.get('PriceDeposit').enable();
       this.fBooking.get('NoteDeposit').setValue();
       this.fBooking.get('ContentDeposit').setValue();
-      
+
     }else{
       this.fBooking.get('PriceDeposit').setValue('0');
       this.fBooking.get('PriceDeposit').disable();
@@ -461,7 +460,7 @@ export class AddYardDialogComponent {
       this.fBooking.get('PriceFee').enable();
       this.fBooking.get('NoteFee').setValue();
       this.fBooking.get('ContentFee').setValue();
-      
+
     }else{
       this.fBooking.get('PriceFee').setValue('0');
       this.fBooking.get('PriceFee').disable();
@@ -477,17 +476,17 @@ export class AddYardDialogComponent {
     const parsedMinute = parseInt(minute);
     let isCompleteHour = false; // Biến kiểm tra giờ đã nhập đủ hay chưa
     let isCompleteMinute = false; // Biến kiểm tra phút đã nhập đủ hay chưa
-  
+
     let paddedHour = hour;
     if (parsedHour > 23 ) {
       paddedHour = '00';
-    } 
+    }
     if (firstChar > '2') {
       paddedHour = `0${hour.charAt(0)}`;
       hour == paddedHour
       isCompleteHour = true;
       isCompleteMinute = true;
-    }else{ 
+    }else{
       if (hour == `${parsedHour}_`) {
         isCompleteHour = false; // Đánh dấu giờ đã nhập đủ
       }else{
@@ -524,16 +523,16 @@ export class AddYardDialogComponent {
     const parsedMinute = parseInt(minute);
     let isCompleteHour = false; // Biến kiểm tra giờ đã nhập đủ hay chưa
     let isCompleteMinute = false; // Biến kiểm tra phút đã nhập đủ hay chưa
-  
+
     let paddedHour = hour;
     if (parsedHour > 23 ) {
       paddedHour = '00';
-    } 
+    }
     if (firstChar > '2') {
       paddedHour = `0${hour.charAt(0)}`;
       isCompleteHour = true;
       isCompleteMinute = true;
-    }else{ 
+    }else{
       if (hour == `${parsedHour}_`) {
         isCompleteHour = false; // Đánh dấu giờ đã nhập đủ
       }else{
@@ -569,17 +568,17 @@ export class AddYardDialogComponent {
     const parsedMinute = parseInt(minute);
     let isCompleteHour = false; // Biến kiểm tra giờ đã nhập đủ hay chưa
     let isCompleteMinute = false; // Biến kiểm tra phút đã nhập đủ hay chưa
-  
+
     let paddedHour = hour;
     if (parsedHour > 23 ) {
       paddedHour = '00';
-    } 
+    }
     if (firstChar > '2') {
       paddedHour = `0${hour.charAt(0)}`;
       hour == paddedHour
       isCompleteHour = true;
       isCompleteMinute = true;
-    }else{ 
+    }else{
       if (hour == `${parsedHour}_`) {
         isCompleteHour = false; // Đánh dấu giờ đã nhập đủ
       }else{
@@ -618,16 +617,16 @@ export class AddYardDialogComponent {
     const parsedMinute = parseInt(minute);
     let isCompleteHour = false; // Biến kiểm tra giờ đã nhập đủ hay chưa
     let isCompleteMinute = false; // Biến kiểm tra phút đã nhập đủ hay chưa
-  
+
     let paddedHour = hour;
     if (parsedHour > 23 ) {
       paddedHour = '00';
-    } 
+    }
     if (firstChar > '2') {
       paddedHour = `0${hour.charAt(0)}`;
       isCompleteHour = true;
       isCompleteMinute = true;
-    }else{ 
+    }else{
       if (hour == `${parsedHour}_`) {
         isCompleteHour = false; // Đánh dấu giờ đã nhập đủ
       }else{
@@ -674,7 +673,7 @@ export class AddYardDialogComponent {
           item.NoTimeEnd = parseInt(time);
       }
     });
-    
+
     return true;
   }
   onDateStart(time: any){
@@ -684,17 +683,17 @@ export class AddYardDialogComponent {
     const parsedMinute = parseInt(minute);
     let isCompleteHour = false; // Biến kiểm tra giờ đã nhập đủ hay chưa
     let isCompleteMinute = false; // Biến kiểm tra phút đã nhập đủ hay chưa
-  
+
     let paddedHour = hour;
     if (parsedHour > 23 ) {
       paddedHour = '00';
-    } 
+    }
     if (firstChar > '2') {
       paddedHour = `0${hour.charAt(0)}`;
       hour == paddedHour
       isCompleteHour = true;
       isCompleteMinute = true;
-    }else{ 
+    }else{
       if (hour == `${parsedHour}_`) {
         isCompleteHour = false; // Đánh dấu giờ đã nhập đủ
       }else{
@@ -723,17 +722,17 @@ export class AddYardDialogComponent {
     const parsedMinute = parseInt(minute);
     let isCompleteHour = false; // Biến kiểm tra giờ đã nhập đủ hay chưa
     let isCompleteMinute = false; // Biến kiểm tra phút đã nhập đủ hay chưa
-  
+
     let paddedHour = hour;
     if (parsedHour > 23 ) {
       paddedHour = '00';
-    } 
+    }
     if (firstChar > '2') {
       paddedHour = `0${hour.charAt(0)}`;
       hour == paddedHour
       isCompleteHour = true;
       isCompleteMinute = true;
-    }else{ 
+    }else{
       if (hour == `${parsedHour}_`) {
         isCompleteHour = false; // Đánh dấu giờ đã nhập đủ
       }else{

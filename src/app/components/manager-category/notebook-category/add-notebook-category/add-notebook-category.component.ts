@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { time } from 'console';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { NotebookCategoryService } from 'src/app/services/notebook-category';
 import { ProjectService } from 'src/app/services/project.service';
@@ -42,7 +41,7 @@ export class AddNotebookCategoryComponent {
   userId: any;
   Idc: any;
   Tower: any;
-  constructor(  
+  constructor(
     private readonly notebookcategoryService : NotebookCategoryService,
     private readonly projectService : ProjectService,
     private readonly towerService : TowerService,
@@ -94,7 +93,7 @@ export class AddNotebookCategoryComponent {
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
     });
-   
+
     this.getListProject();
     this.getCompanyId();
     this.getUserId();
@@ -128,10 +127,10 @@ export class AddNotebookCategoryComponent {
     })
   }
   getUserId() {
-    this.userId = this.storeService.get(StorageData.userId); 
+    this.userId = this.storeService.get(StorageData.userId);
   }
   getCompanyId() {
-    this.Idc = this.storeService.get(StorageData.companyId); 
+    this.Idc = this.storeService.get(StorageData.companyId);
   }
   getNotebookcategoryByID(id: number) {
 
@@ -142,7 +141,7 @@ export class AddNotebookCategoryComponent {
         this.listProjectMaps = res.data.listProjectMaps;
         this.listTowerMaps = res.data.listTowerMaps;
         this.listZoneMaps = res.data.listZoneMaps;
-        
+
         if (this.listProjectMaps) {
           this.lstProject.forEach((item:any) => {
             const projectMap = this.listProjectMaps.find(p => p.ProjectId == item.Id);
@@ -156,7 +155,7 @@ export class AddNotebookCategoryComponent {
             }
           });
         }
-  
+
         if (this.listZoneMaps) {
           this.lstZone.forEach(item => {
             const zoneMap = this.listZoneMaps.find(z => z.ZoneId == item.Id);
@@ -166,14 +165,14 @@ export class AddNotebookCategoryComponent {
           });
         }
         this.formGroup();
- 
+
       }
       else {
         this.dataNotecate = [];
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res?.meta?.error_message || AppMessageResponse.BadRequest });
       }
-      
-    }) 
+
+    })
   }
   formGroup() {
     this.fNotebookCate = this.fb.group({
@@ -208,7 +207,7 @@ export class AddNotebookCategoryComponent {
     if(this.fNotebookCate.get('Location').value < 0 ){
       this.messageService.add({severity: 'error',summary: 'Error',detail:'Vị trí sắp xếp phải lớn >= 0!'});
       return;
-      
+
     }
     const selectedProjects = this.lstProject.filter((project:any) => project.check).map(project => project.Id);
     if (selectedProjects.length === 0) {
@@ -230,7 +229,7 @@ export class AddNotebookCategoryComponent {
       const towerList = selectedTowers.map(towerId => ({TowerId: towerId,ProjectId : selectedProjects[0],CreatedById: this.userId,UpdatedById: this.userId,checked : true }));
       const zoneList = selectedZone.map(zoneId => ({ZoneId: zoneId,CreatedById: this.userId,UpdatedById: this.userId,checked : true }));
       this.fNotebookCate.controls['Id'].setValue(0);
-      
+
       const reqData = Object.assign({}, this.fNotebookCate.value);
       reqData.listProjectMaps = projectList;
       reqData.listTowerMaps = towerList;
@@ -241,11 +240,11 @@ export class AddNotebookCategoryComponent {
           this.loading[0] = false;
           if (res?.meta?.error_code == AppStatusCode.StatusCode200) {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: res?.meta?.error_message || AppMessageResponse.CreatedSuccess });
-            
+
             setTimeout(() => {this.onReturnPage('/manager-category/notebook-category/list')}, 1000);
-          } 
-          else { 
-        
+          }
+          else {
+
             this.messageService.add({ severity: 'warn', summary: 'Warn', detail: res?.meta?.error_message || AppMessageResponse.BadRequest });
           }
         },
@@ -293,7 +292,7 @@ export class AddNotebookCategoryComponent {
   }
   onBack(event: Event){
     let isShow = true;//this.layoutService.getIsShow();
-  
+
     if (isShow) {
       this.confirmationService.confirm({
         target: event.target as EventTarget,
@@ -330,12 +329,12 @@ export class AddNotebookCategoryComponent {
         this.lstProject  = [];
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res?.meta?.error_message || AppMessageResponse.BadRequest });
       }
-    })  
+    })
   }
   onSelectTower(item: any) {
     this.lstTower = [];
     console.log(this.lstProject.some((item:any) => item.check === true));
-    
+
     if(this.lstProject.some((item:any) => item.check === true))
     for (let i=0;i<this.lstProject.length;i++)
     {
@@ -388,7 +387,7 @@ export class AddNotebookCategoryComponent {
       if(res.meta.error_code == AppStatusCode.StatusCode200) {
         this.lstZone = res.data;
         console.log(this.lstZone);
-        
+
         for(let i=0; i<this.lstZone.length; i++){
           this.lstZone[i].checked = false;
         }

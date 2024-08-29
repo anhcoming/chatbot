@@ -11,7 +11,6 @@ import { ResApi } from 'src/app/viewModels/res-api';
 import { DatePipe } from '@angular/common';
 import  ObjectId from 'bson-objectid';
 import { CardRequestService } from 'src/app/services/card-request.service';
-import { env } from 'process';
 
 @Component({
   selector: 'app-cancel',
@@ -35,7 +34,7 @@ export class CancelComponent {
     this.Idr = this.config.data.Idr;
   }
   ngOnInit() {
-    
+
   }
   onSubmit() {
     this.ref.close();

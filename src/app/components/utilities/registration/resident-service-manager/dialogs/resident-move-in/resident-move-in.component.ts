@@ -11,7 +11,6 @@ import { ResApi } from 'src/app/viewModels/res-api';
 import { DatePipe } from '@angular/common';
 import  ObjectId from 'bson-objectid';
 import { CardRequestService } from 'src/app/services/card-request.service';
-import { env } from 'process';
 
 
 @Component({
@@ -119,7 +118,7 @@ export class ResidentMoveInComponent {
       this.isImageSelected = true;
     }
     this.uploadedImageUrl = `http://i-apigw.cnttvietnam.com.vn/uploads/images/${Resident.Image}`;
-    
+
     this.fResidentMoveIn = this.fb.group({
       FullName: Resident.FullName,
       Gender: Resident.Gender,
@@ -161,7 +160,7 @@ export class ResidentMoveInComponent {
     if (file) {
       const formData: FormData = new FormData();
       formData.append('image', file, file.name); // Gắn file vào FormData
-  
+
       // Gửi yêu cầu POST tới API endpoint hỗ trợ việc upload file
       this.http.post('https://i-apigw.cnttvietnam.com.vn/api/upload/uploadImage', formData)
         .subscribe(
@@ -174,7 +173,7 @@ export class ResidentMoveInComponent {
           },
           (error) => {
             // Xử lý lỗi nếu có
-            console.error('Lỗi upload:', error); 
+            console.error('Lỗi upload:', error);
           }
         );
     }
@@ -184,7 +183,7 @@ export class ResidentMoveInComponent {
   }
   checkGender(event: any) {
     console.log(this.fResidentMoveIn.get('Gender').value);
-    
+
     this.gender.map((item: any) => {
       if(item.Code === event.value){
         item.checked = true;
@@ -219,12 +218,12 @@ export class ResidentMoveInComponent {
         delete ResidentMoveIns.DateStayFrom;
         delete ResidentMoveIns.DateStayTo;
       }
-    
+
       ResidentMoveIns.Image = this.imgName;
       ResidentMoveIns.genderName = this.gender.filter(item => item.Code == ResidentMoveIns.Gender)[0]?.Name;
       if(ResidentMoveIns.Id){
         this.itemResidentMoveIn = { ...ResidentMoveIns };
-      
+
         this.itemResidentMoveIn.DateOfBirth = this.datePipe.transform(this.itemResidentMoveIn.DateOfBirth, 'yyyy/MM/dd');
         this.itemResidentMoveIn.IdentityDateSign = this.datePipe.transform(this.itemResidentMoveIn.IdentityDateSign, 'yyyy/MM/dd');
         this.itemResidentMoveIn.IdentityDateExpired = this.datePipe.transform(this.itemResidentMoveIn.IdentityDateExpired, 'yyyy/MM/dd');
@@ -233,7 +232,7 @@ export class ResidentMoveInComponent {
         this.itemResidentMoveIn.DateStayFrom = this.datePipe.transform(this.itemResidentMoveIn.DateStayFrom, 'yyyy/MM/dd');
         this.itemResidentMoveIn.DateStayTo = this.datePipe.transform(this.itemResidentMoveIn.DateStayTo, 'yyyy/MM/dd');
         console.log(this.itemResidentMoveIn);
-        
+
         this.ref.close(this.itemResidentMoveIn);
       }
     }
@@ -245,7 +244,7 @@ export class ResidentMoveInComponent {
       if (res.meta.error_code == AppStatusCode.StatusCode200) {
         this.Country = [...this.Country.concat(res.data)];
         console.log(this.Country);
-        
+
         this.lstCountry = [...this.Country];
       }
       else {

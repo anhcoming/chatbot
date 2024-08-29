@@ -18,7 +18,6 @@ import { Subject, debounceTime, distinctUntilChanged, filter, fromEvent, map, sw
 import { VehicleService } from 'src/app/services/vehicle.service';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { CardRequestService } from 'src/app/services/card-request.service';
-import { log } from 'console';
 import { CancelComponent } from '../dialogs/cancel/cancel.component';
 import { CardManagersService } from 'src/app/services/card-managers.service';
 import { ResidentService } from 'src/app/services/resident.service';
@@ -169,7 +168,7 @@ export class AddResidentServiceManagerComponent {
 
     // Disable editing the 'FullName' field
     this.fResidentService.get('infoApartmentOwner.FullName').disable();
-    
+
   }
   ngOnInit(){
     this.getListProject();
@@ -399,7 +398,7 @@ export class AddResidentServiceManagerComponent {
         isCard: this.isCard,
       }
     });
-  
+
     this.ref.onClose.subscribe((data: ResidentCards) => {
       if(!idc) {
         if (data) {
@@ -438,7 +437,7 @@ export class AddResidentServiceManagerComponent {
                 items.CardNumber = item.CardNumber;
               }
             })
-            
+
           })
         }
       }
@@ -464,7 +463,7 @@ export class AddResidentServiceManagerComponent {
         isCard: this.isCard,
       }
     });
-  
+
     this.ref.onClose.subscribe((data: CarCards) => {
       if(!CarId) {
         if (data) {
@@ -478,7 +477,7 @@ export class AddResidentServiceManagerComponent {
           this.lstCarCards = this.lstCarCards.map((item: any) => {
             if (item.Id == `${CarId}`) {
               return data;
-              
+
             } else {
               return item;
             }
@@ -504,7 +503,7 @@ export class AddResidentServiceManagerComponent {
                 items.CardNumber = item.CardNumber;
               }
             })
-            
+
           })
         }
       }
@@ -549,15 +548,15 @@ export class AddResidentServiceManagerComponent {
       }
     })
   }
-  
+
   onSelectTower(event: any) {
     if(event == null) {
       this.lstTower = [...this.Tower];
       this.lstFloor = [...this.Floor];
       this.lstApartment = [...this.Apartment];
-      this.fResidentService.get('TowerId').setValue() 
-      this.fResidentService.get('FloorId').setValue() 
-      this.fResidentService.get('ApartmentId').setValue() 
+      this.fResidentService.get('TowerId').setValue()
+      this.fResidentService.get('FloorId').setValue()
+      this.fResidentService.get('ApartmentId').setValue()
       const control = this.fResidentService.get('ProjectId');
       if (control.enabled && control.invalid) {
         control.markAsDirty();
@@ -587,7 +586,7 @@ export class AddResidentServiceManagerComponent {
     }
   }
   onSetSelectFloor(item: any) {
-    this.fResidentService.get('ProjectId').setValue(item?.ProjectId) 
+    this.fResidentService.get('ProjectId').setValue(item?.ProjectId)
     const projectControl = this.fResidentService.get('ProjectId');
     if (projectControl.enabled && projectControl.invalid) {
       projectControl.markAsDirty();
@@ -629,9 +628,9 @@ export class AddResidentServiceManagerComponent {
   setSelect(item: any) {
     this.fResidentService.get('infoApartmentOwner.Phone').setValue('9999999999');
     this.fResidentService.get('infoApartmentOwner.FullName').setValue('Quang');
-    this.fResidentService.get('ProjectId').setValue(item?.ProjectId) 
-    this.fResidentService.get('TowerId').setValue(item?.TowerId) 
-    this.fResidentService.get('FloorId').setValue(item?.FloorId) 
+    this.fResidentService.get('ProjectId').setValue(item?.ProjectId)
+    this.fResidentService.get('TowerId').setValue(item?.TowerId)
+    this.fResidentService.get('FloorId').setValue(item?.FloorId)
     const ProjectControl = this.fResidentService.get('ProjectId');
     if (ProjectControl.enabled && ProjectControl.invalid) {
       ProjectControl.markAsDirty();
@@ -729,10 +728,10 @@ export class AddResidentServiceManagerComponent {
             this.loading[0] = false;
             if (res?.meta?.error_code == AppStatusCode.StatusCode200) {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: res?.meta?.error_message || AppMessageResponse.CreatedSuccess });
-              
+
               setTimeout(() => {this.onReturnPage('/utilities/registration/list')}, 1000);
-            } 
-            else { 
+            }
+            else {
               this.messageService.add({ severity: 'warn', summary: 'Warn', detail: res?.meta?.error_message || AppMessageResponse.BadRequest });
             }
           },
@@ -751,10 +750,10 @@ export class AddResidentServiceManagerComponent {
             this.loading[0] = false;
             if (res?.meta?.error_code == AppStatusCode.StatusCode200) {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: res?.meta?.error_message || AppMessageResponse.CreatedSuccess });
-              
+
               setTimeout(() => {this.onReturnPage('/utilities/registration/list')}, 1000);
-            } 
-            else { 
+            }
+            else {
               this.messageService.add({ severity: 'warn', summary: 'Warn', detail: res?.meta?.error_message || AppMessageResponse.BadRequest });
             }
           },
@@ -773,13 +772,13 @@ export class AddResidentServiceManagerComponent {
     this.processStatus = this.ProcessStatus.filter((item: any) => item.id == this.fResidentService.get('ProcessStatus').value)[0]?.code;
     this.TypePayment = this.typePayment.filter((item: any) => item.Id == this.fResidentService.controls['infoPayment'].get('TypePayment').value)[0]?.Code;
     this.StatusPayment = this.statusPayment.filter((item: any) => item.Id == this.fResidentService.controls['infoPayment'].get('StatusPayment').value)[0]?.Code;
-    this.StatusReceive =  this.statusReceive.filter((item: any) => item.Id == this.fResidentService.controls['infoPayment'].get('StatusReceive').value)[0]?.Code; 
+    this.StatusReceive =  this.statusReceive.filter((item: any) => item.Id == this.fResidentService.controls['infoPayment'].get('StatusReceive').value)[0]?.Code;
   }
   setIdResponse() {
     this.IdProcessStatus = this.ProcessStatus.filter((item: any) => item.code == this.lstResidentService?.ProcessStatus)[0]?.id;
     this.IdTypePayment = this.typePayment.filter((item: any) => item.Code == this.lstResidentService.InfoPayment?.TypePayment)[0]?.Id;
     this.IdStatusPayment = this.statusPayment.filter((item: any) => item.Code == this.lstResidentService.InfoPayment?.StatusPayment)[0]?.Id;
-    this.IdStatusReceive =  this.statusReceive.filter((item: any) => item.Code == this.lstResidentService.InfoPayment?.StatusReceive)[0]?.Id; 
+    this.IdStatusReceive =  this.statusReceive.filter((item: any) => item.Code == this.lstResidentService.InfoPayment?.StatusReceive)[0]?.Id;
     this.setFormGroup();
   }
   onReturnPage(url: string) : void {
@@ -787,7 +786,7 @@ export class AddResidentServiceManagerComponent {
   }
   fetchMoreTower() {
     this.filterTower.page ++;
-    
+
     this.towerService.getListTowerByPaging(this.filterTower).subscribe((res: ResApi) => {
       if (res.meta.error_code == AppStatusCode.StatusCode200) {
         this.Tower = [...this.Tower.concat(res.data)];
@@ -799,7 +798,7 @@ export class AddResidentServiceManagerComponent {
     })
   }
   fetchMoreFloor() {
-    
+
     this.filterFloor.page ++;
     this.floorService.getListFloorByPaging(this.filterFloor).subscribe((res: ResApi) => {
       if (res.meta.error_code == AppStatusCode.StatusCode200) {
@@ -813,7 +812,7 @@ export class AddResidentServiceManagerComponent {
   }
   fetchMore() {
     this.filterApartment.page ++;
-    
+
     this.loadingSelect = true;
     this.apartmentService.getListApartmentByPaging(this.filterApartment).subscribe((res: ResApi) => {
       this.loadingSelect = false;
@@ -850,7 +849,7 @@ export class AddResidentServiceManagerComponent {
             return;
         }
       });
-    } 
+    }
   }
   onDeleteResidentCard(id: any) {
     let isShow = true;//this.layoutService.getIsShow();
@@ -870,7 +869,7 @@ export class AddResidentServiceManagerComponent {
             return;
         }
       });
-    } 
+    }
   }
   onDeleteCarCard(id: any) {
     let isShow = true;//this.layoutService.getIsShow();
@@ -890,7 +889,7 @@ export class AddResidentServiceManagerComponent {
             return;
         }
       });
-    } 
+    }
   }
   setFormGroup(){
     this.fResidentService = this.fb.group({

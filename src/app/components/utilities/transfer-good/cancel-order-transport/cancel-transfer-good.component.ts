@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Console } from 'console';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { OrderCancelService } from 'src/app/services/order-cancel.service';
@@ -42,7 +41,7 @@ export class CancelTransferGoodComponent {
     private confirmationService: ConfirmationService,
   ){
     this.dataCancel = {};
-   
+
 
   }
 
@@ -53,7 +52,7 @@ export class CancelTransferGoodComponent {
 
     this.getUserId();
     this.getCompanyId();
-    
+
 
     this.fCancel = this.fb.group({
       Id : 0,
@@ -71,10 +70,10 @@ export class CancelTransferGoodComponent {
   }
 
   getUserId() {
-    this.userId = this.storeService.get(StorageData.userId); 
+    this.userId = this.storeService.get(StorageData.userId);
   }
   getCompanyId() {
-    this.Idc = this.storeService.get(StorageData.companyId); 
+    this.Idc = this.storeService.get(StorageData.companyId);
   }
 
 
@@ -83,21 +82,21 @@ export class CancelTransferGoodComponent {
       if(this.id) {
 
         this.fCancel.controls['Id'].setValue(0);
-        
+
         const reqData = Object.assign({}, this.fCancel.value);
-        
+
         this.loading[0] = true;
         this.cancelService.createOrderCancel(reqData).subscribe(
           (res: any) => {
             this.loading[0] = false;
             if (res?.meta?.error_code == AppStatusCode.StatusCode200) {
               // this.messageService.add({ severity: 'success', summary: 'Success', detail: res?.meta?.error_message || AppMessageResponse.CreatedSuccess });
-              
+
               setTimeout(() => {this.ref.close()}, 1000);
-            } 
-            else { 
+            }
+            else {
               this.loading[0] = false
-              
+
               // this.messageService.add({ severity: 'warn', summary: 'Warn', detail: res?.meta?.error_message || AppMessageResponse.BadRequest });
             }
           },
@@ -112,18 +111,18 @@ export class CancelTransferGoodComponent {
       }
   }
 
-  getCancelById(idc: number, id: string,type:number) {    
+  getCancelById(idc: number, id: string,type:number) {
     if( this.id !== null) {
       this.cancelService.getOrderCancelById(this.Idc, this.id,1).subscribe((res: ResApi) => {
         if(res.meta.error_code == AppStatusCode.StatusCode200) {
-          this.dataCancel = res.data;    
+          this.dataCancel = res.data;
           this.formGroup();
         }
         else {
           this.dataCancel = [];
           this.messageService.add({ severity: 'error', summary: 'Error', detail: res?.meta?.error_message || AppMessageResponse.BadRequest });
         }
-      }) 
+      })
       this.dataCancel={...this.dataCancel}
     }else{
       this.dataCancel = [];

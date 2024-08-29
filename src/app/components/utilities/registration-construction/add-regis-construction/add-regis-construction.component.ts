@@ -23,9 +23,7 @@ import { OrderTransportService } from 'src/app/services/order-transport.service'
 import { OrderCancel } from 'src/app/viewModels/order-cancel/order-cancel';
 import { ResidentService } from 'src/app/services/resident.service';
 import { Resident } from 'src/app/viewModels/resident/resident';
-import { log } from 'console';
 import { CancelDocumentComponent } from './cancel-document/cancel-document.component';
-import { EWOULDBLOCK } from 'constants';
 
 @Component({
   selector: 'app-add-regis-construction',
@@ -79,7 +77,7 @@ export class AddRegisConstructionComponent {
   isContentVisible5 : boolean = true;
   isContentVisible6 : boolean = true;
 
-  isInputDisabled: boolean = false; 
+  isInputDisabled: boolean = false;
   public lstDocument : any;
   public lstExtend : any;
 
@@ -131,7 +129,7 @@ export class AddRegisConstructionComponent {
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
     });
-  
+
     this.getListTower();
     this.getListApartment();
     this.getCompanyId();
@@ -140,8 +138,8 @@ export class AddRegisConstructionComponent {
     if(this.id){
       this.getOrderContructionById(this.Idc,this.id);
     }
-    
-    
+
+
     this.fConstruction = this.fb.group({
       Id : [0],
       TownId : ['',Validators.required],
@@ -204,12 +202,12 @@ export class AddRegisConstructionComponent {
   generateRandomString(length: number): string {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
-  
+
     for (let i = 0; i < length; i++) {
       const randomIndex = Math.floor(Math.random() * characters.length);
       result += characters.charAt(randomIndex);
     }
-  
+
     return result;
   }
 
@@ -220,7 +218,7 @@ export class AddRegisConstructionComponent {
   enableInput() {
     this.isInputDisabled = false;
 }
- 
+
 
   onSubmit() {
     if(this.fConstruction.invalid){
@@ -277,16 +275,16 @@ export class AddRegisConstructionComponent {
         // }
         reqData.listOrderAttactments = this.listOrderAttactments;
         this.loading[0] = true;
-        
+
         this.orderconstructionService.createOrderConstruction(reqData).subscribe(
           (res: any) => {
             this.loading[0] = false;
             if (res?.meta?.error_code == AppStatusCode.StatusCode200) {
               this.messageService.add({ severity: 'success', summary: 'Success', detail: res?.meta?.error_message || AppMessageResponse.CreatedSuccess });
-              
+
               setTimeout(() => {this.onReturnPage('/utilities/construction/list')}, 1000);
-            } 
-            else { 
+            }
+            else {
               this.loading[0] = false
               this.messageService.add({ severity: 'warn', summary: 'Warn', detail: res?.meta?.error_message || AppMessageResponse.BadRequest });
             }
@@ -300,7 +298,7 @@ export class AddRegisConstructionComponent {
           }
         );
       }else{
-       
+
         const reqData = Object.assign({}, this.fConstruction.value);
         reqData.CompanyId = this.Idc;
         reqData.CreatedById = this.userID;
@@ -342,7 +340,7 @@ export class AddRegisConstructionComponent {
               setTimeout(() => {this.onReturnPage('/utilities/construction/list')}, 1000);
             } else {
               this.loading[0] = false
-              
+
               this.messageService.add({ severity: 'error', summary: 'Error', detail: res?.meta?.error_message || AppMessageResponse.BadRequest });
             }
           },
@@ -371,15 +369,15 @@ export class AddRegisConstructionComponent {
     this.router.navigate([url]);
   }
 
-  getOrderContructionById(idc: number, id: string) {    
+  getOrderContructionById(idc: number, id: string) {
     if( this.id !== null) {
       this.orderconstructionService.getOrderConstructionById(idc, this.id).subscribe((res: ResApi) => {
         if(res.meta.error_code == AppStatusCode.StatusCode200) {
-          this.dataOrderContruction = res.data;    
+          this.dataOrderContruction = res.data;
           this.listOrderAttactments = res.data.listOrderAttactments;
           this.idapartment = res.data.ApartmentId;
           console.log(this.idapartment);
-          
+
           // this.lstDocument = res.data.listOrderDocuments.filter((item:any) => item.Name !== '');
           this.listOrderUnits = res.data.listOrderUnits.filter((item:any) => item.UnitName !== '');
           this.lstExtend = res.data.listOrderPlans.filter((item:any) => item.ProcessStatus != '');
@@ -439,7 +437,7 @@ export class AddRegisConstructionComponent {
           this.dataOrderContruction = [];
           this.messageService.add({ severity: 'error', summary: 'Error', detail: res?.meta?.error_message || AppMessageResponse.BadRequest });
         }
-      }) 
+      })
       this.dataOrderContruction={...this.dataOrderContruction}
     }else{
       this.dataOrderContruction = [];
@@ -556,11 +554,11 @@ export class AddRegisConstructionComponent {
   }
 
 
-  getCancelById(idc: number, id: string,type:number) {   
+  getCancelById(idc: number, id: string,type:number) {
     if( this.id !== null) {
       this.cancelService.getOrderCancelById(this.Idc, this.id,1).subscribe((res: ResApi) => {
         if(res.meta.error_code == AppStatusCode.StatusCode200) {
-          this.lstCancel = res.data;    
+          this.lstCancel = res.data;
           this.Idcancel = res.data.Id;
           this.CancelDate = res.data.DateCancel;
           this.NoteCancel = res.data.Note;
@@ -570,7 +568,7 @@ export class AddRegisConstructionComponent {
           this.lstCancel = [];
           this.messageService.add({ severity: 'error', summary: 'Error', detail: res?.meta?.error_message || AppMessageResponse.BadRequest });
         }
-      }) 
+      })
       this.lstCancel={...this.lstCancel}
     }else{
       this.lstCancel = [];
@@ -578,11 +576,11 @@ export class AddRegisConstructionComponent {
 }
 
 
-getReviewById(idc: number, id: string,type:number) {   
+getReviewById(idc: number, id: string,type:number) {
   if( this.id !== null) {
     this.cancelService.getOrderReviewById(this.Idc, this.id,1).subscribe((res: ResApi) => {
       if(res.meta.error_code == AppStatusCode.StatusCode200) {
-        this.lstReview = res.data;    
+        this.lstReview = res.data;
         this.ReviewDate = res.data.CreatedAt;
         this.NoteReview = res.data.Note;
         this.Star = res.data.Star;
@@ -591,7 +589,7 @@ getReviewById(idc: number, id: string,type:number) {
         this.lstCancel = [];
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res?.meta?.error_message || AppMessageResponse.BadRequest });
       }
-    }) 
+    })
     this.lstCancel={...this.lstCancel}
   }else{
     this.lstCancel = [];
@@ -599,7 +597,7 @@ getReviewById(idc: number, id: string,type:number) {
 }
 
 
-  getListTower() {  
+  getListTower() {
     this.towerService.getListTowerByPaging(this.filterTower).subscribe((res: ResApi) => {
       if(res.meta.error_code == AppStatusCode.StatusCode200) {
         this.lstTower = res.data;
@@ -608,7 +606,7 @@ getReviewById(idc: number, id: string,type:number) {
         this.lstTower = [];
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res?.meta?.error_message || AppMessageResponse.BadRequest });
       }
-    })  
+    })
   }
   getListApartment() {
     this.apartmentService.getListApartmentByPaging(this.filterApartment).subscribe((res: ResApi) => {
@@ -619,7 +617,7 @@ getReviewById(idc: number, id: string,type:number) {
         this.lstApartment = [];
         this.messageService.add({ severity: 'error', summary: 'Error', detail: res?.meta?.error_message || AppMessageResponse.BadRequest });
       }
-    })  
+    })
   }
   selectedApartment(event:any){
     console.log(event.value)
@@ -629,7 +627,7 @@ getReviewById(idc: number, id: string,type:number) {
     }else{
       this.filterApartment.query = `1=1`;
       this.getListApartment();
-    }  
+    }
   }
 
   onSelectTower(event:any){
@@ -645,7 +643,7 @@ getReviewById(idc: number, id: string,type:number) {
     this.getApartmentbyId(this.Idc,event.value);
     this.getResidentApartment(event.value);
     this.getRegister(event.value);
-    
+
   }
 
   getResidentApartment(id: any) {
@@ -704,7 +702,7 @@ getReviewById(idc: number, id: string,type:number) {
       baseZIndex: 10000,
       maximizable: true
     });
-  
+
     this.ref.onClose.subscribe((data: DepositPaymentComponent) => {
       console.log(data);
       if (data) {
@@ -728,18 +726,18 @@ getReviewById(idc: number, id: string,type:number) {
         isLoading: this.isLoading
       }
     });
-  
+
     this.ref.onClose.subscribe((data: listOrderDocuments) => {
       if(!idd) {
         if (data) {
           this.lstDocument =  [...this.lstDocument, data];
-        } 
+        }
       }
       else{
-        if (data) { 
+        if (data) {
           this.lstDocument = this.lstDocument.map((item: any) => {
             if (item.Id == idd) {
-              return data;        
+              return data;
             } else {
 
               return item;
@@ -750,7 +748,7 @@ getReviewById(idc: number, id: string,type:number) {
     })
   }
 
- 
+
 
   onOpenConfigDialogExtend(id : number,idc:number,lse:any){
     localStorage.setItem('id-order-orderconstruction',this.id);
@@ -767,7 +765,7 @@ getReviewById(idc: number, id: string,type:number) {
         isLoading: this.isLoading
       }
     });
-  
+
     this.ref.onClose.subscribe((data: ListOrderPlans) => {
       if(!idc) {
         if (data) {
@@ -775,7 +773,7 @@ getReviewById(idc: number, id: string,type:number) {
         }
       }
       else{
-        if (data) { 
+        if (data) {
           this.lstExtend = this.lstExtend.map((item: any) => {
             if (item.Id == idc) {
               return data;
@@ -797,7 +795,7 @@ getReviewById(idc: number, id: string,type:number) {
       baseZIndex: 10000,
       maximizable: true
     });
-  
+
     this.ref.onClose.subscribe((data: any) => {
       console.log(data);
       if (data) {
@@ -812,12 +810,12 @@ getReviewById(idc: number, id: string,type:number) {
     if (file) {
       const formData: FormData = new FormData();
       formData.append('file', file, file.name); // Gắn file vào FormData
-  
+
       // Gửi yêu cầu POST tới API endpoint hỗ trợ việc upload file
       this.http.post('https://i-apigw.cnttvietnam.com.vn/api/upload/uploadMultifile', formData)
         .subscribe(
           (response: any) => {
-            
+
             // Lấy đường dẫn đã upload từ phản hồi của server
             const uploadedFileName = response.data;
 
@@ -831,11 +829,11 @@ getReviewById(idc: number, id: string,type:number) {
               this.listOrderAttactments.push(itemFile);
             }
             console.log('Upload thành công:', response);
-          
+
           },
           (error) => {
             // Xử lý lỗi nếu có
-            console.error('Lỗi upload:', error); 
+            console.error('Lỗi upload:', error);
           }
         );
     }
@@ -856,7 +854,7 @@ getReviewById(idc: number, id: string,type:number) {
 		let data = UserCancel.filter(x => x.Id == Id)[0];
 		return data != undefined ? data.Name : "";
 	}
-  
+
   onDeleteDocument(id : string,index:number){
     this.confirmationService.confirm({
       message: 'Bạn có muốn xóa tài liệu thi công <b> '+this.lstDocument.filter((i:any) => i.Id == id)[index].Name +' </b> này không?',
@@ -864,7 +862,7 @@ getReviewById(idc: number, id: string,type:number) {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         let lst_updated = [];
-  
+
         for (let i = 0; i < this.lstDocument.length; i++) {
           if (index != i) {
             lst_updated.push(this.lstDocument[i])
@@ -877,7 +875,7 @@ getReviewById(idc: number, id: string,type:number) {
       }
     });
   }
- 
+
 
   onDeleteExtend(id : string,index:number){
     this.confirmationService.confirm({
@@ -886,7 +884,7 @@ getReviewById(idc: number, id: string,type:number) {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         let lst_updated = [];
-  
+
         for (let i = 0; i < this.lstExtend.length; i++) {
           if (index != i) {
             lst_updated.push(this.lstExtend[i])
@@ -899,7 +897,7 @@ getReviewById(idc: number, id: string,type:number) {
       }
     });
   }
- 
+
 
   onDeleteUnitConstruct(index: number,id : string) {
     this.confirmationService.confirm({
@@ -908,13 +906,13 @@ getReviewById(idc: number, id: string,type:number) {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         let lst_updated = [];
-  
+
         for (let i = 0; i < this.listOrderUnits.length; i++) {
           if (index != i) {
             lst_updated.push(this.listOrderUnits[i])
           }
         }
-  
+
         this.listOrderUnits = [...lst_updated];
         // this.eventEmitter.emit(this.listOrderProducts);
       },
@@ -935,7 +933,7 @@ getReviewById(idc: number, id: string,type:number) {
     });
   }
 
- 
+
   onBack(event:any){
     this.router.navigate(['/utilities/construction/list']);
   }
