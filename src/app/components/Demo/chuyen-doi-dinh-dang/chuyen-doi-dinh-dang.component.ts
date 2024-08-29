@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DataService } from 'src/app/shared/services/data.service';
-import { URL } from 'url';
 import { saveAs } from 'file-saver';
 
 @Component({
@@ -33,7 +32,7 @@ throw new Error('Method not implemented.');
       }
 
 
-      
+
       const byteCharacters = atob(xhr.body.fileContent);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
@@ -41,7 +40,7 @@ throw new Error('Method not implemented.');
       }
       const byteArray = new Uint8Array(byteNumbers);
       const blob = new Blob([byteArray], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
-  
+
       saveAs(blob, xhr.body.fileName);
 
       // const a = document.createElement('a');
@@ -50,7 +49,7 @@ throw new Error('Method not implemented.');
       // document.body.appendChild(a);
       // a.click();
       // document.body.removeChild(a);
-     
+
 
       this.messageService.add({ severity: 'info', summary: 'Tải File thành công', detail: '' });
 
